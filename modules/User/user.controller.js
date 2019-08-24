@@ -201,6 +201,7 @@ storeData = async (req, res) => {
 }
 
 updateData = async (req, res) => {
+  const token = getToken(req.headers)
   let { fullName, email } = req.body
   let id = req.params.id
 
@@ -245,29 +246,37 @@ updateData = async (req, res) => {
 }
 
 destroyData = async (req, res) => {
+  const token = getToken(req.headers)
   let id = req.params.id
 
-  try {
-    let deleteData = await User.findByIdAndRemove(id)
-    if (!deleteData) {
-      return res.status(404).json({
-        message: 'data not found!'
+  if (token) {
+    try {
+      let deleteData = await User.findByIdAndRemove(id)
+      if (!deleteData) {
+        return res.status(404).json({
+          message: 'data not found!'
+        })
+      }
+      res.status(200).json({
+        success: true,
+        message: 'data successfully deleted!'
+      })
+    } catch (err) {
+      // console.log(err)
+      if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+        return res.status(404).json({
+          message: 'data not found!'
+        })
+      }
+      return res.status(400).json({
+        success: false,
+        message: err
       })
     }
-    res.status(200).json({
-      success: true,
-      message: 'data successfully deleted!'
-    })
-  } catch (err) {
-    // console.log(err)
-    if (err.kind === 'ObjectId' || err.name === 'NotFound') {
-      return res.status(404).json({
-        message: 'data not found!'
-      })
-    }
-    return res.status(400).json({
+  } else {
+    return res.status(403).json({
       success: false,
-      message: err
+      message: 'Unauthorized. Please Re-login...'
     })
   }
 }

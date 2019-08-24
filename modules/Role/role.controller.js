@@ -122,7 +122,6 @@ updateData = async (req, res) => {
 
 destroyData = async (req, res) => {
   const token = getToken(req.headers)
-  let { roleName } = req.body
   let id = req.params.id
 
   if (token) {
