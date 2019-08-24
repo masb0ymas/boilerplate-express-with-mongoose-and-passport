@@ -12,7 +12,7 @@ const isValidationReplace = Helper.isValidationReplace
 const jwtPass = 'yourSecretPassword'
 
 signUp = async (req, res) => {
-  let { fullName, email, password } = req.body
+  let { fullName, email, password, RoleId } = req.body
   let generateToken = {
     code: getUniqueCode()
   }
@@ -25,7 +25,8 @@ signUp = async (req, res) => {
     const schema = Joi.object().keys({
       fullName: Joi.string().required(),
       email: Joi.string().email({ minDomainSegments: 2 }),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+      RoleId: Joi.string().required()
     })
 
     await schema.validate(req.body)
@@ -34,19 +35,17 @@ signUp = async (req, res) => {
       fullName: fullName,
       email: email,
       password: password,
-      active: 0,
-      tokenVerify: tokenVerify
+      tokenVerify: tokenVerify,
+      RoleId: RoleId
     })
 
     // get read html file from config
     mail.readHTMLFile(
-      path.resolve(__dirname, '../public/email_template/SignUpTemplate.html'),
+      path.resolve(__dirname, '../../public/email_template/signUpTemplate.html'),
       (err, html) => {
         let template = handlebars.compile(html)
         let data = {
-          fullName: penanggungJawab,
-          email: email,
-          password: generateToken.code,
+          fullName: fullName,
           token: tokenVerify
         }
         let htmlToSend = template(data)
@@ -95,25 +94,35 @@ signIn = async (req, res) => {
       })
     }
 
-    store.comparePassword(password, (err, isMatch) => {
-      if (isMatch && !err) {
-        let token = jwt.sign(JSON.parse(JSON.stringify(store)), jwtPass, { expiresIn: 86400 * 30 }) // 30 Days
-        jwt.verify(token, jwtPass, function(err, data) {
-          // console.log(err, data);
-        })
-        return res.status(200).json({
-          success: true,
-          token: 'JWT ' + token,
-          uid: store.id
-        })
-      } else {
-        // console.log(res)
-        res.status(401).json({
-          success: false,
-          message: 'Incorrect Email or Password!'
-        })
-      }
-    })
+    if (store.active === true) {
+      store.comparePassword(password, (err, isMatch) => {
+        if (isMatch && !err) {
+          let token = jwt.sign(JSON.parse(JSON.stringify(store)), jwtPass, {
+            expiresIn: 86400 * 30
+          }) // 30 Days
+          jwt.verify(token, jwtPass, function(err, data) {
+            // console.log(err, data);
+          })
+          return res.status(200).json({
+            success: true,
+            token: 'JWT ' + token,
+            uid: store.id
+          })
+        } else {
+          // console.log(res)
+          res.status(401).json({
+            success: false,
+            message: 'Incorrect Email or Password!'
+          })
+        }
+      })
+    } else {
+      res.status(401).json({
+        success: false,
+        message:
+          'Please check your email account to verify your email and continue the registration process.'
+      })
+    }
   } catch (err) {
     return res.status(400).json(err.errors)
   }
@@ -133,10 +142,10 @@ getProfile = async (req, res) => {
 
 getAll = async (req, res) => {
   try {
-    let getData = await User.find()
+    let data = await User.find().populate('RoleId')
     return res.status(200).json({
       success: true,
-      getData
+      data
     })
   } catch (err) {
     return res.status(400).json({
@@ -149,10 +158,10 @@ getAll = async (req, res) => {
 getOne = async (req, res) => {
   let id = req.params.id
   try {
-    let getData = await User.findById(id)
+    let data = await User.findById(id).populate('RoleId')
     return res.status(200).json({
       success: true,
-      getData
+      data
     })
   } catch (err) {
     return res.status(400).json({
@@ -201,6 +210,7 @@ storeData = async (req, res) => {
 }
 
 updateData = async (req, res) => {
+  const token = getToken(req.headers)
   let { fullName, email } = req.body
   let id = req.params.id
 
@@ -245,29 +255,37 @@ updateData = async (req, res) => {
 }
 
 destroyData = async (req, res) => {
+  const token = getToken(req.headers)
   let id = req.params.id
 
-  try {
-    let deleteData = await User.findByIdAndRemove(id)
-    if (!deleteData) {
-      return res.status(404).json({
-        message: 'data not found!'
+  if (token) {
+    try {
+      let deleteData = await User.findByIdAndRemove(id)
+      if (!deleteData) {
+        return res.status(404).json({
+          message: 'data not found!'
+        })
+      }
+      res.status(200).json({
+        success: true,
+        message: 'data successfully deleted!'
+      })
+    } catch (err) {
+      // console.log(err)
+      if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+        return res.status(404).json({
+          message: 'data not found!'
+        })
+      }
+      return res.status(400).json({
+        success: false,
+        message: err
       })
     }
-    res.status(200).json({
-      success: true,
-      message: 'data successfully deleted!'
-    })
-  } catch (err) {
-    // console.log(err)
-    if (err.kind === 'ObjectId' || err.name === 'NotFound') {
-      return res.status(404).json({
-        message: 'data not found!'
-      })
-    }
-    return res.status(400).json({
+  } else {
+    return res.status(403).json({
       success: false,
-      message: err
+      message: 'Unauthorized. Please Re-login...'
     })
   }
 }
