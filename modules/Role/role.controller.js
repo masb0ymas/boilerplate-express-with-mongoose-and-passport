@@ -7,10 +7,10 @@ const isValidationReplace = Helper.isValidationReplace
 
 getAll = async (req, res) => {
   try {
-    let getData = await Role.find()
+    let data = await Role.find()
     return res.status(200).json({
       success: true,
-      getData
+      data
     })
   } catch (err) {
     return res.status(400).json({
@@ -23,10 +23,10 @@ getAll = async (req, res) => {
 getOne = async (req, res) => {
   let id = req.params.id
   try {
-    let getData = await Role.findById(id)
+    let data = await Role.findById(id)
     return res.status(200).json({
       success: true,
-      getData
+      data
     })
   } catch (err) {
     return res.status(400).json({

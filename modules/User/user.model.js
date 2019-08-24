@@ -8,7 +8,8 @@ const UserSchema = mongoose.Schema(
     email: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
     active: { type: Boolean, default: 0 },
-    tokenVerify: { type: String, default: null }
+    tokenVerify: { type: String, default: null },
+    RoleId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Role' }
   },
   { timestamps: true }
 )
