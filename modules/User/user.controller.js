@@ -1,15 +1,15 @@
-const Joi = require('@hapi/joi')
+let yup = require('yup')
 var jwt = require('jsonwebtoken')
 const User = require('./user.model.js')
 var Helper = require('../../helper/Common')
-var path = require('path')
-var handlebars = require('handlebars')
 var mail = require('../../config/mail')
 
 var getToken = Helper.getToken
 var getUniqueCode = Helper.getUniqueCode
-const isValidationReplace = Helper.isValidationReplace
+var convertQueryFilter = Helper.convertQueryFilter
 const jwtPass = 'yourSecretPassword'
+
+const invalidValues = [undefined, null, '']
 
 signUp = async (req, res) => {
   let { fullName, email, password, RoleId } = req.body
@@ -22,11 +22,17 @@ signUp = async (req, res) => {
   })
 
   try {
-    const schema = Joi.object().keys({
-      fullName: Joi.string().required(),
-      email: Joi.string().email({ minDomainSegments: 2 }),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-      RoleId: Joi.string().required()
+    let schema = yup.object().shape({
+      fullName: yup.string().required('nama lengkap belum diisi'),
+      email: yup
+        .string()
+        .email()
+        .required('email belum diisi'),
+      password: yup
+        .string()
+        .min(8, 'minimal 8 karakter')
+        .required('password belum diisi'),
+      RoleId: yup.string().required('role id belum diisi')
     })
 
     await schema.validate(req.body)
@@ -39,32 +45,17 @@ signUp = async (req, res) => {
       RoleId: RoleId
     })
 
-    // get read html file from config
-    mail.readHTMLFile(
-      path.resolve(__dirname, '../../public/email_template/signUpTemplate.html'),
-      (err, html) => {
-        let template = handlebars.compile(html)
-        let data = {
-          fullName: fullName,
-          token: tokenVerify
-        }
-        let htmlToSend = template(data)
-        let mailOptions = {
-          from: `No Reply <${mail.credential.email}>`,
-          to: `${email}`,
-          subject: 'Subject Email',
-          html: htmlToSend
-        }
-        // get transporter from config
-        mail.transporter.sendMail(mailOptions, (err, data) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log('successfully', data)
-          }
-        })
-      }
-    )
+    // data for email
+    const htmlTemplate = 'signUpTemplate'
+    let objData = {
+      fullName: fullName,
+      token: tokenVerify
+    }
+    let optMail = {
+      emailTo: email,
+      subject: 'Verifikasi Email'
+    }
+    mail.SendMailer(htmlTemplate, objData, optMail)
 
     return res.status(201).json({
       success: true,
@@ -72,10 +63,10 @@ signUp = async (req, res) => {
       insertData
     })
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     return res.status(400).json({
       success: false,
-      message: isValidationReplace(err)
+      message: err
     })
   }
 }
@@ -84,29 +75,28 @@ signIn = async (req, res) => {
   let { email, password } = req.body
 
   try {
-    let store = await User.findOne({
+    let userData = await User.findOne({
       email: email
     })
-    if (!store) {
+    if (!userData) {
       return res.status(404).json({
         success: false,
         message: 'Account not found!'
       })
     }
 
-    if (store.active === true) {
-      store.comparePassword(password, (err, isMatch) => {
+    if (userData.active === true) {
+      userData.comparePassword(password, (err, isMatch) => {
         if (isMatch && !err) {
-          let token = jwt.sign(JSON.parse(JSON.stringify(store)), jwtPass, {
-            expiresIn: 86400 * 30
-          }) // 30 Days
-          jwt.verify(token, jwtPass, function(err, data) {
-            // console.log(err, data);
-          })
+          let token = jwt.sign(JSON.parse(JSON.stringify(userData)), jwtPass, {
+            expiresIn: 86400 * 1
+          }) // 1 Days
+
           return res.status(200).json({
             success: true,
             token: 'JWT ' + token,
-            uid: store.id
+            uid: userData.id,
+            rid: userData.RoleId._id
           })
         } else {
           // console.log(res)
@@ -141,12 +131,33 @@ getProfile = async (req, res) => {
 }
 
 getAll = async (req, res) => {
+  let { page, pageSize, sorted, filtered } = req.query
+
   try {
-    let data = await User.find().populate('RoleId')
-    return res.status(200).json({
-      success: true,
-      data
-    })
+    let filterObject = {}
+    if (!page) page = 0
+    if (!pageSize) pageSize = 100
+    if (!sorted) sorted = 'desc'
+
+    if (!invalidValues.includes(filtered)) {
+      filterObject = convertQueryFilter(JSON.parse(filtered))
+    }
+
+    await User.find(filterObject)
+      .populate('RoleId')
+      .limit(parseInt(pageSize))
+      .skip(parseInt(pageSize) * parseInt(page))
+      .sort({ createdAt: 'asc' })
+      .exec(function(err, items) {
+        User.countDocuments().exec(function(err, count) {
+          // response
+          return res.status(200).json({
+            success: true,
+            data: items,
+            totalRow: count
+          })
+        })
+      })
   } catch (err) {
     return res.status(400).json({
       success: false,
@@ -177,10 +188,17 @@ storeData = async (req, res) => {
 
   if (token) {
     try {
-      const schema = Joi.object().keys({
-        fullName: Joi.string().required(),
-        email: Joi.string().email({ minDomainSegments: 2 }),
-        password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
+      let schema = yup.object().shape({
+        fullName: yup.string().required('nama lengkap belum diisi'),
+        email: yup
+          .string()
+          .email()
+          .required('email belum diisi'),
+        password: yup
+          .string()
+          .min(8, 'minimal 8 karakter')
+          .required('password belum diisi'),
+        RoleId: yup.string().required('role id belum diisi')
       })
 
       await schema.validate(req.body)

@@ -1,17 +1,39 @@
-const Joi = require('@hapi/joi')
+let yup = require('yup')
 const Role = require('./role.model')
 var Helper = require('../../helper/Common')
 
 var getToken = Helper.getToken
-const isValidationReplace = Helper.isValidationReplace
+var convertQueryFilter = Helper.convertQueryFilter
+
+const invalidValues = [undefined, null, '']
 
 getAll = async (req, res) => {
+  let { page, pageSize, sorted, filtered } = req.query
+
   try {
-    let data = await Role.find()
-    return res.status(200).json({
-      success: true,
-      data
-    })
+    let filterObject = {}
+    if (!page) page = 0
+    if (!pageSize) pageSize = 100
+    if (!sorted) sorted = 'desc'
+
+    if (!invalidValues.includes(filtered)) {
+      filterObject = convertQueryFilter(JSON.parse(filtered))
+    }
+
+    await Role.find(filterObject)
+      .limit(parseInt(pageSize))
+      .skip(parseInt(pageSize) * parseInt(page))
+      .sort({ createdAt: 'asc' })
+      .exec(function(err, items) {
+        Role.countDocuments().exec(function(err, count) {
+          // response
+          return res.status(200).json({
+            success: true,
+            data: items,
+            totalRow: count
+          })
+        })
+      })
   } catch (err) {
     return res.status(400).json({
       success: false,
@@ -42,8 +64,8 @@ storeData = async (req, res) => {
 
   if (token) {
     try {
-      const schema = Joi.object().keys({
-        roleName: Joi.string().required()
+      let schema = yup.object().shape({
+        roleName: yup.string().required('nama role belum diisi')
       })
 
       await schema.validate(req.body)
@@ -57,10 +79,10 @@ storeData = async (req, res) => {
         insertData
       })
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       return res.status(400).json({
         success: false,
-        message: isValidationReplace(err)
+        message: err
       })
     }
   } else {
@@ -78,9 +100,10 @@ updateData = async (req, res) => {
 
   if (token) {
     try {
-      const schema = Joi.object().keys({
-        roleName: Joi.string()
+      let schema = yup.object().shape({
+        roleName: yup.string().required('nama role belum diisi')
       })
+
       await schema.validate(req.body)
 
       let editData = await Role.findByIdAndUpdate(

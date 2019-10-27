@@ -1,9 +1,11 @@
 var nodemailer = require('nodemailer')
+var handlebars = require('handlebars')
+var path = require('path')
 var fs = require('fs')
 
 let credential = {
-  email: 'example@mail.com',
-  password: 'your password'
+  email: 'your.smtp@domain.com',
+  password: 'your-smtp-password'
 }
 
 // service ( smtp, zoho, mailgun, and others )
@@ -40,8 +42,31 @@ readHTMLFile = async (path, callback) => {
   })
 }
 
+// get read html file from config
+SendMailer = (htmlTemplate, objData, optMail) => {
+  readHTMLFile(
+    path.resolve(__dirname, `../public/email_template/${htmlTemplate}.html`),
+    (err, html) => {
+      let template = handlebars.compile(html)
+      let htmlToSend = template(objData)
+      let mailOptions = {
+        from: `No Reply <${credential.email}>`,
+        to: `${optMail.emailTo}`,
+        subject: `${optMail.subject}`,
+        html: htmlToSend
+      }
+      // get transporter from config
+      transporter.sendMail(mailOptions, (err, data) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log('successfully', data)
+        }
+      })
+    }
+  )
+}
+
 module.exports = {
-  credential,
-  transporter,
-  readHTMLFile
+  SendMailer
 }
