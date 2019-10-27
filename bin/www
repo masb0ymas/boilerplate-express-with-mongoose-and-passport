@@ -5,7 +5,7 @@
  */
 
 var app = require('../app')
-var debug = require('debug')('api-minangitcamp:server')
+var debug = require('debug')('boilerplate-express-with-mongoose-and-passport:server')
 var http = require('http')
 
 /**
