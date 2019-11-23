@@ -1,24 +1,23 @@
-let yup = require('yup')
-var jwt = require('jsonwebtoken')
-const User = require('./user.model.js')
-var Helper = require('../../helper/Common')
-var mail = require('../../config/mail')
+import 'dotenv/config'
+import * as yup from 'yup'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import User from './user.model'
+import SendMailer from '../../config/mail'
+import { getToken, getUniqueCodev2, convertQueryFilter, validationRequest } from '../../helper'
 
-var getToken = Helper.getToken
-var getUniqueCode = Helper.getUniqueCode
-var convertQueryFilter = Helper.convertQueryFilter
-const jwtPass = 'yourSecretPassword'
+const jwtPass = process.env.JWT_SECRET
 
 const invalidValues = [undefined, null, '']
 
-signUp = async (req, res) => {
+const signUp = async (req, res) => {
   let { fullName, email, password, RoleId } = req.body
   let generateToken = {
-    code: getUniqueCode()
+    code: getUniqueCodev2(10),
   }
 
   let tokenVerify = jwt.sign(JSON.parse(JSON.stringify(generateToken)), jwtPass, {
-    expiresIn: 86400 * 1
+    expiresIn: 86400 * 1,
   })
 
   try {
@@ -32,7 +31,7 @@ signUp = async (req, res) => {
         .string()
         .min(8, 'minimal 8 karakter')
         .required('password belum diisi'),
-      RoleId: yup.string().required('role id belum diisi')
+      RoleId: yup.string().required('role id belum diisi'),
     })
 
     await schema.validate(req.body)
@@ -42,46 +41,46 @@ signUp = async (req, res) => {
       email: email,
       password: password,
       tokenVerify: tokenVerify,
-      RoleId: RoleId
+      RoleId: RoleId,
     })
 
     // data for email
     const htmlTemplate = 'signUpTemplate'
     let objData = {
       fullName: fullName,
-      token: tokenVerify
+      token: tokenVerify,
     }
     let optMail = {
       emailTo: email,
-      subject: 'Verifikasi Email'
+      subject: 'Verifikasi Email',
     }
-    mail.SendMailer(htmlTemplate, objData, optMail)
+    SendMailer(htmlTemplate, objData, optMail)
 
     return res.status(201).json({
       success: true,
-      message: 'You have successfully registered',
-      insertData
+      message: 'Kamu sudah berhasil mendaftar, silahkan check email untuk informasi selanjutnya!',
+      insertData,
     })
   } catch (err) {
     // console.log(err)
     return res.status(400).json({
       success: false,
-      message: err
+      message: err,
     })
   }
 }
 
-signIn = async (req, res) => {
+const signIn = async (req, res) => {
   let { email, password } = req.body
 
   try {
     let userData = await User.findOne({
-      email: email
+      email: email,
     })
     if (!userData) {
       return res.status(404).json({
         success: false,
-        message: 'Account not found!'
+        message: 'Akun tidak ditemukan!',
       })
     }
 
@@ -89,20 +88,20 @@ signIn = async (req, res) => {
       userData.comparePassword(password, (err, isMatch) => {
         if (isMatch && !err) {
           let token = jwt.sign(JSON.parse(JSON.stringify(userData)), jwtPass, {
-            expiresIn: 86400 * 1
+            expiresIn: 86400 * 1,
           }) // 1 Days
 
           return res.status(200).json({
             success: true,
             token: 'JWT ' + token,
             uid: userData.id,
-            rid: userData.RoleId._id
+            rid: userData.RoleId._id,
           })
         } else {
           // console.log(res)
           res.status(401).json({
             success: false,
-            message: 'Incorrect Email or Password!'
+            message: 'Email atau Password salah!',
           })
         }
       })
@@ -110,7 +109,7 @@ signIn = async (req, res) => {
       res.status(401).json({
         success: false,
         message:
-          'Please check your email account to verify your email and continue the registration process.'
+          'Please check your email account to verify your email and continue the registration process.',
       })
     }
   } catch (err) {
@@ -118,19 +117,69 @@ signIn = async (req, res) => {
   }
 }
 
-getProfile = async (req, res) => {
+const changePass = async (req, res) => {
+  const token = getToken(req.headers)
+  let { currentPassword, password } = req.body
+  let id = req.params.id
+
+  if (token) {
+    try {
+      await validationRequest(req.body)
+
+      let editData = await User.findById(id)
+      if (!editData) {
+        return res.status(404).json({
+          message: 'Data tidak ditemukan!',
+        })
+      }
+
+      if (bcrypt.compareSync(currentPassword, editData.password)) {
+        let hashPassword = bcrypt.hashSync(password, 10)
+        await editData.updateOne({
+          password: hashPassword,
+        })
+      } else {
+        return res.status(400).json({ success: false, message: 'Password lama kamu salah!' })
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Data berhasil diperbarui!',
+        editData,
+      })
+    } catch (err) {
+      // console.log(err)
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({
+          message: 'Data tidak ditemukan!',
+        })
+      }
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      })
+    }
+  } else {
+    return res.status(403).json({
+      success: false,
+      message: 'Unauthorized. Please Re-login...',
+    })
+  }
+}
+
+const getProfile = async (req, res) => {
   const token = getToken(req.headers)
   if (token) {
     res.status(200).json(jwt.decode(token))
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-getAll = async (req, res) => {
+const getAll = async (req, res) => {
   let { page, pageSize, sorted, filtered } = req.query
 
   try {
@@ -154,35 +203,45 @@ getAll = async (req, res) => {
           return res.status(200).json({
             success: true,
             data: items,
-            totalRow: count
+            totalRow: count,
           })
         })
       })
   } catch (err) {
     return res.status(400).json({
       success: false,
-      message: err
+      message: err,
     })
   }
 }
 
-getOne = async (req, res) => {
+const getOne = async (req, res) => {
   let id = req.params.id
   try {
     let data = await User.findById(id).populate('RoleId')
+    if (!data) {
+      return res.status(404).json({
+        message: 'Data tidak ditemukan!',
+      })
+    }
     return res.status(200).json({
       success: true,
-      data
+      data,
     })
   } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({
+        message: 'Data tidak ditemukan!',
+      })
+    }
     return res.status(400).json({
       success: false,
-      message: err
+      message: err,
     })
   }
 }
 
-storeData = async (req, res) => {
+const storeData = async (req, res) => {
   const token = getToken(req.headers)
   let { fullName, email, password } = req.body
 
@@ -198,7 +257,7 @@ storeData = async (req, res) => {
           .string()
           .min(8, 'minimal 8 karakter')
           .required('password belum diisi'),
-        RoleId: yup.string().required('role id belum diisi')
+        RoleId: yup.string().required('role id belum diisi'),
       })
 
       await schema.validate(req.body)
@@ -206,28 +265,28 @@ storeData = async (req, res) => {
       let insertData = await User.create({
         fullName: fullName,
         email: email,
-        password: password
+        password: password,
       })
       return res.status(201).json({
         success: true,
-        message: 'successfully added data',
-        insertData
+        message: 'Data berhasil ditambahkan!',
+        insertData,
       })
     } catch (err) {
       return res.status(400).json({
         success: false,
-        message: err
+        message: err,
       })
     }
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-updateData = async (req, res) => {
+const updateData = async (req, res) => {
   const token = getToken(req.headers)
   let { fullName, email } = req.body
   let id = req.params.id
@@ -238,41 +297,41 @@ updateData = async (req, res) => {
         id,
         {
           fullName: fullName,
-          email: email
+          email: email,
         },
         { new: true }
       )
       if (!editData) {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       res.status(200).json({
         success: true,
-        message: 'data updated successfully!',
-        editData
+        message: 'Data berhasil diperbarui!',
+        editData,
       })
     } catch (err) {
       // console.log(err)
       if (err.kind === 'ObjectId') {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       return res.status(400).json({
         success: false,
-        message: err
+        message: err,
       })
     }
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-destroyData = async (req, res) => {
+const destroyData = async (req, res) => {
   const token = getToken(req.headers)
   let id = req.params.id
 
@@ -281,40 +340,41 @@ destroyData = async (req, res) => {
       let deleteData = await User.findByIdAndRemove(id)
       if (!deleteData) {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       res.status(200).json({
         success: true,
-        message: 'data successfully deleted!'
+        message: 'Data berhasil dihapus!',
       })
     } catch (err) {
       // console.log(err)
       if (err.kind === 'ObjectId' || err.name === 'NotFound') {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       return res.status(400).json({
         success: false,
-        message: err
+        message: err,
       })
     }
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-module.exports = {
+export {
   signUp,
   signIn,
+  changePass,
   getProfile,
   getAll,
   getOne,
   storeData,
   updateData,
-  destroyData
+  destroyData,
 }

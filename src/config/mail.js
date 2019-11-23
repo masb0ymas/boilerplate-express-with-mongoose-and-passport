@@ -1,24 +1,25 @@
-var nodemailer = require('nodemailer')
-var handlebars = require('handlebars')
-var path = require('path')
-var fs = require('fs')
+import 'dotenv/config'
+import nodemailer from 'nodemailer'
+import handlebars from 'handlebars'
+import path from 'path'
+import fs from 'fs'
 
 let credential = {
-  email: 'your.smtp@domain.com',
-  password: 'your-smtp-password'
+  email: process.env.MAIL_USERNAME,
+  password: process.env.MAIL_PASSWORD,
 }
 
 // service ( smtp, zoho, mailgun, and others )
 let transport = {
-  service: 'smtp',
-  port: 587,
+  service: process.env.MAIL_DRIVER,
+  port: process.env.MAIL_PORT,
   secure: true,
   // ignoreTLS:true,
   // requireTLS:false,
   auth: {
     user: credential.email,
-    pass: credential.password
-  }
+    pass: credential.password,
+  },
 }
 
 let transporter = nodemailer.createTransport(transport)
@@ -31,7 +32,7 @@ transporter.verify((err, success) => {
   }
 })
 
-readHTMLFile = async (path, callback) => {
+const readHTMLFile = (path, callback) => {
   fs.readFile(path, { encoding: 'utf-8' }, function(err, html) {
     if (err) {
       throw err
@@ -43,9 +44,9 @@ readHTMLFile = async (path, callback) => {
 }
 
 // get read html file from config
-SendMailer = (htmlTemplate, objData, optMail) => {
+const SendMailer = (htmlTemplate, objData, optMail) => {
   readHTMLFile(
-    path.resolve(__dirname, `../public/email_template/${htmlTemplate}.html`),
+    path.resolve(__dirname, `../../public/email_template/${htmlTemplate}.html`),
     (err, html) => {
       let template = handlebars.compile(html)
       let htmlToSend = template(objData)
@@ -53,7 +54,7 @@ SendMailer = (htmlTemplate, objData, optMail) => {
         from: `No Reply <${credential.email}>`,
         to: `${optMail.emailTo}`,
         subject: `${optMail.subject}`,
-        html: htmlToSend
+        html: htmlToSend,
       }
       // get transporter from config
       transporter.sendMail(mailOptions, (err, data) => {
@@ -67,6 +68,4 @@ SendMailer = (htmlTemplate, objData, optMail) => {
   )
 }
 
-module.exports = {
-  SendMailer
-}
+export default SendMailer

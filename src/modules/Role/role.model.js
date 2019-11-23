@@ -1,8 +1,8 @@
-var mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const RoleSchema = mongoose.Schema(
   {
-    roleName: { type: String, required: true }
+    roleName: { type: String, required: true },
   },
   { timestamps: true }
 )
