@@ -10,12 +10,14 @@ package-lock.json
 /coverage
 
 # production
+/dist
 /build
 /public/uploads
 /public/dokumen
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local

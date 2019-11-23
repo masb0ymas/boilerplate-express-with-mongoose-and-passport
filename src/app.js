@@ -1,16 +1,16 @@
-var createError = require('http-errors')
-var express = require('express')
-var path = require('path')
-var cors = require('cors')
-var bodyParser = require('body-parser')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var mongoose = require('mongoose')
+import createError from 'http-errors'
+import express from 'express'
+import path from 'path'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
+import mongoose from 'mongoose'
+import dbConfig from './config/database.config'
 
-var indexRouter = require('./routes/index')
-// var usersRouter = require('./routes/users');
+import indexRouter from './routes/index'
 
-var app = express()
+let app = express()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -25,15 +25,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-const dbConfig = require('./config/database.config.js')
-mongoose.Promise = global.Promise
-
 // Connecting to the database
+mongoose.Promise = global.Promise
 mongoose
   .connect(dbConfig.url, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(() => {
     console.log('Successfully connected to the database')

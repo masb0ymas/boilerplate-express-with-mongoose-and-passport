@@ -1,6 +1,7 @@
-var bcrypt = require('bcrypt')
-var mongoose = require('mongoose')
-var SALT_WORK_FACTOR = 10
+import bcrypt from 'bcrypt'
+import mongoose from 'mongoose'
+
+let SALT_WORK_FACTOR = 10
 
 const UserSchema = mongoose.Schema(
   {
@@ -9,7 +10,7 @@ const UserSchema = mongoose.Schema(
     password: { type: String, required: true },
     active: { type: Boolean, default: 0 },
     tokenVerify: { type: String, default: null },
-    RoleId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Role' }
+    RoleId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Role' },
   },
   { timestamps: true }
 )

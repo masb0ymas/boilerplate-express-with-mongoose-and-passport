@@ -1,13 +1,10 @@
-let yup = require('yup')
-const Role = require('./role.model')
-var Helper = require('../../helper/Common')
-
-var getToken = Helper.getToken
-var convertQueryFilter = Helper.convertQueryFilter
+import * as yup from 'yup'
+import Role from './role.model'
+import { getToken, convertQueryFilter } from '../../helper'
 
 const invalidValues = [undefined, null, '']
 
-getAll = async (req, res) => {
+const getAll = async (req, res) => {
   let { page, pageSize, sorted, filtered } = req.query
 
   try {
@@ -30,70 +27,80 @@ getAll = async (req, res) => {
           return res.status(200).json({
             success: true,
             data: items,
-            totalRow: count
+            totalRow: count,
           })
         })
       })
   } catch (err) {
     return res.status(400).json({
       success: false,
-      message: err
+      message: err,
     })
   }
 }
 
-getOne = async (req, res) => {
+const getOne = async (req, res) => {
   let id = req.params.id
   try {
     let data = await Role.findById(id)
+    if (!data) {
+      return res.status(404).json({
+        message: 'Data tidak ditemukan!',
+      })
+    }
     return res.status(200).json({
       success: true,
-      data
+      data,
     })
   } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({
+        message: 'Data tidak ditemukan!',
+      })
+    }
     return res.status(400).json({
       success: false,
-      message: err
+      message: err,
     })
   }
 }
 
-storeData = async (req, res) => {
+const storeData = async (req, res) => {
   const token = getToken(req.headers)
   let { roleName } = req.body
 
   if (token) {
     try {
       let schema = yup.object().shape({
-        roleName: yup.string().required('nama role belum diisi')
+        roleName: yup.string().required('nama role belum diisi'),
       })
 
       await schema.validate(req.body)
 
       let insertData = await Role.create({
-        roleName: roleName
+        roleName: roleName,
       })
       return res.status(201).json({
         success: true,
-        message: 'successfully added data!',
-        insertData
+        message: 'Data berhasil ditambahkan!',
+        insertData,
       })
     } catch (err) {
       // console.log(err)
       return res.status(400).json({
         success: false,
-        message: err
+        message: err,
       })
     }
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-updateData = async (req, res) => {
+const updateData = async (req, res) => {
   const token = getToken(req.headers)
   let { roleName } = req.body
   let id = req.params.id
@@ -101,7 +108,7 @@ updateData = async (req, res) => {
   if (token) {
     try {
       let schema = yup.object().shape({
-        roleName: yup.string().required('nama role belum diisi')
+        roleName: yup.string().required('nama role belum diisi'),
       })
 
       await schema.validate(req.body)
@@ -109,41 +116,41 @@ updateData = async (req, res) => {
       let editData = await Role.findByIdAndUpdate(
         id,
         {
-          roleName: roleName
+          roleName: roleName,
         },
         { new: true }
       )
       if (!editData) {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       res.status(200).json({
         success: true,
-        message: 'data updated successfully!',
-        editData
+        message: 'Data berhasil diperbarui!',
+        editData,
       })
     } catch (err) {
       // console.log(err)
       if (err.kind === 'ObjectId') {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       return res.status(400).json({
         success: false,
-        message: err
+        message: err,
       })
     }
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-destroyData = async (req, res) => {
+const destroyData = async (req, res) => {
   const token = getToken(req.headers)
   let id = req.params.id
 
@@ -152,37 +159,31 @@ destroyData = async (req, res) => {
       let deleteData = await Role.findByIdAndRemove(id)
       if (!deleteData) {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       res.status(200).json({
         success: true,
-        message: 'data successfully deleted!'
+        message: 'Data berhasil dihapus!',
       })
     } catch (err) {
       // console.log(err)
       if (err.kind === 'ObjectId' || err.name === 'NotFound') {
         return res.status(404).json({
-          message: 'data not found!'
+          message: 'Data tidak ditemukan!',
         })
       }
       return res.status(400).json({
         success: false,
-        message: err
+        message: err,
       })
     }
   } else {
     return res.status(403).json({
       success: false,
-      message: 'Unauthorized. Please Re-login...'
+      message: 'Unauthorized. Please Re-login...',
     })
   }
 }
 
-module.exports = {
-  getAll,
-  getOne,
-  storeData,
-  updateData,
-  destroyData
-}
+export { getAll, getOne, storeData, updateData, destroyData }
