@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec babel-node ./src/bin/server.js",
-    "build": "babel src --out-dir dist && cp -r ./src/views ./dist/views",
-    "serve": "node ./dist/bin/server.js",
+    "build": "babel src --out-dir dist",
+    "serve": "ENV=production node ./dist/bin/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "masb0ymas",

@@ -13,7 +13,7 @@ import indexRouter from './routes/index'
 let app = express()
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(`${__dirname}/../`, 'views'))
 app.set('view engine', 'pug')
 
 app.all('*', cors()) // allow middleware cors
@@ -23,7 +23,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(`${__dirname}/../`, 'public')))
 
 // Connecting to the database
 mongoose.Promise = global.Promise
