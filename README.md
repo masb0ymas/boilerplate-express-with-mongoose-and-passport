@@ -12,9 +12,6 @@
   <a href="https://github.com/masb0ymas/boilerplate-express-with-mongoose-and-passport/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/masb0ymas/boilerplate-express-with-mongoose-and-passport" />
   </a>
-  <a href="https://twitter.com/fajriajjha1" target="_blank">
-    <img alt="Twitter: fajriajjha1" src="https://img.shields.io/twitter/follow/fajriajjha1.svg?style=social" />
-  </a>
 </p>
 
 > Just boilerplate Express with Mongoose
@@ -28,10 +25,13 @@
 
 ## Feature
 
-- Mongoose
-- Middleware Passport
+- [Mongoose](https://github.com/Automattic/mongoose)
+- Middleware [Passport](https://github.com/jaredhanson/passport)
+- [NodeMailer](https://github.com/nodemailer/nodemailer)
+- [Handlebars](https://github.com/wycats/handlebars.js) for templating HTML for email
+- [Yup](https://github.com/jquense/yup) for validation schema
 - Wrapper request and reusable function in controller
-- Wrapper URL with Uno API
+- Wrapper URL with [Uno-API](https://github.com/chornos13/uno-api)
 
 ## Install
 
