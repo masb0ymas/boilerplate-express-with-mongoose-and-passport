@@ -5,10 +5,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
-import mongoose from 'mongoose'
-import dbConfig from './config/database.config'
-
-import indexRouter from './routes/index'
+import { initialDB } from './config/database'
 
 let app = express()
 
@@ -18,32 +15,16 @@ app.set('view engine', 'pug')
 
 app.all('*', cors()) // allow middleware cors
 app.use(logger('dev'))
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(`${__dirname}/../`, 'public')))
 
 // Connecting to the database
-mongoose.Promise = global.Promise
-mongoose
-  .connect(dbConfig.url, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('Successfully connected to the database')
-  })
-  .catch(err => {
-    console.log('Could not connect to the database. Exiting now...', err)
-    process.exit()
-  })
+initialDB()
 
-app.use('/v1', indexRouter)
-// app.use('/users', usersRouter);
+const route = require('./routes')
+app.use(route)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
