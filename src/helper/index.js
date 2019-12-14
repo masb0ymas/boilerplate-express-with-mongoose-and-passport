@@ -6,6 +6,7 @@ import {
   isValidationReplace,
   validationRequest,
 } from './Common'
+import { wrapperRequest } from './ExpressHelpers'
 
 export {
   getUniqueCode,
@@ -14,4 +15,5 @@ export {
   convertQueryFilter,
   isValidationReplace,
   validationRequest,
+  wrapperRequest,
 }

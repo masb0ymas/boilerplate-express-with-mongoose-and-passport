@@ -6,12 +6,11 @@ const getUniqueCode = () => {
     .substr(2, 9)
 }
 
-const getUniqueCodev2 = length => {
-  let defaultLength = !invalidValues.includes(length) ? length : 32
+const getUniqueCodev2 = (length = 32) => {
   let result = ''
   let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let charactersLength = characters.defaultLength
-  for (let i = 0; i < defaultLength; i += 1) {
+  let charactersLength = characters.length
+  for (let i = 0; i < length; i += 1) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
   return result

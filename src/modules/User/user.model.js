@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema(
     password: { type: String, required: true },
     active: { type: Boolean, default: 0 },
     tokenVerify: { type: String, default: null },
-    RoleId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Role' },
+    Role: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Role' },
   },
   { timestamps: true }
 )
@@ -32,10 +32,12 @@ UserSchema.pre('save', function(next) {
   })
 })
 
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) return cb(err)
-    cb(null, isMatch)
+UserSchema.methods.comparePassword = function(candidatePassword) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+      if (err) reject(err)
+      resolve(isMatch)
+    })
   })
 }
 
