@@ -28,10 +28,13 @@
 
 ## Feature
 
-- Mongoose
-- Middleware Passport
+- [Mongoose](https://github.com/Automattic/mongoose)
+- Middleware [Passport](https://github.com/jaredhanson/passport)
+- [NodeMailer](https://github.com/nodemailer/nodemailer)
+- [Handlebars](https://github.com/wycats/handlebars.js) for templating HTML for email
+- [Yup](https://github.com/jquense/yup) for validation schema
 - Wrapper request and reusable function in controller
-- Wrapper URL with Uno API
+- Wrapper URL with [Uno-API](https://github.com/chornos13/uno-api)
 
 ## Install
 
