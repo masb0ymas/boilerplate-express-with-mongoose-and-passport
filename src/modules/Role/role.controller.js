@@ -6,6 +6,7 @@ const invalidValues = [undefined, null, '']
 
 const getAll = async ({ req, ResponseError }) => {
   const { query } = req
+  // eslint-disable-next-line prefer-const
   let { page, pageSize, sorted, filtered } = query
 
   let filterObject = {}
@@ -26,15 +27,15 @@ const getAll = async ({ req, ResponseError }) => {
   // response
   return {
     success: true,
-    data: data,
+    data,
     totalRow: total,
   }
 }
 
 const getOne = async ({ req, ResponseError }) => {
   const { params } = req
-  let id = params.id
-  let data = await Role.findById(id)
+  const { id } = params
+  const data = await Role.findById(id)
   if (!data) {
     throw new ResponseError('Data tidak ditemukan!', 404)
   }
@@ -44,17 +45,17 @@ const getOne = async ({ req, ResponseError }) => {
 const storeData = async ({ req, ResponseError }) => {
   const { headers, body } = req
   const token = getToken(headers)
-  let { roleName } = body
+  const { roleName } = body
 
   if (token) {
-    let schema = yup.object().shape({
+    const schema = yup.object().shape({
       roleName: yup.string().required('nama role belum diisi'),
     })
 
     await schema.validate(body)
 
-    let insertData = await Role.create({
-      roleName: roleName,
+    const insertData = await Role.create({
+      roleName,
     })
     return {
       success: true,
@@ -62,32 +63,27 @@ const storeData = async ({ req, ResponseError }) => {
       insertData,
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 const updateData = async ({ req, ResponseError }) => {
   const { headers, body, params } = req
   const token = getToken(headers)
-  let { roleName } = body
-  let id = params.id
+  const { roleName } = body
+  const { id } = params
 
   if (token) {
-    let schema = yup.object().shape({
+    const schema = yup.object().shape({
       roleName: yup.string().required('nama role belum diisi'),
     })
 
     await schema.validate(body)
 
-    let editData = await Role.findByIdAndUpdate(
+    const editData = await Role.findByIdAndUpdate(
       id,
       {
-        roleName: roleName,
+        roleName,
       },
       { new: true }
     )
@@ -101,22 +97,17 @@ const updateData = async ({ req, ResponseError }) => {
       editData,
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 const destroyData = async ({ req, ResponseError }) => {
   const { headers, params } = req
   const token = getToken(headers)
-  let id = params.id
+  const { id } = params
 
   if (token) {
-    let deleteData = await Role.findByIdAndRemove(id)
+    const deleteData = await Role.findByIdAndRemove(id)
     if (!deleteData) {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
@@ -125,13 +116,8 @@ const destroyData = async ({ req, ResponseError }) => {
       message: 'Data berhasil dihapus!',
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 export { getAll, getOne, storeData, updateData, destroyData }

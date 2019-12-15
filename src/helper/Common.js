@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const invalidValues = [undefined, null, '', false]
 
 const getUniqueCode = () => {
@@ -8,8 +9,8 @@ const getUniqueCode = () => {
 
 const getUniqueCodev2 = (length = 32) => {
   let result = ''
-  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let charactersLength = characters.length
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
   for (let i = 0; i < length; i += 1) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
@@ -17,17 +18,18 @@ const getUniqueCodev2 = (length = 32) => {
 }
 
 const convertQueryFilter = filtered => {
-  let resultObj = {}
+  const resultObj = {}
   if (typeof filtered !== 'object') {
-    throw new Error('Filtered must be an object, expected ' + typeof filtered)
+    throw new Error(`Filtered must be an object, expected ${typeof filtered}`)
   }
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0; i < filtered.length; i += 1) {
+    // eslint-disable-next-line prefer-const
     let { id, value } = filtered[i]
     if (id.split('.').length > 1) {
       id = `$${id}$`
     }
-    resultObj[id] = { $regex: '.*' + value + '.*' }
+    resultObj[id] = { $regex: `.*${value}.*` }
   }
 
   return resultObj
@@ -35,23 +37,21 @@ const convertQueryFilter = filtered => {
 
 const getToken = headers => {
   if (headers && headers.authorization) {
-    var parted = headers.authorization.split(' ')
+    const parted = headers.authorization.split(' ')
     if (parted.length === 2) {
       return parted[1]
-    } else {
-      return null
     }
-  } else {
     return null
   }
+  return null
 }
 
 // validation with joi
 const isValidationReplace = params => {
-  for (let i = 0; i < params.details.length; i++) {
-    let error = params.details[i]
-    let msgError = error.message
-    let pathError = error.path
+  for (let i = 0; i < params.details.length; i += 1) {
+    const error = params.details[i]
+    const msgError = error.message
+    const pathError = error.path
     switch (error.type) {
       case 'number.base':
         params.details[i].message = msgError.replace(
@@ -85,7 +85,7 @@ const validationRequest = async params => {
   const { currentPassword, password, Phone } = params
 
   if (!invalidValues.includes(password)) {
-    let passwordStrongRegex = password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/)
+    const passwordStrongRegex = password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/)
 
     if (currentPassword === password) {
       throw new Error('Password baru tidak boleh sama dengan password lama!')
@@ -99,7 +99,8 @@ const validationRequest = async params => {
   }
 
   if (!invalidValues.includes(Phone)) {
-    let phoneRegex = Phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,10}$/)
+    // eslint-disable-next-line no-useless-escape
+    const phoneRegex = Phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,10}$/)
 
     if (!phoneRegex) {
       throw new Error('Nomor telepon harus angka, dan minimal 10 digit, maksimal 15 digit!')

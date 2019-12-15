@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/named
+import { wrapperRequest } from './ExpressHelpers'
 import {
   getUniqueCode,
   getUniqueCodev2,
@@ -6,7 +8,6 @@ import {
   isValidationReplace,
   validationRequest,
 } from './Common'
-import { wrapperRequest } from './ExpressHelpers'
 
 export {
   getUniqueCode,
