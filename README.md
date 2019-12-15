@@ -20,8 +20,9 @@
 
 ## Prerequisites
 
-- npm >=6.10.0
-- node >=12.13.0
+- npm >= 6.10.0
+- node >= 12.13.0
+- eslint >= 6.7.2
 
 ## Feature
 
@@ -32,6 +33,8 @@
 - [Yup](https://github.com/jquense/yup) for validation schema
 - Wrapper request and reusable function in controller
 - Wrapper URL with [Uno-API](https://github.com/chornos13/uno-api)
+- JavaScript Style [Airbnb-base](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base)
+- Formating code using [Prettier](https://github.com/prettier/prettier) Integration [Eslint](https://github.com/prettier/eslint-config-prettier)
 
 ## Install
 

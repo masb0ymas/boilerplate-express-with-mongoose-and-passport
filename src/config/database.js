@@ -6,7 +6,7 @@ const dbConfig = {
   url: 'mongodb://localhost:27017/your-database',
 }
 
-export const initialDB = () => {
+const initialDB = () => {
   // Connecting to the database
   mongoose.Promise = global.Promise
   mongoose
@@ -24,3 +24,5 @@ export const initialDB = () => {
       process.exit()
     })
 }
+
+export default initialDB

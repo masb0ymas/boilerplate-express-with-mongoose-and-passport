@@ -3,7 +3,7 @@ import * as yup from 'yup'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import User from './user.model'
-import SendMailer from '../../config/mail'
+// import SendMailer from '../../config/email'
 import { getToken, getUniqueCodev2, convertQueryFilter, validationRequest } from '../../helper'
 
 const jwtPass = process.env.JWT_SECRET
@@ -12,16 +12,16 @@ const invalidValues = [undefined, null, '']
 
 const signUp = async ({ req, ResponseError }) => {
   const { body } = req
-  let { fullName, email, password, Role } = body
-  let generateToken = {
+  const { fullName, email, password, Role } = body
+  const generateToken = {
     code: getUniqueCodev2(10),
   }
 
-  let tokenVerify = jwt.sign(JSON.parse(JSON.stringify(generateToken)), jwtPass, {
+  const tokenVerify = jwt.sign(JSON.parse(JSON.stringify(generateToken)), jwtPass, {
     expiresIn: 86400 * 1,
   })
 
-  let schema = yup.object().shape({
+  const schema = yup.object().shape({
     fullName: yup.string().required('nama lengkap belum diisi'),
     email: yup
       .string()
@@ -36,21 +36,21 @@ const signUp = async ({ req, ResponseError }) => {
 
   await schema.validate(req.body)
 
-  let insertData = await User.create({
-    fullName: fullName,
-    email: email,
-    password: password,
-    tokenVerify: tokenVerify,
-    Role: Role,
+  const insertData = await User.create({
+    fullName,
+    email,
+    password,
+    tokenVerify,
+    Role,
   })
 
-  // data for email
+  // // data for email
   // const htmlTemplate = 'signUpTemplate'
-  // let objData = {
-  //   fullName: fullName,
+  // const objData = {
+  //   fullName,
   //   token: tokenVerify,
   // }
-  // let optMail = {
+  // const optMail = {
   //   emailTo: email,
   //   subject: 'Verifikasi Email',
   // }
@@ -65,31 +65,30 @@ const signUp = async ({ req, ResponseError }) => {
 
 const signIn = async ({ req, ResponseError }) => {
   const { body } = req
-  let { email, password } = body
+  const { email, password } = body
 
-  let userData = await User.findOne({
-    email: email,
+  const userData = await User.findOne({
+    email,
   })
   if (!userData) {
     throw new ResponseError('Akun tidak ditemukan!', 404)
   }
 
   if (userData.active === true) {
-    let checkPassword = await userData.comparePassword(password)
+    const checkPassword = await userData.comparePassword(password)
     if (checkPassword) {
-      let token = jwt.sign(JSON.parse(JSON.stringify(userData)), jwtPass, {
+      const token = jwt.sign(JSON.parse(JSON.stringify(userData)), jwtPass, {
         expiresIn: 86400 * 1,
       }) // 1 Days
       return {
         success: true,
-        token: 'JWT ' + token,
+        token: `JWT ${token}`,
         uid: userData._id,
         rid: userData.Role._id,
       }
-    } else {
-      // console.log(res)
-      throw new ResponseError('Email atau Password salah!', 401)
     }
+    // console.log(res)
+    throw new ResponseError('Email atau Password salah!', 401)
   } else {
     throw new ResponseError(
       'Please check your email account to verify your email and continue the registration process.',
@@ -101,19 +100,19 @@ const signIn = async ({ req, ResponseError }) => {
 const changePass = async ({ req, ResponseError }) => {
   const { headers, body, params } = req
   const token = getToken(headers)
-  let { currentPassword, password } = body
-  let id = params.id
+  const { currentPassword, password } = body
+  const { id } = params
 
   if (token) {
     await validationRequest(body)
 
-    let editData = await User.findById(id)
+    const editData = await User.findById(id)
     if (!editData) {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
 
     if (bcrypt.compareSync(currentPassword, editData.password)) {
-      let hashPassword = bcrypt.hashSync(password, 10)
+      const hashPassword = bcrypt.hashSync(password, 10)
       await editData.updateOne({
         password: hashPassword,
       })
@@ -152,6 +151,7 @@ const getProfile = async ({ req, ResponseError }) => {
 
 const getAll = async ({ req, ResponseError }) => {
   const { query } = req
+  // eslint-disable-next-line prefer-const
   let { page, pageSize, sorted, filtered } = query
 
   let filterObject = {}
@@ -172,14 +172,14 @@ const getAll = async ({ req, ResponseError }) => {
   const total = await User.countDocuments()
 
   return {
-    data: data,
+    data,
     totalRow: total,
   }
 }
 
 const getOne = async ({ req, ResponseError }) => {
-  let id = req.params.id
-  let data = await User.findById(id).populate([{ path: 'Role' }])
+  const { id } = req.params
+  const data = await User.findById(id).populate([{ path: 'Role' }])
   if (!data) {
     throw new ResponseError('Data tidak ditemukan!', 404)
   }
@@ -189,10 +189,10 @@ const getOne = async ({ req, ResponseError }) => {
 const storeData = async ({ req, ResponseError }) => {
   const { headers, body } = req
   const token = getToken(headers)
-  let { fullName, email, password } = body
+  const { fullName, email, password } = body
 
   if (token) {
-    let schema = yup.object().shape({
+    const schema = yup.object().shape({
       fullName: yup.string().required('nama lengkap belum diisi'),
       email: yup
         .string()
@@ -207,10 +207,10 @@ const storeData = async ({ req, ResponseError }) => {
 
     await schema.validate(body)
 
-    let insertData = await User.create({
-      fullName: fullName,
-      email: email,
-      password: password,
+    const insertData = await User.create({
+      fullName,
+      email,
+      password,
     })
     return {
       success: true,
@@ -230,15 +230,15 @@ const storeData = async ({ req, ResponseError }) => {
 const updateData = async ({ req, ResponseError }) => {
   const { headers, body, params } = req
   const token = getToken(headers)
-  let { fullName, email } = body
-  let id = params.id
+  const { fullName, email } = body
+  const { id } = params
 
   if (token) {
-    let editData = await User.findByIdAndUpdate(
+    const editData = await User.findByIdAndUpdate(
       id,
       {
-        fullName: fullName,
-        email: email,
+        fullName,
+        email,
       },
       { new: true }
     )
@@ -263,10 +263,10 @@ const updateData = async ({ req, ResponseError }) => {
 const destroyData = async ({ req, ResponseError }) => {
   const { headers, params } = req
   const token = getToken(headers)
-  let id = params.id
+  const { id } = params
 
   if (token) {
-    let deleteData = await User.findByIdAndRemove(id)
+    const deleteData = await User.findByIdAndRemove(id)
     if (!deleteData) {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
