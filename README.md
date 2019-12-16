@@ -94,7 +94,7 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2019 [masb0ymas](https://github.com/masb0ymas).<br />
-This project is [MIT](https://github.com/masb0ymas/boilerplate-express-with-mongoose-and-passport/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/masb0ymas/boilerplate-express-with-mongoose-and-passport/blob/master/LICENSE.md) licensed.
 
 ---
 
