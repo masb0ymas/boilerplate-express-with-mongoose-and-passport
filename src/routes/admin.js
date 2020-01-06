@@ -1,17 +1,17 @@
 import express from 'express'
 import passport from 'passport'
 import { Router as UnoRouter } from 'uno-api'
-import { wrapperRequest } from '../helper'
+import { wrapperRequest } from '#helpers'
 
 const router = express.Router()
 const apiAdmin = new UnoRouter(router, {
   middleware: passport.authenticate('jwt', { session: false }),
 })
-require('../config/passport')(passport)
+require('#config/passport')(passport)
 
 // Modules
-const RoleController = require('../modules/Role/role.controller')
-const UserController = require('../modules/User/user.controller')
+const RoleController = require('#modules/Role/role.controller')
+const UserController = require('#modules/User/user.controller')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

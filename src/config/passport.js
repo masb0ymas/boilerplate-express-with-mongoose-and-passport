@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 
 // load up the user model
-const User = require('../modules/User/user.model')
+const User = require('#modules/User/user.model')
 
 module.exports = function(passport) {
   const jwtOpts = {

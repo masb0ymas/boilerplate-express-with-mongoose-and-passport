@@ -1,13 +1,13 @@
 import express from 'express'
 import { Router as UnoRouter } from 'uno-api'
-import { wrapperRequest } from '../helper'
+import { wrapperRequest } from '#helpers'
 
 const router = express.Router()
 const apiRouter = new UnoRouter(router)
 
 // Modules
-const RoleController = require('../modules/Role/role.controller')
-const UserController = require('../modules/User/user.controller')
+const RoleController = require('#modules/Role/role.controller')
+const UserController = require('#modules/User/user.controller')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

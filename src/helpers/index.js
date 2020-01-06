@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/named
 import { wrapperRequest } from './ExpressHelpers'
+import MulterMiddleware from './Multer'
 import {
   getUniqueCode,
   getUniqueCodev2,
@@ -7,6 +8,7 @@ import {
   convertQueryFilter,
   isValidationReplace,
   validationRequest,
+  removeFileUpload,
 } from './Common'
 
 export {
@@ -17,4 +19,6 @@ export {
   isValidationReplace,
   validationRequest,
   wrapperRequest,
+  MulterMiddleware,
+  removeFileUpload,
 }
