@@ -4,11 +4,31 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import User from './user.model'
 // import SendMailer from '../../config/email'
-import { getToken, getUniqueCodev2, convertQueryFilter, validationRequest } from '../../helper'
+import {
+  getToken,
+  getUniqueCodev2,
+  convertQueryFilter,
+  validationRequest,
+} from '#helpers'
+import createDirNotExist from '#utils/Directory'
 
 const jwtPass = process.env.JWT_SECRET
 
 const invalidValues = [undefined, null, '']
+
+/*
+  Create the main directory
+  direktori akan dibikin otomatis ketika login,
+  karna direktori ada yang menggunakan User ID
+*/
+async function createDirectory(userData) {
+  const pathDirectory = [
+    './public/uploads/csv',
+    `./public/uploads/profile/${userData.id}`,
+  ]
+
+  pathDirectory.map(x => createDirNotExist(x))
+}
 
 const signUp = async ({ req, ResponseError }) => {
   const { body } = req
@@ -17,9 +37,13 @@ const signUp = async ({ req, ResponseError }) => {
     code: getUniqueCodev2(10),
   }
 
-  const tokenVerify = jwt.sign(JSON.parse(JSON.stringify(generateToken)), jwtPass, {
-    expiresIn: 86400 * 1,
-  })
+  const tokenVerify = jwt.sign(
+    JSON.parse(JSON.stringify(generateToken)),
+    jwtPass,
+    {
+      expiresIn: 86400 * 1,
+    }
+  )
 
   const schema = yup.object().shape({
     fullName: yup.string().required('nama lengkap belum diisi'),
@@ -57,8 +81,8 @@ const signUp = async ({ req, ResponseError }) => {
   // SendMailer(htmlTemplate, objData, optMail)
 
   return {
-    success: true,
-    message: 'Kamu sudah berhasil mendaftar, silahkan check email untuk informasi selanjutnya!',
+    message:
+      'Kamu sudah berhasil mendaftar, silahkan check email untuk informasi selanjutnya!',
     insertData,
   }
 }
@@ -80,8 +104,10 @@ const signIn = async ({ req, ResponseError }) => {
       const token = jwt.sign(JSON.parse(JSON.stringify(userData)), jwtPass, {
         expiresIn: 86400 * 1,
       }) // 1 Days
+      // create directory
+      createDirectory(userData)
+
       return {
-        success: true,
         token: `JWT ${token}`,
         uid: userData._id,
         rid: userData.Role._id,
@@ -121,18 +147,11 @@ const changePass = async ({ req, ResponseError }) => {
     }
 
     return {
-      success: true,
       message: 'Data berhasil diperbarui!',
       editData,
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 const getProfile = async ({ req, ResponseError }) => {
@@ -140,13 +159,7 @@ const getProfile = async ({ req, ResponseError }) => {
   if (token) {
     return jwt.decode(token)
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 const getAll = async ({ req, ResponseError }) => {
@@ -213,18 +226,11 @@ const storeData = async ({ req, ResponseError }) => {
       password,
     })
     return {
-      success: true,
       message: 'Data berhasil ditambahkan!',
       insertData,
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 const updateData = async ({ req, ResponseError }) => {
@@ -246,18 +252,11 @@ const updateData = async ({ req, ResponseError }) => {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
     return {
-      success: true,
       message: 'Data berhasil diperbarui!',
       editData,
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 const destroyData = async ({ req, ResponseError }) => {
@@ -271,17 +270,10 @@ const destroyData = async ({ req, ResponseError }) => {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
     return {
-      success: true,
       message: 'Data berhasil dihapus!',
     }
   }
-  throw new ResponseError(
-    {
-      success: false,
-      message: 'Unauthorized. Please Re-login...',
-    },
-    403
-  )
+  throw new ResponseError('Unauthorized. Please Re-login...', 403)
 }
 
 export {

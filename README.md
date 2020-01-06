@@ -9,7 +9,7 @@
   <a href="https://github.com/masb0ymas/boilerplate-express-with-mongoose-and-passport/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
-  <a href="https://github.com/masb0ymas/boilerplate-express-with-mongoose-and-passport/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/masb0ymas/boilerplate-express-with-mongoose-and-passport/blob/master/LICENSE.md" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/github/license/masb0ymas/boilerplate-express-with-mongoose-and-passport" />
   </a>
 </p>
@@ -27,13 +27,14 @@
 ## Feature
 
 - [Mongoose](https://github.com/Automattic/mongoose)
+- [Multer](https://github.com/expressjs/multer)
 - Middleware [Passport](https://github.com/jaredhanson/passport)
-- [NodeMailer](https://github.com/nodemailer/nodemailer)
+- [Nodemailer](https://github.com/nodemailer/nodemailer)
 - [Handlebars](https://github.com/wycats/handlebars.js) for templating HTML for email
 - [Yup](https://github.com/jquense/yup) for validation schema
 - Wrapper request and reusable function in controller
-- Wrapper URL with [Uno-API](https://github.com/chornos13/uno-api)
-- JavaScript Style [Airbnb-base](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base)
+- Wrapper URL with [Uno API](https://github.com/chornos13/uno-api)
+- JavaScript Style [Airbnb Base](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base)
 - Formating code using [Prettier](https://github.com/prettier/prettier) Integration [Eslint](https://github.com/prettier/eslint-config-prettier)
 
 ## Install
@@ -69,9 +70,9 @@ yarn test
 ## Run build to start production
 
 ```sh
-npm build
+npm run build
 
-npm serve
+npm run serve
 ```
 
 ## Author

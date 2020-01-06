@@ -7,7 +7,9 @@
 
 // eslint-disable-next-line import/order
 const app = require('../app')
-const debug = require('debug')('boilerplate-express-with-mongoose-and-passport:server')
+const debug = require('debug')(
+  'boilerplate-express-with-mongoose-and-passport:server'
+)
 const http = require('http')
 
 /**
@@ -85,5 +87,6 @@ function onError(error) {
 function onListening() {
   const addr = server.address()
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`
+  console.log(`Listening on ${bind}`)
   debug(`Listening on ${bind}`)
 }

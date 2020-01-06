@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 import Role from './role.model'
-import { getToken, convertQueryFilter } from '../../helper'
+import { getToken, convertQueryFilter } from '#helpers'
 
 const invalidValues = [undefined, null, '']
 
@@ -26,7 +26,6 @@ const getAll = async ({ req, ResponseError }) => {
   const total = await Role.countDocuments()
   // response
   return {
-    success: true,
     data,
     totalRow: total,
   }
@@ -58,7 +57,6 @@ const storeData = async ({ req, ResponseError }) => {
       roleName,
     })
     return {
-      success: true,
       message: 'Data berhasil ditambahkan!',
       insertData,
     }
@@ -92,7 +90,6 @@ const updateData = async ({ req, ResponseError }) => {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
     return {
-      success: true,
       message: 'Data berhasil diperbarui!',
       editData,
     }
@@ -112,7 +109,6 @@ const destroyData = async ({ req, ResponseError }) => {
       throw new ResponseError('Data tidak ditemukan!', 404)
     }
     return {
-      success: true,
       message: 'Data berhasil dihapus!',
     }
   }
