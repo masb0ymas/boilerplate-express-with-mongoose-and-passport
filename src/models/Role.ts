@@ -11,11 +11,11 @@ interface RoleCreationAttributes extends RoleAttributes, Document {}
 
 const RoleSchema = new Schema(
   {
-    roleName: { type: String, required: true },
+    nama: { type: String, required: true },
   },
   { timestamps: true }
 )
 
-const Role = model<RoleCreationAttributes>('Role', RoleSchema)
+const Role = model<RoleCreationAttributes>('Roles', RoleSchema)
 
 export default Role
