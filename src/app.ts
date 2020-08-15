@@ -9,7 +9,6 @@ import indexRouter from 'routes'
 import withState from 'helpers/withState'
 import ExpressErrorYup from 'middlewares/ExpressErrorYup'
 import ExpressErrorResponse from 'middlewares/ExpressErrorResponse'
-import ExpressErrorSequelize from 'middlewares/ExpressErrorSequelize'
 import initialMongoDB from 'config/database'
 
 const GenerateDoc = require('utils/GenerateDocs')
@@ -43,7 +42,6 @@ initialMongoDB()
 app.use(indexRouter)
 
 app.use(ExpressErrorYup)
-app.use(ExpressErrorSequelize)
 app.use(ExpressErrorResponse)
 
 // catch 404 and forward to error handler
