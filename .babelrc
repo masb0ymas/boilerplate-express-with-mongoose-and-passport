@@ -1,20 +1,25 @@
 {
-  "presets": ["@babel/preset-env"],
+  "presets": ["@babel/env", "@babel/typescript"],
   "plugins": [
     ["@babel/transform-runtime"],
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread",
     [
       "module-resolver",
       {
-        "root": ["."],
+        "root": ["./src/"],
         "alias": {
-          "#config": "./src/config",
-          "#controllers": "./src/controllers",
-          "#constants": "./src/constants",
-          "#helpers": "./src/helpers",
-          "#models": "./src/models",
-          "#modules": "./src/modules",
-          "#middleware": "./src/middleware",
-          "#utils": "./src/utils"
+          "bin": "./src/bin",
+          "config": "./src/config",
+          "controllers": "./src/controllers",
+          "helpers": "./src/helpers",
+          "middlewares": "./src/middlewares",
+          "migrations": "./src/migrations",
+          "models": "./src/models",
+          "modules": "./src/modules",
+          "routes": "./src/routes",
+          "utils": "./src/utils",
+          "views": "./src/views"
         }
       }
     ]
