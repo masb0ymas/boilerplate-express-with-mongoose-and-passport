@@ -1,16 +1,34 @@
 #!/usr/bin/env node
-/* eslint-disable no-use-before-define */
 
 /**
  * Module dependencies.
  */
 
-// eslint-disable-next-line import/order
-const app = require('../app')
-const debug = require('debug')(
-  'boilerplate-express-with-mongoose-and-passport:server'
-)
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('@babel/register')({ extensions: ['.js', '.ts'] })
 const http = require('http')
+const debug = require('debug')('boilerplate-express-typescript:server')
+const app = require('../app')
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val: string) {
+  const port = parseInt(val, 10)
+
+  if (Number.isNaN(port)) {
+    // named pipe
+    return val
+  }
+
+  if (port >= 0) {
+    // port number
+    return port
+  }
+
+  return false
+}
 
 /**
  * Get port from environment and store in Express.
@@ -26,39 +44,10 @@ app.set('port', port)
 const server = http.createServer(app)
 
 /**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  const port = parseInt(val, 10)
-
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(port)) {
-    // named pipe
-    return val
-  }
-
-  if (port >= 0) {
-    // port number
-    return port
-  }
-
-  return false
-}
-
-/**
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError(error: { syscall: string; code: any }) {
   if (error.syscall !== 'listen') {
     throw error
   }
@@ -90,3 +79,11 @@ function onListening() {
   console.log(`Listening on ${bind}`)
   debug(`Listening on ${bind}`)
 }
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port)
+server.on('error', onError)
+server.on('listening', onListening)
