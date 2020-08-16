@@ -1,5 +1,7 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
-import User from 'models/User'
+import models from 'models'
+
+const { User } = models
 
 require('dotenv').config()
 
