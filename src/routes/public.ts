@@ -10,5 +10,6 @@ export const AuthMiddleware = passport.authenticate('jwt', { session: false })
 
 export default router
 
-// require('controllers/Auth/controller')
+require('controllers/Auth/controller')
 require('controllers/Role/controller')
+require('controllers/User/controller')
