@@ -14,7 +14,7 @@ module.exports = function (passport: any) {
     'jwt',
     new JwtStrategy(jwtOpts, async function (jwtPayload, done) {
       try {
-        const user = await User.findById(jwtPayload.id)
+        const user = await User.findById(jwtPayload._id)
         if (!user) {
           return done(null, false)
         }
