@@ -27,6 +27,7 @@ routes.get(
 
     const data = await User.find(filterObject)
       .populate([{ path: 'Role' }])
+      .select('-password -tokenVerify')
       .limit(Number(pageSize))
       .skip(Number(pageSize) * Number(page))
       .sort({ createdAt: 'asc' })
@@ -41,7 +42,9 @@ routes.get(
   '/user/:id',
   asyncHandler(async function getOne(req: Request, res: Response) {
     const { id } = req.getParams()
-    const data = await User.findById(id).populate([{ path: 'Role' }])
+    const data = await User.findById(id)
+      .populate([{ path: 'Role' }])
+      .select('-password -tokenVerify')
 
     if (!data) {
       throw new ResponseError.NotFound(
