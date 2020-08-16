@@ -11,6 +11,7 @@ const create = yup
     phone: yup.string().required('Phone wajib diisi'),
     active: yup.boolean().nullable(),
     tokenVerify: yup.string().nullable(),
+    password: yup.string().nullable(),
     newPassword: yup
       .string()
       .min(8, 'Minimal 8 karakter')
@@ -19,6 +20,7 @@ const create = yup
       .string()
       .min(8, 'Minimal 8 karakter')
       .oneOf([yup.ref('newPassword')], 'Password tidak sama'),
+    Role: yup.string().required('Role wajib diisi'),
   })
   .required()
 
