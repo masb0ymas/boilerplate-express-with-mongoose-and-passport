@@ -1,6 +1,6 @@
 {
   "name": "express-mongoose-typescript",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Just Boilerplate",
   "private": true,
   "scripts": {
