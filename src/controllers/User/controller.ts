@@ -26,6 +26,7 @@ routes.get(
     const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
 
     const data = await User.find(filterObject)
+      .populate([{ path: 'Role' }])
       .limit(Number(pageSize))
       .skip(Number(pageSize) * Number(page))
       .sort({ createdAt: 'asc' })
@@ -40,7 +41,7 @@ routes.get(
   '/user/:id',
   asyncHandler(async function getOne(req: Request, res: Response) {
     const { id } = req.getParams()
-    const data = await User.findById(id)
+    const data = await User.findById(id).populate([{ path: 'Role' }])
 
     if (!data) {
       throw new ResponseError.NotFound(
