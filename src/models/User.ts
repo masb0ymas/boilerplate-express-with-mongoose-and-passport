@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { Schema, model, Document } from 'mongoose'
+import bcrypt from 'bcrypt'
+import { Schema, model, Document, VirtualType } from 'mongoose'
+import userSchema from 'controllers/User/schema'
 
 export interface UserAttributes {
   fullName: string
@@ -13,6 +15,19 @@ export interface UserAttributes {
   Role: string
   createdAt?: Date
   updatedAt?: Date
+}
+
+export function setUserPassword(instance: UserAttributes) {
+  const { newPassword, confirmNewPassword } = instance
+  const fdPassword = { newPassword, confirmNewPassword }
+  const validPassword = userSchema.createPassword.validateSyncAt(
+    'confirmNewPassword',
+    fdPassword
+  )
+  const saltRounds = 10
+  const hash = bcrypt.hashSync(validPassword, saltRounds)
+  const password = hash
+  return password
 }
 
 interface UserCreationAttributes extends UserAttributes, Document {}
@@ -29,6 +44,15 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 )
+
+UserSchema.methods.comparePassword = function (candidatePassword: string) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+      if (err) reject(err)
+      resolve(isMatch)
+    })
+  })
+}
 
 const User = model<UserCreationAttributes>('Users', UserSchema)
 
