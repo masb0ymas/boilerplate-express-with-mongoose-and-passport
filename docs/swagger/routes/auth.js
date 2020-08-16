@@ -25,6 +25,9 @@ module.exports = {
                 phone: {
                   type: 'string',
                 },
+                Role: {
+                  type: 'string',
+                },
               },
               required: [
                 'fullName',
@@ -32,6 +35,7 @@ module.exports = {
                 'newPassword',
                 'confirmNewPassword',
                 'phone',
+                'Role',
               ],
             },
           },
