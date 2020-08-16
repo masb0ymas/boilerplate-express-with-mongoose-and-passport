@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
-import Role from 'models/Role'
+import models from 'models'
 import { Request, Response } from 'express'
 import useValidation from 'helpers/useValidation'
 import asyncHandler from 'helpers/asyncHandler'
@@ -9,8 +9,10 @@ import routes, { AuthMiddleware } from 'routes/public'
 import ResponseError from 'modules/ResponseError'
 import schema from './schema'
 
+const { Role } = models
+
 routes.get(
-  '/user',
+  '/role',
   asyncHandler(async function getAll(req: Request, res: Response) {
     let {
       page,
@@ -19,18 +21,16 @@ routes.get(
       sorted,
     }: FilterQueryAttributes = req.getQuery()
 
-    let filterObject = {}
     if (!page) page = 0
     if (!pageSize) pageSize = 10
-
-    filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : []
+    const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
 
     const data = await Role.find(filterObject)
       .limit(Number(pageSize))
       .skip(Number(pageSize) * Number(page))
       .sort({ createdAt: 'asc' })
 
-    const total = await Role.count(filterObject)
+    const total = await Role.countDocuments(filterObject)
 
     return res.status(200).json({ data, total })
   })
@@ -54,7 +54,7 @@ routes.get(
 
 routes.post(
   '/role',
-  AuthMiddleware,
+  // AuthMiddleware,
   asyncHandler(async function createData(req: Request, res: Response) {
     const value = useValidation(schema.create, req.getBody())
     const data = await Role.create(value)
