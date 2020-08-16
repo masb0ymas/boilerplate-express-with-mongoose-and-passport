@@ -54,7 +54,7 @@ routes.get(
 
 routes.post(
   '/role',
-  // AuthMiddleware,
+  AuthMiddleware,
   asyncHandler(async function createData(req: Request, res: Response) {
     const value = useValidation(schema.create, req.getBody())
     const data = await Role.create(value)
@@ -81,7 +81,7 @@ routes.put(
       ...req.getBody(),
     })
 
-    await data.update(value || {})
+    await data.updateOne(value || {})
 
     return res.status(200).json({ data })
   })
