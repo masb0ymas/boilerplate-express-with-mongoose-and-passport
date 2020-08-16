@@ -9,8 +9,7 @@ import createDirNotExist from 'utils/Directory'
 import { getUniqueCodev2, verifyToken } from 'helpers/Common'
 import ResponseError from 'modules/ResponseError'
 import { isObject } from 'lodash'
-import bcrypt from 'bcrypt'
-import { UserAttributes } from 'models/User'
+import { setUserPassword } from 'models/User'
 import schema from '../User/schema'
 
 const { User, Role } = models
@@ -31,19 +30,6 @@ async function createDirectory(UserId: string) {
   ]
 
   pathDirectory.map((x) => createDirNotExist(x))
-}
-
-function setUserPassword(formData: UserAttributes) {
-  const { newPassword, confirmNewPassword } = formData
-  const fdPassword = { newPassword, confirmNewPassword }
-  const validPassword = schema.createPassword.validateSyncAt(
-    'confirmNewPassword',
-    fdPassword
-  )
-  const saltRounds = 10
-  const hash = bcrypt.hashSync(validPassword, saltRounds)
-  const password = hash
-  return password
 }
 
 routes.post(
@@ -79,9 +65,7 @@ routes.post(
   asyncHandler(async function signIn(req: Request, res: Response) {
     const { email, password } = useValidation(schema.login, req.getBody())
 
-    const userData = await User.findOne({
-      where: { email },
-    })
+    const userData = await User.findOne({ email }).select('-tokenVerify')
 
     if (!userData) {
       throw new ResponseError.NotFound('Data tidak ditemukan!')
@@ -131,10 +115,11 @@ routes.get(
 
     if (isObject(token?.data)) {
       const decodeToken = token?.data
-      const including = [{ model: Role }]
 
       // @ts-ignore
-      const data = await User.findByPk(decodeToken?.id, { include: including })
+      const data = await User.findById(decodeToken?._id)
+        .populate([{ path: 'Role' }])
+        .select('-password -tokenVerify')
       return res.status(200).json({ data })
     }
 
