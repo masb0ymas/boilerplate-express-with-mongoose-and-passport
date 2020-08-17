@@ -11,4 +11,4 @@ router.use(AuthMiddleware)
 
 export default router
 
-// require('controllers/User/controller')
+require('controllers/User/controller')
