@@ -1,38 +1,14 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
-import models from 'models'
 import { Request, Response } from 'express'
-import useValidation from 'helpers/useValidation'
 import asyncHandler from 'helpers/asyncHandler'
-import { filterQueryObject, FilterQueryAttributes } from 'helpers/Common'
-import routes, { AuthMiddleware } from 'routes/public'
-import ResponseError from 'modules/ResponseError'
-import schema from './schema'
-
-const { User } = models
+import routes from 'routes/private'
+import ServiceUser from './service'
 
 routes.get(
   '/user',
   asyncHandler(async function getAll(req: Request, res: Response) {
-    let {
-      page,
-      pageSize,
-      filtered,
-      sorted,
-    }: FilterQueryAttributes = req.getQuery()
-
-    if (!page) page = 0
-    if (!pageSize) pageSize = 10
-    const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
-
-    const data = await User.find(filterObject)
-      .populate([{ path: 'Role' }])
-      .select('-password -tokenVerify')
-      .limit(Number(pageSize))
-      .skip(Number(pageSize) * Number(page))
-      .sort({ createdAt: 'asc' })
-
-    const total = await User.countDocuments(filterObject)
+    const { data, total } = await ServiceUser.getAll(req)
 
     return res.status(200).json({ data, total })
   })
@@ -41,16 +17,7 @@ routes.get(
 routes.get(
   '/user/:id',
   asyncHandler(async function getOne(req: Request, res: Response) {
-    const { id } = req.getParams()
-    const data = await User.findById(id)
-      .populate([{ path: 'Role' }])
-      .select('-password -tokenVerify')
-
-    if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
-    }
+    const data = await ServiceUser.getOne(req)
 
     return res.status(200).json({ data })
   })
@@ -58,10 +25,8 @@ routes.get(
 
 routes.post(
   '/user',
-  AuthMiddleware,
   asyncHandler(async function createData(req: Request, res: Response) {
-    const value = useValidation(schema.create, req.getBody())
-    const data = await User.create(value)
+    const data = await ServiceUser.create(req)
 
     return res.status(201).json({ data })
   })
@@ -69,41 +34,18 @@ routes.post(
 
 routes.put(
   '/user/:id',
-  AuthMiddleware,
   asyncHandler(async function updateData(req: Request, res: Response) {
-    const { id } = req.getParams()
-    const data = await User.findById(id)
+    const { message } = await ServiceUser.update(req)
 
-    if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
-    }
-
-    const value = useValidation(schema.create, {
-      ...data.toJSON(),
-      ...req.getBody(),
-    })
-
-    await data.updateOne(value || {})
-
-    return res.status(200).json({ data })
+    return res.status(200).json({ message })
   })
 )
 
 routes.delete(
   '/user/:id',
-  AuthMiddleware,
   asyncHandler(async function deleteData(req: Request, res: Response) {
-    const { id } = req.getParams()
-    const data = await User.findByIdAndRemove(id)
+    const { message } = await ServiceUser.delete(req)
 
-    if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
-    }
-
-    return res.status(200).json({ message: 'Data berhasil dihapus!' })
+    return res.status(200).json({ message })
   })
 )
