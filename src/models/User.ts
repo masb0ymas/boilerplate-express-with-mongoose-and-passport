@@ -17,6 +17,16 @@ export interface UserAttributes {
   updatedAt?: Date
 }
 
+export interface TokenAttributes {
+  data: UserAttributes
+  message: string
+}
+
+export interface LoginAttributes {
+  email: string
+  password: string
+}
+
 export function setUserPassword(instance: UserAttributes) {
   const { newPassword, confirmNewPassword } = instance
   const fdPassword = { newPassword, confirmNewPassword }
