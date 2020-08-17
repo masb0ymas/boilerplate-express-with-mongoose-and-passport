@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import models from 'models'
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import jwt from 'jsonwebtoken'
-import { getUniqueCodev2, verifyToken } from 'helpers/Common'
-import { setUserPassword } from 'models/User'
+import { getUniqueCodev2 } from 'helpers/Common'
+import { setUserPassword, LoginAttributes, TokenAttributes } from 'models/User'
 import useValidation from 'helpers/useValidation'
 import schema from 'controllers/User/schema'
 import createDirNotExist from 'utils/Directory'
@@ -61,8 +61,8 @@ class ServiceAuth {
   /**
    * Sign In
    */
-  public static async signIn(req: Request, res: Response) {
-    const { email, password } = useValidation(schema.login, req.getBody())
+  public static async signIn(formData: LoginAttributes) {
+    const { email, password } = useValidation(schema.login, formData)
 
     const userData = await User.findOne({ email }).select('-tokenVerify')
 
@@ -87,14 +87,14 @@ class ServiceAuth {
         ) // 1 Days
 
         // create directory
-        await createDirectory(userData.id)
+        await createDirectory(userData._id)
 
-        return res.status(200).json({
+        return {
           token: `JWT ${token}`,
           expiresIn: expiresToken,
           tokenType: 'JWT',
           uid: userData.id,
-        })
+        }
       }
 
       throw new ResponseError.BadRequest('Email atau password salah!')
@@ -109,9 +109,7 @@ class ServiceAuth {
   /**
    * Get Profile
    */
-  public static async profile(req: Request, res: Response) {
-    const token = verifyToken(req.getHeaders())
-
+  public static async profile(token: TokenAttributes) {
     if (isObject(token?.data)) {
       const decodeToken = token?.data
 
@@ -119,7 +117,7 @@ class ServiceAuth {
       const data = await User.findById(decodeToken?._id)
         .populate([{ path: 'Role' }])
         .select('-password -tokenVerify')
-      return res.status(200).json({ data })
+      return data
     }
 
     throw new ResponseError.Unauthorized(
