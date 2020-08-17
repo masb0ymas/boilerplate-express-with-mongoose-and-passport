@@ -2,6 +2,8 @@
 import { Request, Response } from 'express'
 import routes from 'routes/public'
 import asyncHandler from 'helpers/asyncHandler'
+import { verifyToken } from 'helpers/Common'
+import { TokenAttributes } from 'models/User'
 import ServiceAuth from './service'
 
 routes.post(
@@ -16,13 +18,27 @@ routes.post(
 routes.post(
   '/auth/sign-in',
   asyncHandler(async function signIn(req: Request, res: Response) {
-    await ServiceAuth.signIn(req, res)
+    const formData = req.getBody()
+    const { token, expiresIn, tokenType, uid } = await ServiceAuth.signIn(
+      formData
+    )
+
+    return res.status(200).json({
+      token,
+      expiresIn,
+      tokenType,
+      uid,
+    })
   })
 )
 
 routes.get(
   '/profile',
   asyncHandler(async function getProfile(req: Request, res: Response) {
-    await ServiceAuth.profile(req, res)
+    // @ts-ignore
+    const token: TokenAttributes = verifyToken(req.getHeaders())
+    const data = await ServiceAuth.profile(token)
+
+    return res.status(200).json({ data })
   })
 )
