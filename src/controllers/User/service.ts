@@ -1,27 +1,24 @@
-/* eslint-disable prefer-const */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import models from 'models'
-import { Request } from 'express'
-import { filterQueryObject, FilterQueryAttributes } from 'helpers/Common'
+import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/ResponseError'
 import useValidation from 'helpers/useValidation'
-import { setUserPassword } from 'models/User'
+import { setUserPassword, UserAttributes } from 'models/User'
 import schema from './schema'
 
 const { User } = models
 
-class ServiceUser {
+class UserService {
   /**
    * Get All User
    */
-  public static async getAll(req: Request) {
-    let {
-      page,
-      pageSize,
-      filtered,
-      sorted,
-    }: FilterQueryAttributes = req.getQuery()
-
+  public static async getAll(
+    page: string | number,
+    pageSize: string | number,
+    filtered: string,
+    sorted: string
+  ) {
     if (!page) page = 0
     if (!pageSize) pageSize = 10
     const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
@@ -41,8 +38,7 @@ class ServiceUser {
   /**
    * Get One User
    */
-  public static async getOne(req: Request) {
-    const { id } = req.getParams()
+  public static async getOne(id: string) {
     const data = await User.findById(id)
       .populate([{ path: 'Role' }])
       .select('-password -tokenVerify')
@@ -59,24 +55,27 @@ class ServiceUser {
   /**
    * Create New User
    */
-  public static async create(req: Request) {
-    const password = setUserPassword(req.getBody())
-    req.setBody({ password })
-    const value = useValidation(schema.create, req.getBody())
+  public static async create(formData: UserAttributes) {
+    const password = setUserPassword(formData)
+    const newFormData = {
+      ...formData,
+      password,
+    }
+    const value = useValidation(schema.create, newFormData)
     const data = await User.create(value)
 
-    return data
+    return { message: 'Data sudah ditambahkan!', data }
   }
 
   /**
    * Update User By Id
    */
-  public static async update(req: Request) {
-    const data = await this.getOne(req)
+  public static async update(id: string, formData: UserAttributes) {
+    const data = await this.getOne(id)
 
     const value = useValidation(schema.create, {
       ...data.toJSON(),
-      ...req.getBody(),
+      ...formData,
     })
 
     await data.updateOne(value || {})
@@ -87,18 +86,11 @@ class ServiceUser {
   /**
    * Delete User By Id
    */
-  public static async delete(req: Request) {
-    const { id } = req.getParams()
-    const data = await User.findByIdAndRemove(id)
-
-    if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
-    }
+  public static async delete(id: string) {
+    await User.findByIdAndRemove(id)
 
     return { message: 'Data berhasil dihapus!' }
   }
 }
 
-export default ServiceUser
+export default UserService
