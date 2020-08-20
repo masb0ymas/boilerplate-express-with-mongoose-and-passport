@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Schema, model, Document } from 'mongoose'
 
-interface RoleAttributes {
+export interface RoleAttributes {
   nama: string
   createdAt?: Date
   updatedAt?: Date
