@@ -1,26 +1,24 @@
-/* eslint-disable prefer-const */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import models from 'models'
-import { Request } from 'express'
-import { filterQueryObject, FilterQueryAttributes } from 'helpers/Common'
+import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/ResponseError'
 import useValidation from 'helpers/useValidation'
+import { RoleAttributes } from 'models/Role'
 import schema from './schema'
 
 const { Role } = models
 
-class ServiceRole {
+class RoleService {
   /**
    * Get All Role
    */
-  public static async getAll(req: Request) {
-    let {
-      page,
-      pageSize,
-      filtered,
-      sorted,
-    }: FilterQueryAttributes = req.getQuery()
-
+  public static async getAll(
+    page: string | number,
+    pageSize: string | number,
+    filtered: string,
+    sorted: string
+  ) {
     if (!page) page = 0
     if (!pageSize) pageSize = 10
     const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
@@ -38,8 +36,7 @@ class ServiceRole {
   /**
    * Get One Role
    */
-  public static async getOne(req: Request) {
-    const { id } = req.getParams()
+  public static async getOne(id: string) {
     const data = await Role.findById(id)
 
     if (!data) {
@@ -54,22 +51,22 @@ class ServiceRole {
   /**
    * Create New Role
    */
-  public static async create(req: Request) {
-    const value = useValidation(schema.create, req.getBody())
+  public static async create(formData: RoleAttributes) {
+    const value = useValidation(schema.create, formData)
     const data = await Role.create(value)
 
-    return data
+    return { message: 'Data sudah ditambahkan!', data }
   }
 
   /**
    * Update Role By Id
    */
-  public static async update(req: Request) {
-    const data = await this.getOne(req)
+  public static async update(id: string, formData: RoleAttributes) {
+    const data = await this.getOne(id)
 
     const value = useValidation(schema.create, {
       ...data.toJSON(),
-      ...req.getBody(),
+      ...formData,
     })
 
     await data.updateOne(value || {})
@@ -80,18 +77,11 @@ class ServiceRole {
   /**
    * Delete Role By Id
    */
-  public static async delete(req: Request) {
-    const { id } = req.getParams()
-    const data = await Role.findByIdAndRemove(id)
-
-    if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
-    }
+  public static async delete(id: string) {
+    await Role.findByIdAndRemove(id)
 
     return { message: 'Data berhasil dihapus!' }
   }
 }
 
-export default ServiceRole
+export default RoleService
