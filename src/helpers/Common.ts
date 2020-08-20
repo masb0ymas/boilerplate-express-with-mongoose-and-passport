@@ -1,31 +1,16 @@
+/* eslint-disable no-unused-vars */
 import fs from 'fs'
 import jwt, {
   TokenExpiredError,
   JsonWebTokenError,
   NotBeforeError,
 } from 'jsonwebtoken'
+import { FilterAttributes } from 'models'
 
 require('dotenv').config()
 
 const { JWT_SECRET }: any = process.env
 const invalidValues = [null, undefined, '', false, 0]
-
-interface FilterAttributes {
-  id: string
-  value: string
-}
-
-interface SortedAttributes {
-  id: string
-  desc: string
-}
-
-export interface FilterQueryAttributes {
-  page: string | number
-  pageSize: string | number
-  filtered: string
-  sorted: SortedAttributes[]
-}
 
 // Generate Unique Code ( default length 32 )
 function getUniqueCodev2(length = 32) {
