@@ -1,9 +1,13 @@
 /* eslint-disable no-unused-vars */
 import models from 'models'
-import { Request } from 'express'
 import jwt from 'jsonwebtoken'
 import { getUniqueCodev2 } from 'helpers/Common'
-import { setUserPassword, LoginAttributes, TokenAttributes } from 'models/User'
+import {
+  setUserPassword,
+  LoginAttributes,
+  TokenAttributes,
+  UserAttributes,
+} from 'models/User'
 import useValidation from 'helpers/useValidation'
 import schema from 'controllers/User/schema'
 import createDirNotExist from 'utils/Directory'
@@ -31,11 +35,11 @@ async function createDirectory(UserId: string) {
   pathDirectory.map((x) => createDirNotExist(x))
 }
 
-class ServiceAuth {
+class AuthService {
   /**
    * Sign Up
    */
-  public static async signUp(req: Request) {
+  public static async signUp(formData: UserAttributes) {
     const generateToken = {
       code: getUniqueCodev2(),
     }
@@ -47,10 +51,14 @@ class ServiceAuth {
         expiresIn: expiresToken,
       }
     ) // 1 Days
-    const password = setUserPassword(req.getBody())
+    const password = setUserPassword(formData)
+    const newFormData = {
+      ...formData,
+      tokenVerify,
+      password,
+    }
 
-    req.setBody({ tokenVerify, password })
-    const value = useValidation(schema.create, req.getBody())
+    const value = useValidation(schema.create, newFormData)
     const data = await User.create(value)
     const message =
       'Registrasi berhasil, Check email Anda untuk langkah selanjutnya!'
@@ -126,4 +134,4 @@ class ServiceAuth {
   }
 }
 
-export default ServiceAuth
+export default AuthService
