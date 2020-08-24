@@ -68,12 +68,36 @@ or
 yarn test
 ```
 
-## Run build to start production
+## Run build
 
 ```sh
 npm run build
 
-npm run serve
+or
+
+yarn build
+```
+
+## Usage Production
+
+```sh
+npm run serve:production
+
+or
+
+yarn serve:production
+```
+
+## Dump Database Mongo
+
+```sh
+db=your_database yarn run mongo:dump
+```
+
+## Restore Database Mongo
+
+```sh
+yarn run mongo:restore
 ```
 
 ## SMTP Basic
