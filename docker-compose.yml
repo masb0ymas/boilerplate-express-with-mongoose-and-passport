@@ -22,9 +22,9 @@ services:
     volumes:
       - './storage/mongo-volume:/data/db:rw'
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${PROD_DB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${PROD_DB_PASSWORD}
-      MONGO_INITDB_DATABASE: ${PROD_DB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
     restart: always
     ports:
       - '27018:27017'
