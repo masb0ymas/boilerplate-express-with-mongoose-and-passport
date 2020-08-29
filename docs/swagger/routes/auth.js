@@ -42,7 +42,7 @@ module.exports = {
         },
       },
       responses: {
-        '200': {
+        200: {
           description: 'Create New Account',
         },
       },
@@ -72,7 +72,7 @@ module.exports = {
         },
       },
       responses: {
-        '200': {
+        200: {
           description: 'Login Your Account',
         },
       },
@@ -89,7 +89,7 @@ module.exports = {
         },
       ],
       responses: {
-        '200': {
+        200: {
           description: 'Get Profile',
         },
       },
