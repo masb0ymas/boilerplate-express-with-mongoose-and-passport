@@ -28,6 +28,11 @@
       "/node_modules/"
     ]
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "author": "masb0ymas",
   "license": "MIT",
   "dependencies": {
@@ -70,6 +75,8 @@
     "@babel/preset-typescript": "^7.8.3",
     "@babel/register": "^7.10.5",
     "@babel/runtime": "^7.11.2",
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
     "@types/bcrypt": "^3.0.0",
     "@types/body-parser": "^1.19.0",
     "@types/cors": "^2.8.7",
@@ -99,6 +106,7 @@
     "eslint-import-resolver-babel-module": "^5.1.2",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
     "jest": "^26.4.2",
     "nodemon": "^2.0.2",
     "prettier": "^2.1.1",
