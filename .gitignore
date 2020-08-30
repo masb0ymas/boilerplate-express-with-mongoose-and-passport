@@ -14,6 +14,7 @@ package-lock.json
 /build
 /public/uploads
 /public/dokumen
+/storage
 
 # misc
 .DS_Store
