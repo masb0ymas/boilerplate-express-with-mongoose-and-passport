@@ -9,6 +9,7 @@ RUN apk add nano
 
 # Bundle app source
 COPY . /var/www
+
 # Create app directory
 WORKDIR /var/www
 
@@ -19,5 +20,5 @@ RUN npm install pm2 -g
 RUN yarn
 RUN npm run build
 
-# EXPOSE 8080
+EXPOSE 7000
 CMD ["npm", "run", "serve:production-docker"]
