@@ -1,15 +1,7 @@
 /* eslint-disable no-unused-vars */
 import fs from 'fs'
-import jwt, {
-  TokenExpiredError,
-  JsonWebTokenError,
-  NotBeforeError,
-} from 'jsonwebtoken'
 import { FilterAttributes } from 'models'
 
-require('dotenv').config()
-
-const { JWT_SECRET }: any = process.env
 const invalidValues = [null, undefined, '', false, 0]
 
 // Generate Unique Code ( default length 32 )
@@ -44,44 +36,6 @@ function filterQueryObject(filtered: FilterAttributes[]) {
   return resultObject
 }
 
-// Get Token from headers
-function getToken(headers: any) {
-  if (headers && headers.authorization) {
-    const parted = headers.authorization.split(' ')
-    if (parted.length === 2) {
-      return parted[1]
-    }
-    return null
-  }
-  return null
-}
-
-// Verify Token
-function verifyToken(header: any) {
-  const token = getToken(header)
-
-  try {
-    if (!token) {
-      return { data: null, message: 'Token not found!' }
-    }
-
-    const data = jwt.verify(token, JWT_SECRET)
-    return { data, message: 'Token is verify' }
-  } catch (err) {
-    if (err instanceof TokenExpiredError) {
-      return { data: null, message: `Token ${err.message}` }
-    }
-
-    if (err instanceof JsonWebTokenError) {
-      return { data: null, message: `Token ${err.message}` }
-    }
-
-    if (err instanceof NotBeforeError) {
-      return { data: null, message: `Token ${err.message}` }
-    }
-  }
-}
-
 // Read HTML File
 function readHTMLFile(path: any, callback: any) {
   fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
@@ -93,11 +47,4 @@ function readHTMLFile(path: any, callback: any) {
   })
 }
 
-export {
-  getUniqueCodev2,
-  getToken,
-  verifyToken,
-  readHTMLFile,
-  filterQueryObject,
-  invalidValues,
-}
+export { getUniqueCodev2, readHTMLFile, filterQueryObject, invalidValues }
