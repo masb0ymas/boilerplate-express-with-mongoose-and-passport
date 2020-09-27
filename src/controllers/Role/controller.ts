@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { Request, Response } from 'express'
 import asyncHandler from 'helpers/asyncHandler'
-import routes, { AuthMiddleware } from 'routes/public'
+import routes from 'routes/public'
 import { FilterQueryAttributes } from 'models'
+import Authorization from 'middlewares/Authorization'
 import RoleService from './service'
 
 routes.get(
@@ -37,7 +38,7 @@ routes.get(
 
 routes.post(
   '/role',
-  AuthMiddleware,
+  Authorization,
   asyncHandler(async function createData(req: Request, res: Response) {
     const formData = req.getBody()
     const { message, data } = await RoleService.create(formData)
@@ -48,7 +49,7 @@ routes.post(
 
 routes.put(
   '/role/:id',
-  AuthMiddleware,
+  Authorization,
   asyncHandler(async function updateData(req: Request, res: Response) {
     const { id } = req.getParams()
     const formData = req.getBody()
@@ -60,7 +61,7 @@ routes.put(
 
 routes.delete(
   '/role/:id',
-  AuthMiddleware,
+  Authorization,
   asyncHandler(async function deleteData(req: Request, res: Response) {
     const { id } = req.getParams()
     const { message } = await RoleService.delete(id)
