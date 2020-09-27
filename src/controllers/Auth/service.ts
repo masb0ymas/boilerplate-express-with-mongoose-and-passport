@@ -84,10 +84,15 @@ class AuthService {
       const comparePassword = await userData.comparePassword(password)
 
       if (comparePassword) {
-        const userDataJson = userData.toJSON()
+        // modif payload token
+        const payloadToken = {
+          _id: userData._id,
+          nama: userData.fullName,
+          active: userData.active,
+        }
 
         const token = jwt.sign(
-          JSON.parse(JSON.stringify(userDataJson)),
+          JSON.parse(JSON.stringify(payloadToken)),
           JWT_SECRET,
           {
             expiresIn: expiresToken,
@@ -101,7 +106,6 @@ class AuthService {
           token: `JWT ${token}`,
           expiresIn: expiresToken,
           tokenType: 'JWT',
-          uid: userData.id,
         }
       }
 
