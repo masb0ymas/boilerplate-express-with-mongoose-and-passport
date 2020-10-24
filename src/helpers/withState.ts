@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
-import { Request } from 'express'
+import { Express, Request } from 'express'
 import { set, get } from 'lodash'
-import getterObject from './getterObject'
+import getterObject from 'helpers/getterObject'
 
 class withState {
   private req: Request
