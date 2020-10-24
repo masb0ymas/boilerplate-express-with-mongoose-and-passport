@@ -31,7 +31,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "echo 'Pre-commit checks...' && npm run lint",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "pre-push": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "author": "masb0ymas",
