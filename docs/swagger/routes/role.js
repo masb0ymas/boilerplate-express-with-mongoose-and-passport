@@ -3,6 +3,11 @@ module.exports = {
     get: {
       tags: ['Role'],
       summary: 'Get All Role',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
       produces: ['application/json'],
       parameters: [
         {
@@ -59,6 +64,11 @@ module.exports = {
     get: {
       tags: ['Role'],
       summary: 'Get Role By Id',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
       produces: ['application/json'],
       parameters: [
         {
