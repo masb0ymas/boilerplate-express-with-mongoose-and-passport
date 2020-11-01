@@ -11,14 +11,15 @@ import {
 import useValidation from 'helpers/useValidation'
 import schema from 'controllers/User/schema'
 import createDirNotExist from 'utils/Directory'
-import ResponseError from 'modules/ResponseError'
+import ResponseError from 'modules/Response/ResponseError'
 import { isObject } from 'lodash'
 
 require('dotenv').config()
 
 const { User } = models
+
 const { JWT_SECRET }: any = process.env
-const expiresToken = 86400 * 1 // 1 Days
+const expiresToken = 7 * 24 * 60 * 60 // 7 Days
 
 /*
   Create the main directory
@@ -103,9 +104,9 @@ class AuthService {
         await createDirectory(userData._id)
 
         return {
-          token: `JWT ${token}`,
+          token,
           expiresIn: expiresToken,
-          tokenType: 'JWT',
+          tokenType: 'Bearer',
         }
       }
 
