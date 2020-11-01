@@ -2,9 +2,10 @@
 /* eslint-disable no-unused-vars */
 import models from 'models'
 import { filterQueryObject } from 'helpers/Common'
-import ResponseError from 'modules/ResponseError'
+import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
 import { setUserPassword, UserAttributes } from 'models/User'
+import ResponseSuccess from 'modules/Response/ResponseSuccess'
 import schema from './schema'
 
 const { User } = models
@@ -32,7 +33,7 @@ class UserService {
 
     const total = await User.countDocuments(filterObject)
 
-    return { data, total }
+    return { message: `${total} data has been received.`, data, total }
   }
 
   /**
@@ -64,7 +65,7 @@ class UserService {
     const value = useValidation(schema.create, newFormData)
     const data = await User.create(value)
 
-    return { message: 'Data sudah ditambahkan!', data }
+    return data
   }
 
   /**
@@ -80,7 +81,7 @@ class UserService {
 
     await data.updateOne(value || {})
 
-    return { message: 'Data sudah diperbarui!' }
+    return data
   }
 
   /**
@@ -89,7 +90,7 @@ class UserService {
   public static async delete(id: string) {
     await User.findByIdAndRemove(id)
 
-    return { message: 'Data berhasil dihapus!' }
+    return ResponseSuccess.deleted()
   }
 }
 
