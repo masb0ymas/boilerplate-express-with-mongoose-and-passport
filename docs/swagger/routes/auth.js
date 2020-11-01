@@ -42,7 +42,7 @@ module.exports = {
         },
       },
       responses: {
-        200: {
+        201: {
           description: 'Create New Account',
         },
       },
