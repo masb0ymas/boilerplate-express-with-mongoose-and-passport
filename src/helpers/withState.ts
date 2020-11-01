@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
-import { Express, Request } from 'express'
+import { Request, Express } from 'express'
 import { set, get } from 'lodash'
-import getterObject from 'helpers/getterObject'
+import getterObject from './getterObject'
+import Multers from './Multer'
 
 class withState {
   private req: Request
@@ -15,9 +16,11 @@ class withState {
     this.req.getHeaders = this.getHeaders.bind(this)
     this.req.getQuery = this.getQuery.bind(this)
     this.req.getParams = this.getParams.bind(this)
+    this.req.getCookies = this.getCookies.bind(this)
     this.req.getBody = this.getBody.bind(this)
     this.req.setBody = this.setBody.bind(this)
     this.req.getSingleArrayFile = this.getSingleArrayFile.bind(this)
+    this.req.pickSingleFieldMulter = this.pickSingleFieldMulter.bind(this)
   }
 
   setState(val: object) {
@@ -42,6 +45,10 @@ class withState {
     return get(this.req.state, path, defaultValue)
   }
 
+  getCookies(path?: any, defaultValue?: any): any {
+    return getterObject(this.req.cookies, path, defaultValue)
+  }
+
   getBody(path?: any, defaultValue?: any): any {
     return getterObject(this.req.body, path, defaultValue)
   }
@@ -64,8 +71,12 @@ class withState {
       ['files', name, '0'].join('.')
     ) as unknown) as Express.Multer.File
     if (data) {
-      return data.filename
+      return data
     }
+  }
+
+  pickSingleFieldMulter(fields: string[]) {
+    return Multers.pickSingleFieldMulter(this.req, fields)
   }
 }
 
