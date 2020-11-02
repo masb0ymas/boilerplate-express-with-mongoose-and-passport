@@ -91,7 +91,7 @@
     "@types/http-errors": "^1.8.0",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/lodash": "^4.14.162",
-    "@types/mongoose": "^5.7.36",
+    "@types/mongoose": "^5.7.37",
     "@types/multer": "^1.4.4",
     "@types/node": "^14.14.6",
     "@types/nodemailer": "^6.4.0",
