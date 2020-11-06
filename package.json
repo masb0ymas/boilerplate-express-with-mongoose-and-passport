@@ -20,8 +20,8 @@
     "serve:production-docker": "NODE_ENV=production pm2-runtime ./dist/bin/server.js",
     "mongo:restore": "mongorestore dump/",
     "mongo:dump": "mongodump --db=${db} --out dump/",
-    "test:watch": "jest --watch",
-    "test": "jest"
+    "test": "jest --detectOpenHandles",
+    "test:watch": "jest --detectOpenHandles --watch"
   },
   "husky": {
     "hooks": {
