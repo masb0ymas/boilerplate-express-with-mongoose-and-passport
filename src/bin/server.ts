@@ -1,10 +1,19 @@
 #!/usr/bin/env node
+import fs from 'fs'
+import path from 'path'
+import initialMongoDB from 'config/database'
+
+const pathEnv = path.resolve('.env')
+
+if (!fs.existsSync(pathEnv)) {
+  throw new Error(
+    'Missing env!!!\nCopy / Duplicate ".env.example" root directory to ".env"'
+  )
+}
 
 /**
  * Module dependencies.
  */
-
-import initialMongoDB from 'config/database'
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('@babel/register')({ extensions: ['.js', '.ts'] })
