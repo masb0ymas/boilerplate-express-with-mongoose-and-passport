@@ -4,11 +4,18 @@
  * Module dependencies.
  */
 
+import initialMongoDB from 'config/database'
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('@babel/register')({ extensions: ['.js', '.ts'] })
 const http = require('http')
 const debug = require('debug')('boilerplate-express-typescript:server')
 const app = require('../app')
+
+/**
+ * Initial Connection Database
+ */
+initialMongoDB()
 
 /**
  * Normalize a port into a number, string, or false.

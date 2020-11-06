@@ -10,7 +10,6 @@ import withState from 'helpers/withState'
 import ExpressErrorYup from 'middlewares/ExpressErrorYup'
 import ExpressErrorResponse from 'middlewares/ExpressErrorResponse'
 import ExpressErrorMongoose from 'middlewares/ExpressErrorMongoose'
-import initialMongoDB from 'config/database'
 import cookieParser from 'cookie-parser'
 
 const GenerateDoc = require('utils/GenerateDocs')
@@ -37,9 +36,6 @@ app.use((req: Request, res, next) => {
 
 // Initial Docs Swagger
 GenerateDoc(app)
-
-// Initial DB
-initialMongoDB()
 
 // Initial Route
 app.use(indexRouter)
