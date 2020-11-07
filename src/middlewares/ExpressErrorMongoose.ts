@@ -10,7 +10,7 @@ async function ExpressErrorMongoose(
   if (err.kind === 'ObjectId') {
     return res.status(404).json({
       code: 404,
-      message: 'data not found or deleted!',
+      message: 'data not found or has been deleted!',
     })
   }
 
