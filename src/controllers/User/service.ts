@@ -1,14 +1,13 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import models from 'models'
 import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
 import { setUserPassword, UserAttributes } from 'models/User'
-import ResponseSuccess from 'modules/Response/ResponseSuccess'
 import schema from './schema'
 
 const { User } = models
+const populates = [{ path: 'Role' }]
 
 class UserService {
   /**
@@ -25,7 +24,7 @@ class UserService {
     const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
 
     const data = await User.find(filterObject)
-      .populate([{ path: 'Role' }])
+      .populate(populates)
       .select('-password -tokenVerify')
       .limit(Number(pageSize))
       .skip(Number(pageSize) * Number(page))
@@ -41,13 +40,12 @@ class UserService {
    */
   public static async getOne(id: string) {
     const data = await User.findById(id)
+      .populate(populates)
       .populate([{ path: 'Role' }])
       .select('-password -tokenVerify')
 
     if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
+      throw new ResponseError.NotFound('data not found or has been deleted')
     }
 
     return data
@@ -89,8 +87,6 @@ class UserService {
    */
   public static async delete(id: string) {
     await User.findByIdAndRemove(id)
-
-    return ResponseSuccess.deleted()
   }
 }
 

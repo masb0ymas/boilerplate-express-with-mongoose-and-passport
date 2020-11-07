@@ -5,7 +5,7 @@ import asyncHandler from 'helpers/asyncHandler'
 import routes from 'routes/public'
 import { FilterQueryAttributes } from 'models'
 import Authorization from 'middlewares/Authorization'
-import ResponseSuccess from 'modules/Response/ResponseSuccess'
+import BuildResponse from 'modules/Response/BuildResponse'
 import UserService from './service'
 
 routes.get(
@@ -24,9 +24,9 @@ routes.get(
       filtered,
       sorted
     )
-    const buildResponse = ResponseSuccess.get(message)
+    const buildResponse = BuildResponse.get({ message, data, total })
 
-    return res.status(200).json({ ...buildResponse, data, total })
+    return res.status(200).json(buildResponse)
   })
 )
 
@@ -37,9 +37,9 @@ routes.get(
     const { id } = req.getParams()
 
     const data = await UserService.getOne(id)
-    const buildResponse = ResponseSuccess.get()
+    const buildResponse = BuildResponse.get({ data })
 
-    return res.status(200).json({ ...buildResponse, data })
+    return res.status(200).json(buildResponse)
   })
 )
 
@@ -50,9 +50,9 @@ routes.post(
     const formData = req.getBody()
 
     const data = await UserService.create(formData)
-    const buildResponse = ResponseSuccess.created()
+    const buildResponse = BuildResponse.created({ data })
 
-    return res.status(201).json({ ...buildResponse, data })
+    return res.status(201).json(buildResponse)
   })
 )
 
@@ -64,9 +64,9 @@ routes.put(
     const formData = req.getBody()
 
     const data = await UserService.update(id, formData)
-    const buildResponse = ResponseSuccess.updated()
+    const buildResponse = BuildResponse.updated({ data })
 
-    return res.status(200).json({ ...buildResponse, data })
+    return res.status(200).json(buildResponse)
   })
 )
 
@@ -75,8 +75,10 @@ routes.delete(
   Authorization,
   asyncHandler(async function deleteData(req: Request, res: Response) {
     const { id } = req.getParams()
-    const { code, message } = await UserService.delete(id)
 
-    return res.status(200).json({ code, message })
+    await UserService.delete(id)
+    const buildResponse = BuildResponse.deleted({})
+
+    return res.status(200).json(buildResponse)
   })
 )
