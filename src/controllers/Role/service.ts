@@ -1,11 +1,9 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import models from 'models'
 import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
 import { RoleAttributes } from 'models/Role'
-import ResponseSuccess from 'modules/Response/ResponseSuccess'
 import schema from './schema'
 
 const { Role } = models
@@ -41,9 +39,7 @@ class RoleService {
     const data = await Role.findById(id)
 
     if (!data) {
-      throw new ResponseError.NotFound(
-        'Data tidak ditemukan atau sudah terhapus!'
-      )
+      throw new ResponseError.NotFound('data not found or has been deleted')
     }
 
     return data
@@ -80,8 +76,6 @@ class RoleService {
    */
   public static async delete(id: string) {
     await Role.findByIdAndRemove(id)
-
-    return ResponseSuccess.deleted()
   }
 }
 
