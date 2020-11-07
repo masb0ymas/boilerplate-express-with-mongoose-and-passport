@@ -132,10 +132,10 @@ OAUTH_REFRESH_TOKEN=your_refresh_token
 
 👤 **masb0ymas**
 
-- Website: http://minangitcamp.com
-- Twitter: [@fajriajjha1](https://twitter.com/fajriajjha1)
+- Website: https://resume.masb0ymas.vercel.app
+- Twitter: [@masb0ymas](https://twitter.com/masb0ymas)
 - Github: [@masb0ymas](https://github.com/masb0ymas)
-- LinkedIn: [@aji-ajjha](https://linkedin.com/in/aji-ajjha-58a248b7)
+- LinkedIn: [@masb0ymas](https://www.linkedin.com/in/masb0ymas/)
 
 ## 🤝 Contributing
 
