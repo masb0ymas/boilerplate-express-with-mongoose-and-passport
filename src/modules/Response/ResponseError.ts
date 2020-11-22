@@ -1,8 +1,9 @@
-import BaseResponse from '../Errors/BaseResponse'
-import BadRequest from '../Errors/BadRequest'
-import NotFound from '../Errors/NotFound'
-import Forbidden from '../Errors/Forbidden'
-import Unauthorized from '../Errors/Unauthorized'
+import InternalServer from 'modules/Errors/InternalServer'
+import BaseResponse from 'modules/Errors/BaseResponse'
+import BadRequest from 'modules/Errors/BadRequest'
+import NotFound from 'modules/Errors/NotFound'
+import Forbidden from 'modules/Errors/Forbidden'
+import Unauthorized from 'modules/Errors/Unauthorized'
 
 const ResponseError = {
   BaseResponse,
@@ -10,6 +11,7 @@ const ResponseError = {
   NotFound,
   Forbidden,
   Unauthorized,
+  InternalServer,
 }
 
 export default ResponseError
