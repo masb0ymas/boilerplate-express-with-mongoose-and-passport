@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v2.2.0...v3.0.0) (2020-11-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* fix import modules
+* change response fetch api
+
+### Features
+
+* response internal server error ([7f4064f](https://github.com/masb0ymas/express-mongoose-typescript/commit/7f4064f5a862a5a77d89b9de9ee1f9044738e347))
+
+
+### Bug Fixes
+
+* ignore pnpm ([24f80f5](https://github.com/masb0ymas/express-mongoose-typescript/commit/24f80f5aea6cc570eced42f93ba80ab62aba07c1))
+
+
+* change response fetch api ([57cc45b](https://github.com/masb0ymas/express-mongoose-typescript/commit/57cc45b0a98317fceadfe09e21b3f88b70213b1d))
+* fix import modules ([0dc232f](https://github.com/masb0ymas/express-mongoose-typescript/commit/0dc232f96b07ec9023d83dfce6d74da42419bfc7))
+
 ## 2.2.0 (2020-11-12)
 
 
