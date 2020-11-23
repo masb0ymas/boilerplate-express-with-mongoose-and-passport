@@ -22,7 +22,9 @@
     "mongo:dump": "mongodump --db=${db} --out dump/",
     "test": "jest --detectOpenHandles",
     "test:watch": "jest --detectOpenHandles --watch",
-    "release": "standard-version"
+    "release": "standard-version",
+    "release:pre": "npm run release -- --prerelease",
+    "release:minor": "npm run release -- --release-as minor"
   },
   "husky": {
     "hooks": {
