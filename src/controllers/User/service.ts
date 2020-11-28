@@ -1,5 +1,5 @@
-/* eslint-disable no-param-reassign */
-import models from 'models'
+import { Request } from 'express'
+import models, { FilterQueryAttributes } from 'models'
 import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
@@ -11,14 +11,17 @@ const populates = [{ path: 'Role' }]
 
 class UserService {
   /**
-   * Get All User
+   *
+   * @param req - Request
    */
-  public static async getAll(
-    page: string | number,
-    pageSize: string | number,
-    filtered: string,
-    sorted: string
-  ) {
+  public static async getAll(req: Request) {
+    let {
+      page,
+      pageSize,
+      filtered,
+      sorted,
+    }: FilterQueryAttributes = req.getQuery()
+
     if (!page) page = 0
     if (!pageSize) pageSize = 10
     const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
@@ -36,7 +39,8 @@ class UserService {
   }
 
   /**
-   * Get One User
+   *
+   * @param id
    */
   public static async getOne(id: string) {
     const data = await User.findById(id)
@@ -52,7 +56,8 @@ class UserService {
   }
 
   /**
-   * Create New User
+   *
+   * @param formData
    */
   public static async create(formData: UserAttributes) {
     const password = setUserPassword(formData)
@@ -67,7 +72,9 @@ class UserService {
   }
 
   /**
-   * Update User By Id
+   *
+   * @param id
+   * @param formData
    */
   public static async update(id: string, formData: UserAttributes) {
     const data = await this.getOne(id)
@@ -83,7 +90,8 @@ class UserService {
   }
 
   /**
-   * Delete User By Id
+   *
+   * @param id
    */
   public static async delete(id: string) {
     await User.findByIdAndRemove(id)
