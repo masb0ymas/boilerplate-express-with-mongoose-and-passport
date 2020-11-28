@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 import models from 'models'
+import ms from 'ms'
 import jwt from 'jsonwebtoken'
 import { getUniqueCodev2 } from 'helpers/Common'
 import {
@@ -13,13 +13,18 @@ import schema from 'controllers/User/schema'
 import createDirNotExist from 'utils/Directory'
 import ResponseError from 'modules/Response/ResponseError'
 import { isObject } from 'lodash'
+import SendMail from 'helpers/SendEmail'
 
 require('dotenv').config()
 
 const { User } = models
 
-const { JWT_SECRET }: any = process.env
-const expiresToken = 7 * 24 * 60 * 60 // 7 Days
+const { JWT_SECRET_ACCESS_TOKEN, JWT_SECRET_REFRESH_TOKEN }: any = process.env
+
+const JWT_ACCESS_TOKEN_EXPIRED = process.env.JWT_ACCESS_TOKEN_EXPIRED || '1d' // 7 Days
+const JWT_REFRESH_TOKEN_EXPIRED = process.env.JWT_REFRESH_TOKEN_EXPIRED || '30d' // 30 Days
+
+const expiresIn = ms(JWT_ACCESS_TOKEN_EXPIRED) / 1000
 
 /*
   Create the main directory
@@ -38,29 +43,35 @@ async function createDirectory(UserId: string) {
 
 class AuthService {
   /**
-   * Sign Up
+   *
+   * @param formData
    */
   public static async signUp(formData: UserAttributes) {
     const generateToken = {
       code: getUniqueCodev2(),
     }
 
-    const tokenVerify = jwt.sign(
+    const tokenRegister = jwt.sign(
       JSON.parse(JSON.stringify(generateToken)),
-      JWT_SECRET,
+      JWT_SECRET_ACCESS_TOKEN,
       {
-        expiresIn: expiresToken,
+        expiresIn,
       }
-    ) // 1 Days
+    )
+
     const password = setUserPassword(formData)
     const newFormData = {
       ...formData,
-      tokenVerify,
+      tokenRegister,
       password,
     }
 
     const value = useValidation(schema.create, newFormData)
     const data = await User.create(value)
+
+    // Initial Send an e-mail
+    SendMail.AccountRegister(formData, tokenRegister)
+
     const message =
       'registration is successful, check your email for the next steps'
 
@@ -68,7 +79,8 @@ class AuthService {
   }
 
   /**
-   * Sign In
+   *
+   * @param formData
    */
   public static async signIn(formData: LoginAttributes) {
     const { email, password } = useValidation(schema.login, formData)
@@ -89,24 +101,36 @@ class AuthService {
         const payloadToken = {
           _id: userData._id,
           nama: userData.fullName,
+          email: userData.email,
           active: userData.active,
         }
 
-        const token = jwt.sign(
+        // Access Token
+        const accessToken = jwt.sign(
           JSON.parse(JSON.stringify(payloadToken)),
-          JWT_SECRET,
+          JWT_SECRET_ACCESS_TOKEN,
           {
-            expiresIn: expiresToken,
+            expiresIn,
           }
-        ) // 1 Days
+        )
+
+        // Refresh Token
+        const refreshToken = jwt.sign(
+          JSON.parse(JSON.stringify(payloadToken)),
+          JWT_SECRET_REFRESH_TOKEN,
+          {
+            expiresIn: JWT_REFRESH_TOKEN_EXPIRED,
+          }
+        )
 
         // create directory
         await createDirectory(userData._id)
 
         return {
-          token,
-          expiresIn: expiresToken,
+          accessToken,
+          expiresIn,
           tokenType: 'Bearer',
+          refreshToken,
         }
       }
 
@@ -120,7 +144,8 @@ class AuthService {
   }
 
   /**
-   * Get Profile
+   *
+   * @param token
    */
   public static async profile(token: TokenAttributes) {
     if (isObject(token?.data)) {
