@@ -28,6 +28,12 @@ class EmailProvider {
 
   private mailOptions: nodemailer.SendMailOptions | undefined
 
+  /**
+   *
+   * @param to
+   * @param subject
+   * @param template
+   */
   public send = (
     to: string[],
     subject: string,
@@ -85,6 +91,12 @@ class EmailProvider {
     return configTransport
   }
 
+  /**
+   *
+   * @param dest
+   * @param subject
+   * @param text
+   */
   private setMailOptions = (
     dest: string,
     subject: string,
@@ -98,6 +110,12 @@ class EmailProvider {
     }
   }
 
+  /**
+   *
+   * @param dest
+   * @param subject
+   * @param text
+   */
   private sendMail = (
     dest: string,
     subject: string,
