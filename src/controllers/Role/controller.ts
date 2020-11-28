@@ -1,29 +1,15 @@
-/* eslint-disable no-unused-vars */
 import { Request, Response } from 'express'
 import asyncHandler from 'helpers/asyncHandler'
 import routes from 'routes/public'
-import { FilterQueryAttributes } from 'models'
 import Authorization from 'middlewares/Authorization'
 import BuildResponse from 'modules/Response/BuildResponse'
-
-import RoleService from './service'
+import RoleService from 'controllers/Role/service'
 
 routes.get(
   '/role',
   Authorization,
   asyncHandler(async function getAll(req: Request, res: Response) {
-    const {
-      page,
-      pageSize,
-      filtered,
-      sorted,
-    }: FilterQueryAttributes = req.getQuery()
-    const { message, data, total } = await RoleService.getAll(
-      page,
-      pageSize,
-      filtered,
-      sorted
-    )
+    const { message, data, total } = await RoleService.getAll(req)
     const buildResponse = BuildResponse.get({ message, data, total })
 
     return res.status(200).json(buildResponse)
