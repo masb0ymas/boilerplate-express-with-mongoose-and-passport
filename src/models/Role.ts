@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Schema, model, Document } from 'mongoose'
 
 export interface RoleAttributes {

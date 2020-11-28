@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import bcrypt from 'bcrypt'
-import { Schema, model, Document, VirtualType } from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 import userSchema from 'controllers/User/schema'
 
 export interface UserAttributes {
