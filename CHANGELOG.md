@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.0.0...v3.1.0) (2020-11-28)
+
+
+### Features
+
+* add lib ms ([fdf2687](https://github.com/masb0ymas/express-mongoose-typescript/commit/fdf26871d9c0338586d150f42044ddd875b73736))
+* model user email attributes ([50ddf9d](https://github.com/masb0ymas/express-mongoose-typescript/commit/50ddf9df7a777a39a57f11a6fa130be003015d49))
+* send mail helper ([5d42a87](https://github.com/masb0ymas/express-mongoose-typescript/commit/5d42a87877103bff1136bbbc1e4d1cd8ee9f4bf8))
+
+
+### Bug Fixes
+
+* config fetcher ([7e221dc](https://github.com/masb0ymas/express-mongoose-typescript/commit/7e221dc7f42c7d6f77293cd531842ac702305cd8))
+* config mongo db auth ([d3e31a1](https://github.com/masb0ymas/express-mongoose-typescript/commit/d3e31a1684c401db8435060faf02ea88fb07c0d0))
+* eslint service role & user ([6a8506a](https://github.com/masb0ymas/express-mongoose-typescript/commit/6a8506a16be0c7d1e00fea429e0ca1d24f9d9bad))
+* generate secret access token & refresh token ([6266d88](https://github.com/masb0ymas/express-mongoose-typescript/commit/6266d88d6b80d03a8bdacba840f61e08dbe35fb3))
+* import verify access token ([6656777](https://github.com/masb0ymas/express-mongoose-typescript/commit/6656777d98e3301b9367b6ec118e53ee314fdc87))
+* remove disable eslint ([f4f7b25](https://github.com/masb0ymas/express-mongoose-typescript/commit/f4f7b2505930f182c6d85c0c9482ac0bc736789d))
+* remove disable eslint ([d7626a7](https://github.com/masb0ymas/express-mongoose-typescript/commit/d7626a77a66108ba80d4912a275816c7ed577db3))
+* remove passport config ([26b6ee8](https://github.com/masb0ymas/express-mongoose-typescript/commit/26b6ee8d8a5fc0367af0607f42bd91523d48693f))
+* role controller ([1c9482a](https://github.com/masb0ymas/express-mongoose-typescript/commit/1c9482a54aa26a8d7c3eb67f3aec7c3202cd502c))
+* role service ([2a0fff4](https://github.com/masb0ymas/express-mongoose-typescript/commit/2a0fff4327b869ac28c6a54b0086ebc9a9a6e86a))
+* update auth controller ([5bd1d9e](https://github.com/masb0ymas/express-mongoose-typescript/commit/5bd1d9e6c20078cf90c582066991acab1f0f7802))
+* update auth service ([787487c](https://github.com/masb0ymas/express-mongoose-typescript/commit/787487cc8eb7f0ce14b7e4a5fa1f035add383ab0))
+* update env example ([0d49352](https://github.com/masb0ymas/express-mongoose-typescript/commit/0d493520ac73619f4d8e316b59dfe5db7c8a351e))
+* update env example ([4c3454c](https://github.com/masb0ymas/express-mongoose-typescript/commit/4c3454cb1f2f23a34d88875a2d72fc730694f2b5))
+* update mongodb auth ([7c1ce1f](https://github.com/masb0ymas/express-mongoose-typescript/commit/7c1ce1faf6d62295efd96d1b5cfd674c096c3017))
+* update script release ([9bae0be](https://github.com/masb0ymas/express-mongoose-typescript/commit/9bae0bee9e76bb4ca3327e9187cc4c400fa80ef7))
+* user controller ([afd60cf](https://github.com/masb0ymas/express-mongoose-typescript/commit/afd60cf744acee6d3b104eaf777bc813c5a29e14))
+* user service ([bf2ae9c](https://github.com/masb0ymas/express-mongoose-typescript/commit/bf2ae9cac017e8bc25cf236260973c3c3c084cee))
+* verify access token & refresh token ([f615535](https://github.com/masb0ymas/express-mongoose-typescript/commit/f615535e13b202b1f66aeaab99da21e2abd446c0))
+
 ## [3.0.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v2.2.0...v3.0.0) (2020-11-22)
 
 
