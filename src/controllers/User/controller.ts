@@ -1,29 +1,15 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 import { Request, Response } from 'express'
 import asyncHandler from 'helpers/asyncHandler'
 import routes from 'routes/public'
-import { FilterQueryAttributes } from 'models'
 import Authorization from 'middlewares/Authorization'
 import BuildResponse from 'modules/Response/BuildResponse'
-import UserService from './service'
+import UserService from 'controllers/User/service'
 
 routes.get(
   '/user',
   Authorization,
   asyncHandler(async function getAll(req: Request, res: Response) {
-    const {
-      page,
-      pageSize,
-      filtered,
-      sorted,
-    }: FilterQueryAttributes = req.getQuery()
-    const { message, data, total } = await UserService.getAll(
-      page,
-      pageSize,
-      filtered,
-      sorted
-    )
+    const { message, data, total } = await UserService.getAll(req)
     const buildResponse = BuildResponse.get({ message, data, total })
 
     return res.status(200).json(buildResponse)
