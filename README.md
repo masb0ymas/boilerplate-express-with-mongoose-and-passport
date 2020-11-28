@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to express-mongoose-typescript 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-3.0.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-3.1.0-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/npm-%3E%3D6.10.0-blue.svg" />
   <img src="https://img.shields.io/badge/node-%3E%3D10.x-blue.svg" />
   <a href="https://github.com/masb0ymas/express-mongoose-typescript#readme" target="_blank">
@@ -36,6 +36,7 @@
 - Formating code using [Prettier](https://github.com/prettier/prettier) Integration [Eslint](https://github.com/prettier/eslint-config-prettier)
 - Using [Babel Resolver](https://github.com/tleunen/babel-plugin-module-resolver) for simplify the require/import paths
 - Documentation with [Swagger](https://github.com/swagger-api/swagger-ui)
+- Generate Log File with [Winston](https://github.com/winstonjs/winston)
 
 ## Install
 
@@ -100,6 +101,8 @@ yarn run mongo:restore
 ```
 
 ## SMTP Basic
+
+I use [topol.io](https://topol.io/) to create email templates, and it's free and can export to html format
 
 ```sh
 MAIL_DRIVER=smtp
