@@ -1,5 +1,5 @@
-/* eslint-disable no-param-reassign */
-import models from 'models'
+import { Request } from 'express'
+import models, { FilterQueryAttributes } from 'models'
 import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
@@ -10,14 +10,17 @@ const { Role } = models
 
 class RoleService {
   /**
-   * Get All Role
+   * 
+   * @param req - Request
    */
-  public static async getAll(
-    page: string | number,
-    pageSize: string | number,
-    filtered: string,
-    sorted: string
-  ) {
+  public static async getAll(req: Request) {
+    let {
+      page,
+      pageSize,
+      filtered,
+      sorted,
+    }: FilterQueryAttributes = req.getQuery()
+
     if (!page) page = 0
     if (!pageSize) pageSize = 10
     const filterObject = filtered ? filterQueryObject(JSON.parse(filtered)) : {}
@@ -33,7 +36,8 @@ class RoleService {
   }
 
   /**
-   * Get One Role
+   *
+   * @param id
    */
   public static async getOne(id: string) {
     const data = await Role.findById(id)
@@ -46,7 +50,8 @@ class RoleService {
   }
 
   /**
-   * Create New Role
+   *
+   * @param formData
    */
   public static async create(formData: RoleAttributes) {
     const value = useValidation(schema.create, formData)
@@ -56,7 +61,9 @@ class RoleService {
   }
 
   /**
-   * Update Role By Id
+   *
+   * @param id
+   * @param formData
    */
   public static async update(id: string, formData: RoleAttributes) {
     const data = await this.getOne(id)
@@ -72,7 +79,8 @@ class RoleService {
   }
 
   /**
-   * Delete Role By Id
+   *
+   * @param id
    */
   public static async delete(id: string) {
     await Role.findByIdAndRemove(id)
