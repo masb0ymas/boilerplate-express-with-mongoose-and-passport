@@ -12,23 +12,49 @@ const getUniqueCodev2 = (length = 32) => {
   return result
 }
 
-function main() {
+function accessTokenJWT() {
   const pathRes = path.resolve('.env')
   const contentEnv = fs.readFileSync(pathRes, { encoding: 'utf-8' })
   const jwtSecret = getUniqueCodev2()
-  const strJWT = `JWT_SECRET=${jwtSecret}`
+  const strJWT = `JWT_SECRET_ACCESS_TOKEN=${jwtSecret}`
 
-  if (contentEnv.includes('JWT_SECRET=')) {
-    // Replace JWT SECRET jika sudah ada
-    const replaceContent = contentEnv.replace(/JWT_SECRET=(.*)?/, strJWT)
+  if (contentEnv.includes('JWT_SECRET_ACCESS_TOKEN=')) {
+    // Replace JWT SECRET ACCESS TOKEN jika sudah ada
+    const replaceContent = contentEnv.replace(
+      /JWT_SECRET_ACCESS_TOKEN=(.*)?/,
+      strJWT
+    )
     fs.writeFileSync(`${pathRes}`, replaceContent)
-    console.log('Refresh JWT SECRET Success')
+    console.log('Refresh JWT SECRET ACCESS TOKEN Success')
   } else {
-    // Generate JWT SECRET kalo belum ada di environment
+    // Generate JWT SECRET ACCESS TOKEN kalo belum ada di environment
     const extraContent = `${strJWT}\n\n${contentEnv}`
     fs.writeFileSync(`${pathRes}`, extraContent)
-    console.log('Generate JWT SECRET Success')
+    console.log('Generate JWT SECRET ACCESS TOKEN Success')
   }
 }
 
-main()
+function refreshTokenJWT() {
+  const pathRes = path.resolve('.env')
+  const contentEnv = fs.readFileSync(pathRes, { encoding: 'utf-8' })
+  const jwtSecret = getUniqueCodev2()
+  const strJWT = `JWT_SECRET_REFRESH_TOKEN=${jwtSecret}`
+
+  if (contentEnv.includes('JWT_SECRET_REFRESH_TOKEN=')) {
+    // Replace JWT SECRET REFRESH TOKEN jika sudah ada
+    const replaceContent = contentEnv.replace(
+      /JWT_SECRET_REFRESH_TOKEN=(.*)?/,
+      strJWT
+    )
+    fs.writeFileSync(`${pathRes}`, replaceContent)
+    console.log('Refresh JWT SECRET REFRESH TOKEN Success')
+  } else {
+    // Generate JWT SECRET REFRESH TOKEN kalo belum ada di environment
+    const extraContent = `${strJWT}\n\n${contentEnv}`
+    fs.writeFileSync(`${pathRes}`, extraContent)
+    console.log('Generate JWT SECRET REFRESH TOKEN Success')
+  }
+}
+
+accessTokenJWT()
+refreshTokenJWT()
