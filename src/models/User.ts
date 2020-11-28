@@ -27,6 +27,11 @@ export interface LoginAttributes {
   password: string
 }
 
+export interface EmailAttributes {
+  email: string | any
+  fullName: string
+}
+
 export function setUserPassword(instance: UserAttributes) {
   const { newPassword, confirmNewPassword } = instance
   const fdPassword = { newPassword, confirmNewPassword }
