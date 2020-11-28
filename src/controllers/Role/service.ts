@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable prefer-const */
 import { Request } from 'express'
 import models, { FilterQueryAttributes } from 'models'
 import { filterQueryObject } from 'helpers/Common'
@@ -10,7 +12,7 @@ const { Role } = models
 
 class RoleService {
   /**
-   * 
+   *
    * @param req - Request
    */
   public static async getAll(req: Request) {

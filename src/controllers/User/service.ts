@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable prefer-const */
 import { Request } from 'express'
 import models, { FilterQueryAttributes } from 'models'
 import { filterQueryObject } from 'helpers/Common'
