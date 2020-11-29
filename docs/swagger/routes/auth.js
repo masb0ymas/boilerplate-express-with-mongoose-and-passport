@@ -78,6 +78,75 @@ module.exports = {
       },
     },
   },
+  '/auth/refresh-token': {
+    post: {
+      tags: ['Auth'],
+      summary: 'Get Access Token',
+      produces: ['application/json'],
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                email: {
+                  type: 'string',
+                },
+                refreshToken: {
+                  type: 'string',
+                },
+              },
+              required: ['email', 'refreshToken'],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Get Access Token from Refresh Token',
+        },
+      },
+    },
+  },
+  '/logout': {
+    post: {
+      tags: ['Auth'],
+      summary: 'Logout',
+      produces: ['application/json'],
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                UserId: {
+                  type: 'string',
+                },
+              },
+              required: ['UserId'],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Terminate your api access',
+        },
+      },
+    },
+  },
   '/profile': {
     get: {
       tags: ['Auth'],
