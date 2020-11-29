@@ -6,7 +6,7 @@ import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
 import { setUserPassword, UserAttributes } from 'models/User'
-import schema from './schema'
+import schema from 'controllers/User/schema'
 
 const { User } = models
 const populates = [{ path: 'Role' }]

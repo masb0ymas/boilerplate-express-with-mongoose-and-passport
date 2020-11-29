@@ -6,7 +6,7 @@ import { filterQueryObject } from 'helpers/Common'
 import ResponseError from 'modules/Response/ResponseError'
 import useValidation from 'helpers/useValidation'
 import { RoleAttributes } from 'models/Role'
-import schema from './schema'
+import schema from 'controllers/Role/schema'
 
 const { Role } = models
 
