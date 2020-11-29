@@ -24,8 +24,8 @@ class RefreshTokenService {
    *
    * @param id
    */
-  public static async getToken(id: string) {
-    const data = await RefreshToken.findById(id)
+  public static async getToken(token: string) {
+    const data = await RefreshToken.findOne({ token })
 
     if (!data) {
       throw new ResponseError.NotFound('data not found or has been deleted')
