@@ -125,6 +125,13 @@ class AuthService {
           }
         )
 
+        const formDataRefreshToken = {
+          UserId: userData._id,
+          token: refreshToken,
+        }
+
+        await RefreshTokenService.create(formDataRefreshToken)
+
         // create directory
         await createDirectory(userData._id)
 
