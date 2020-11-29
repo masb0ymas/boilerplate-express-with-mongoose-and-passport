@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.1.0...v3.2.0) (2020-11-29)
+
+
+### Features
+
+* auth refresh token & logout ([0aa3f09](https://github.com/masb0ymas/express-mongoose-typescript/commit/0aa3f091be8c92bf6c7431638d5c0945393b0460))
+* auth service logout ([f7b54a9](https://github.com/masb0ymas/express-mongoose-typescript/commit/f7b54a99733e3d2f31843daf52c7e321343e5561))
+* controller refresh token ([c328dcc](https://github.com/masb0ymas/express-mongoose-typescript/commit/c328dcc7bcb0c4703b1fe8dd306b9c6502432f25))
+* model refresh token ([c98019a](https://github.com/masb0ymas/express-mongoose-typescript/commit/c98019a4e6086ade5c6a45ec3f6a3fa695bd6f4f))
+* routes refresh token ([aab13ff](https://github.com/masb0ymas/express-mongoose-typescript/commit/aab13ff99cdd2d82ea266b3b523f10374b5afb3c))
+* schema refresh token ([0ebec30](https://github.com/masb0ymas/express-mongoose-typescript/commit/0ebec30aa7e1ef9340ae58addd8bb334d810d8ea))
+* service refresh token ([91ae210](https://github.com/masb0ymas/express-mongoose-typescript/commit/91ae2105076db0fa520eec496f9b6d79161e1eb7))
+* template email register ([cff7bfa](https://github.com/masb0ymas/express-mongoose-typescript/commit/cff7bfa5fcd2d41c357443297d644bcc589efc16))
+
+
+### Bug Fixes
+
+* create refresh token after login ([6b0b354](https://github.com/masb0ymas/express-mongoose-typescript/commit/6b0b354844b440c63dd50c1cefec7845534d0c95))
+* get token refresh token service ([75b0b46](https://github.com/masb0ymas/express-mongoose-typescript/commit/75b0b4647b5f3f0166cb77e0d9488fc3a883f24f))
+* import schema ([3802ef3](https://github.com/masb0ymas/express-mongoose-typescript/commit/3802ef331efb95898acfdca8650c5311d76802eb))
+* index route refresh token ([32193c9](https://github.com/masb0ymas/express-mongoose-typescript/commit/32193c906af92402a81609f93ed97b2464f916dc))
+
 ## [3.1.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.0.0...v3.1.0) (2020-11-28)
 
 
