@@ -3,8 +3,9 @@ import routes from 'routes/public'
 import asyncHandler from 'helpers/asyncHandler'
 import { currentToken, verifyAccessToken } from 'helpers/Token'
 import Authorization from 'middlewares/Authorization'
-import ResponseSuccess from 'modules/Response/BuildResponse'
-import AuthService from './service'
+import BuildResponse from 'modules/Response/BuildResponse'
+import AuthService from 'controllers/Auth/service'
+import RefreshTokenService from 'controllers/RefreshToken/service'
 
 routes.post(
   '/auth/sign-up',
@@ -12,7 +13,7 @@ routes.post(
     const formData = req.getBody()
 
     const { data, message } = await AuthService.signUp(formData)
-    const buildResponse = ResponseSuccess.get({ message, data })
+    const buildResponse = BuildResponse.get({ message, data })
 
     return res.status(201).json(buildResponse)
   })
@@ -40,6 +41,22 @@ routes.post(
   })
 )
 
+routes.post(
+  '/auth/refresh-token',
+  Authorization,
+  asyncHandler(async function authRefreshToken(req: Request, res: Response) {
+    const { email, refreshToken } = req.getBody()
+
+    const {
+      accessToken,
+      expiresIn,
+      tokenType,
+    } = await RefreshTokenService.getAccessToken(email, refreshToken)
+
+    return res.status(200).json({ accessToken, expiresIn, tokenType })
+  })
+)
+
 routes.get(
   '/profile',
   Authorization,
@@ -49,7 +66,20 @@ routes.get(
 
     // @ts-ignore
     const data = await AuthService.profile(token)
-    const buildResponse = ResponseSuccess.get({ data })
+    const buildResponse = BuildResponse.get({ data })
+
+    return res.status(200).json(buildResponse)
+  })
+)
+
+routes.post(
+  '/logout',
+  Authorization,
+  asyncHandler(async function logout(req: Request, res: Response) {
+    const { UserId } = req.getBody()
+
+    const message = await AuthService.logout(UserId)
+    const buildResponse = BuildResponse.deleted({ message })
 
     return res.status(200).json(buildResponse)
   })
