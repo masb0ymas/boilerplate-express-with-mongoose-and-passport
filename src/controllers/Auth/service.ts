@@ -14,6 +14,8 @@ import createDirNotExist from 'utils/Directory'
 import ResponseError from 'modules/Response/ResponseError'
 import { isObject } from 'lodash'
 import SendMail from 'helpers/SendEmail'
+import UserService from 'controllers/User/service'
+import RefreshTokenService from 'controllers/RefreshToken/service'
 
 require('dotenv').config()
 
@@ -161,6 +163,20 @@ class AuthService {
     throw new ResponseError.Unauthorized(
       `${token?.message}. Please Re-login...`
     )
+  }
+
+  /**
+   *
+   * @param userId
+   */
+  public static async logout(userId: string) {
+    const userData = await UserService.getOne(userId)
+
+    // remove refresh token by user id
+    await RefreshTokenService.delete(userData.id)
+    const message = 'You have logged out of the application'
+
+    return message
   }
 }
 
