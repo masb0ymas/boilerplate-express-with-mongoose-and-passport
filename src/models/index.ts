@@ -1,5 +1,6 @@
-import Role from './Role'
-import User from './User'
+import Role from 'models/Role'
+import User from 'models/User'
+import RefreshToken from 'models/RefreshToken'
 
 export interface FilterAttributes {
   id: string
@@ -21,4 +22,5 @@ export interface FilterQueryAttributes {
 export default {
   Role,
   User,
+  RefreshToken,
 }
