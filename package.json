@@ -65,7 +65,7 @@
     "swagger-jsdoc": "^5.0.1",
     "swagger-ui-express": "^4.1.5",
     "winston": "^3.3.3",
-    "yup": "^0.31.0"
+    "yup": "^0.32.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.8",
