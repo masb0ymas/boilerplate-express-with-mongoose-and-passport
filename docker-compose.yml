@@ -3,22 +3,22 @@ services:
   app:
     build:
       context: .
-    container_name: express_mongo_app
+    container_name: express_app
     depends_on:
-      - db
+      - mongodb
       - redis
     restart: always
     ports:
-      - '7000:7000'
+      - '7000:8000'
     volumes:
       - .:/var/www
     working_dir: /var/www
     networks:
-      private_network:
-        ipv4_address: 172.16.234.10
-  db:
+      - express_network
+
+  mongodb:
     image: mongo:latest
-    container_name: express_mongo_db
+    container_name: express_mongodb
     volumes:
       - './storage/mongo-volume:/data/db:rw'
     environment:
@@ -29,11 +29,11 @@ services:
     ports:
       - '27018:27017'
     networks:
-      private_network:
-        ipv4_address: 172.16.234.11
+      - express_network
+
   redis:
     image: 'redis:alpine'
-    container_name: express_mongo_redis
+    container_name: express_redis
     command: redis-server --requirepass ${REDIS_PASSWORD}
     ports:
       - '${REDIS_PORT}:6379'
@@ -41,12 +41,8 @@ services:
       - ./storage/redis-data:/var/lib/redis
     restart: always
     networks:
-      private_network:
-        ipv4_address: 172.16.234.12
+      - express_network
+
 networks:
-  private_network:
+  express_network:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.16.234.0/24
