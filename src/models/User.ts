@@ -59,14 +59,30 @@ const UserSchema = new Schema(
   { timestamps: true }
 )
 
-UserSchema.methods.comparePassword = function (candidatePassword: string) {
+UserSchema.methods.comparePassword = function (
+  candidatePassword: string,
+  password: string
+) {
+  console.log({ candidatePassword, password })
   return new Promise((resolve, reject) => {
-    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-      if (err) reject(err)
+    bcrypt.compare(candidatePassword, password, function (err, isMatch) {
+      if (err) {
+        reject(err)
+      }
+
       resolve(isMatch)
     })
   })
 }
+
+// UserSchema.method('comparePassword', function (candidatePassword: string) {
+//   return new Promise((resolve, reject) => {
+//     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+//       if (err) reject(err)
+//       resolve(isMatch)
+//     })
+//   })
+// })
 
 const User = model<UserCreationAttributes>('Users', UserSchema)
 
