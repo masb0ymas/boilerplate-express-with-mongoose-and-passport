@@ -3,7 +3,7 @@ import swaggerUI from 'swagger-ui-express'
 import fs from 'fs'
 import _path from 'path'
 
-const { APP_NAME, PORT } = process.env
+const { APP_NAME, PORT, NODE_ENV } = process.env
 
 const baseRoutes = _path.resolve('./docs/swagger/routes')
 // const baseSchemas = _path.resolve('./docs/swagger/schemas')
@@ -27,24 +27,44 @@ const getDocs = (basePath, getPath) => {
 const docsSources = getDocs(baseRoutes, getPathRoutes)
 // const docsSchemes = getDocs(baseSchemas, getPathSchemes)
 
+let baseURLServer = []
+
+if (NODE_ENV === 'production') {
+  baseURLServer = [
+    {
+      url: 'https://api.example.com/v1',
+      description: 'Production server',
+    },
+  ]
+} else if (NODE_ENV === 'staging') {
+  baseURLServer = [
+    {
+      url: 'https://api-staging.example.com/v1',
+      description: 'Staging server',
+    },
+  ]
+} else {
+  baseURLServer = [
+    {
+      url: `http://localhost:${PORT || 8000}/v1`,
+      description: 'Development server',
+    },
+    {
+      url: 'https://api-staging.example.com/v1',
+      description: 'Staging server',
+    },
+    {
+      url: 'https://api.example.com/v1',
+      description: 'Production server',
+    },
+  ]
+}
+
 module.exports = function generateDocs(app) {
   const swaggerOptions = {
     definition: {
       openapi: '3.0.1',
-      servers: [
-        {
-          url: `http://localhost:${PORT || 8000}/v1`,
-          description: 'Development server',
-        },
-        {
-          url: 'https://api-staging.example.com/v1',
-          description: 'Staging server',
-        },
-        {
-          url: 'https://api.example.com/v1',
-          description: 'Production server',
-        },
-      ],
+      servers: baseURLServer,
       // security: [  //Set GLOBAL
       //   {
       //     auth_token: []
@@ -99,24 +119,44 @@ module.exports = function generateDocs(app) {
     apis: [],
   }
 
+  let swaggerOptURL = []
+
+  if (NODE_ENV === 'production') {
+    swaggerOptURL = [
+      {
+        url: 'http://api.example.com/v1/api-docs.json',
+        name: 'Production Server',
+      },
+    ]
+  } else if (NODE_ENV === 'staging') {
+    swaggerOptURL = [
+      {
+        url: 'http://api-staging.example.com/v1/api-docs.json',
+        name: 'Staging Server',
+      },
+    ]
+  } else {
+    swaggerOptURL = [
+      {
+        url: `http://localhost:${PORT || 8000}/v1/api-docs.json`,
+        name: 'Development Server',
+      },
+      {
+        url: 'http://api-staging.example.com/v1/api-docs.json',
+        name: 'Staging Server',
+      },
+      {
+        url: 'http://api.example.com/v1/api-docs.json',
+        name: 'Production Server',
+      },
+    ]
+  }
+
   const swaggerSpec = swaggerJSDoc(swaggerOptions)
   const optionsSwaggerUI = {
     explorer: true,
     swaggerOptions: {
-      urls: [
-        {
-          url: `http://localhost:${PORT || 8000}/v1/api-docs.json`,
-          name: 'Development Server',
-        },
-        {
-          url: 'http://api-staging.example.com/v1/api-docs.json',
-          name: 'Staging Server',
-        },
-        {
-          url: 'http://api.example.com/v1/api-docs.json',
-          name: 'Production Server',
-        },
-      ],
+      urls: swaggerOptURL,
     },
   }
 
