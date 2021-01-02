@@ -2,17 +2,11 @@ import models from 'models'
 import ms from 'ms'
 import jwt from 'jsonwebtoken'
 import { getUniqueCodev2 } from 'helpers/Common'
-import {
-  setUserPassword,
-  LoginAttributes,
-  TokenAttributes,
-  UserAttributes,
-} from 'models/User'
+import { setUserPassword, LoginAttributes, UserAttributes } from 'models/User'
 import useValidation from 'helpers/useValidation'
 import schema from 'controllers/User/schema'
 import createDirNotExist from 'utils/Directory'
 import ResponseError from 'modules/Response/ResponseError'
-import { isObject } from 'lodash'
 import SendMail from 'helpers/SendEmail'
 import UserService from 'controllers/User/service'
 import RefreshTokenService from 'controllers/RefreshToken/service'
@@ -158,22 +152,14 @@ class AuthService {
 
   /**
    *
-   * @param token
+   * @param _id
    */
-  public static async profile(token: TokenAttributes) {
-    if (isObject(token?.data)) {
-      const decodeToken = token?.data
+  public static async profile(_id: string) {
+    const data = await User.findById(_id)
+      .populate([{ path: 'Role' }])
+      .select('-password -tokenVerify')
 
-      // @ts-ignore
-      const data = await User.findById(decodeToken?._id)
-        .populate([{ path: 'Role' }])
-        .select('-password -tokenVerify')
-      return data
-    }
-
-    throw new ResponseError.Unauthorized(
-      `${token?.message}. Please Re-login...`
-    )
+    return data
   }
 
   /**

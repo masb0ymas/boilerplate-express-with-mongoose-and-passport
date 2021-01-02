@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import routes from 'routes/public'
 import asyncHandler from 'helpers/asyncHandler'
-import { currentToken, verifyAccessToken } from 'helpers/Token'
 import Authorization from 'middlewares/Authorization'
 import BuildResponse from 'modules/Response/BuildResponse'
 import AuthService from 'controllers/Auth/service'
@@ -70,11 +69,9 @@ routes.get(
   '/profile',
   Authorization,
   asyncHandler(async function getProfile(req: Request, res: Response) {
-    const getToken = currentToken(req)
-    const token = verifyAccessToken(getToken)
+    const userData = req.getState('user')
 
-    // @ts-ignore
-    const data = await AuthService.profile(token)
+    const data = await AuthService.profile(userData._id)
     const buildResponse = BuildResponse.get({ data })
 
     return res.status(200).json(buildResponse)
