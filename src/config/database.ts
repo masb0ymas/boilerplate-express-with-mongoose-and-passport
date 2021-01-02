@@ -22,7 +22,7 @@ const setOptions = {
 
 const initialMongoDB = () => {
   // Connecting to the database
-  mongoose.Promise = global.Promise
+  // mongoose.Promise = global.Promise
   mongoose
     .connect(setUri, setOptions)
     .then(() => {
