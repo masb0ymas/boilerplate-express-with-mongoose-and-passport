@@ -143,6 +143,7 @@ class AuthService {
           expiresIn,
           tokenType: 'Bearer',
           refreshToken,
+          user: payloadToken,
         }
       }
 

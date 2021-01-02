@@ -28,7 +28,16 @@ routes.post(
       expiresIn,
       tokenType,
       refreshToken,
+      user,
     } = await AuthService.signIn(formData)
+    const buildResponse = BuildResponse.get({
+      message: 'Login successfully',
+      accessToken,
+      expiresIn,
+      tokenType,
+      refreshToken,
+      user,
+    })
 
     return res
       .cookie('token', accessToken, {
@@ -37,7 +46,7 @@ routes.post(
         path: '/v1',
         secure: process.env.NODE_ENV === 'production',
       })
-      .json({ accessToken, expiresIn, tokenType, refreshToken })
+      .json(buildResponse)
   })
 )
 
