@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.2.0...v3.3.0) (2021-01-02)
+
+
+### Features
+
+* set userData after login ([926d930](https://github.com/masb0ymas/express-mongoose-typescript/commit/926d930d4339160eb9f33ff49f2285f06f639b76))
+
+
+### Bug Fixes
+
+* bug bump package ([137e1e5](https://github.com/masb0ymas/express-mongoose-typescript/commit/137e1e50032292c1af24dc0f52c64ffa54037e85))
+* compare password login ([3b6edf3](https://github.com/masb0ymas/express-mongoose-typescript/commit/3b6edf39303294cf1f574a89d65fca81d8bb12f6))
+* deploy with docker ([6f68609](https://github.com/masb0ymas/express-mongoose-typescript/commit/6f68609cfc9cc74124da445b8a38def3fbbe15b8))
+* env swagger ([d58e926](https://github.com/masb0ymas/express-mongoose-typescript/commit/d58e926c76eaaf38e5310878bd69b45b4af80c34))
+* get profile with state login ([b2ed7fa](https://github.com/masb0ymas/express-mongoose-typescript/commit/b2ed7fa72e7337ba99ee58276238cc3a85811314))
+* model user compare password ([40aa392](https://github.com/masb0ymas/express-mongoose-typescript/commit/40aa3922e4db9f32e8aba1e7d0bc82aece0dad30))
+* remove mongoose promise ([28d026e](https://github.com/masb0ymas/express-mongoose-typescript/commit/28d026e6861147aaba80412534e187490bc2b868))
+* return login ([5a7d29e](https://github.com/masb0ymas/express-mongoose-typescript/commit/5a7d29e8144a7fb1203837b5cb5940a2afefa156))
+* script deploy docker ([33ba80f](https://github.com/masb0ymas/express-mongoose-typescript/commit/33ba80f1c90d5c53b4792d4efce29ead94d0ce33))
+* script deploy staging ([96afc06](https://github.com/masb0ymas/express-mongoose-typescript/commit/96afc065ec46cfcba18729128c473ebd0822c737))
+* update config database ([07495f3](https://github.com/masb0ymas/express-mongoose-typescript/commit/07495f3821839d2b13665064c8336b94ee7050a8))
+* update yarn lock ([d369274](https://github.com/masb0ymas/express-mongoose-typescript/commit/d36927466f55c6e64f416e78351fbdfd8a148ce4))
+
 ## [3.2.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.1.0...v3.2.0) (2020-11-29)
 
 
