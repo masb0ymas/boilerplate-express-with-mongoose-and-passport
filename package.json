@@ -20,6 +20,7 @@
     "serve:staging": "NODE_ENV=staging node ./dist/bin/server.js",
     "serve:production": "NODE_ENV=production node ./dist/bin/server.js",
     "serve:production-docker": "NODE_ENV=production pm2-runtime ./dist/bin/server.js",
+    "deploy:staging": "npm run build:babel && pm2 reload your_app_pm2",
     "deploy:production": "npm run build:babel && pm2 reload your_app_pm2",
     "mongo:restore": "mongorestore dump/",
     "mongo:dump": "mongodump --db=${db} --out dump/",
