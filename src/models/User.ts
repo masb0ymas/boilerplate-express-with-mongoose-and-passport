@@ -75,15 +75,6 @@ UserSchema.methods.comparePassword = function (
   })
 }
 
-// UserSchema.method('comparePassword', function (candidatePassword: string) {
-//   return new Promise((resolve, reject) => {
-//     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-//       if (err) reject(err)
-//       resolve(isMatch)
-//     })
-//   })
-// })
-
 const User = model<UserCreationAttributes>('Users', UserSchema)
 
 export default User
