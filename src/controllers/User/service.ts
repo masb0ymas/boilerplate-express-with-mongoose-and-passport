@@ -51,7 +51,9 @@ class UserService {
       .select('-password -tokenVerify')
 
     if (!data) {
-      throw new ResponseError.NotFound('data not found or has been deleted')
+      throw new ResponseError.NotFound(
+        'user data not found or has been deleted'
+      )
     }
 
     return data
