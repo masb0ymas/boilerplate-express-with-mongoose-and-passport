@@ -133,6 +133,7 @@ class AuthService {
         await createDirectory(userData._id)
 
         return {
+          message: 'Login successfully',
           accessToken,
           expiresIn,
           tokenType: 'Bearer',
