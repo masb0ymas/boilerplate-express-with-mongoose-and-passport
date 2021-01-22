@@ -1,4 +1,4 @@
-import fs from 'fs'
+import { isEmpty } from 'lodash'
 import { FilterAttributes } from 'models'
 
 const invalidValues = [null, undefined, '', false, 0]
@@ -43,17 +43,56 @@ function filterQueryObject(filtered: FilterAttributes[]) {
 
 /**
  *
- * @param path - path file template html
- * @param callback
+ * @param arrayData
  */
-function readHTMLFile(path: any, callback: any) {
-  fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
-    if (err) {
-      callback(err)
-    } else {
-      callback(null, html)
+function arrayFormatter(arrayData: string | string[]) {
+  // check if data not empty
+  if (!isEmpty(arrayData)) {
+    // check if data is array
+    if (Array.isArray(arrayData)) {
+      return arrayData
     }
-  })
+    return JSON.parse(arrayData)
+  }
+
+  return []
 }
 
-export { getUniqueCodev2, readHTMLFile, filterQueryObject, invalidValues }
+/**
+ *
+ * @param value
+ */
+function validateEmpty(value: any) {
+  const emptyValues = [undefined, 'undefined', null, 'null', '']
+
+  if (isEmpty(value) || emptyValues.includes(value)) {
+    return null
+  }
+
+  return value
+}
+
+/**
+ *
+ * @param value
+ */
+function validateBoolean(value: string | boolean | Number) {
+  if (value === 'true' || value === 1 || value === '1' || value === true) {
+    return true
+  }
+
+  if (value === 'false' || value === 0 || value === '0' || value === false) {
+    return false
+  }
+
+  return null
+}
+
+export {
+  getUniqueCodev2,
+  filterQueryObject,
+  invalidValues,
+  arrayFormatter,
+  validateBoolean,
+  validateEmpty,
+}
