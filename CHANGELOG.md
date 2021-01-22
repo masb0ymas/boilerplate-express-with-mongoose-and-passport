@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.3.0...v3.4.0) (2021-01-22)
+
+
+### Features
+
+* add file helper ([f0cf292](https://github.com/masb0ymas/express-mongoose-typescript/commit/f0cf2928f702cc5eba0c20290989704dddc6ff13))
+* validate empty & boolean ([286fbb2](https://github.com/masb0ymas/express-mongoose-typescript/commit/286fbb2f4772917be010eadb8eaa2847f5cbc7e7))
+
+
+### Bug Fixes
+
+* fetcher api ([66d2643](https://github.com/masb0ymas/express-mongoose-typescript/commit/66d2643a5675cac6043ed383dc456cc90b8874ab))
+* get one data ([fd76980](https://github.com/masb0ymas/express-mongoose-typescript/commit/fd76980ff53014d2f5e2df57c6d6a364985d7e08))
+* import helper file ([8563188](https://github.com/masb0ymas/express-mongoose-typescript/commit/856318868e22b2d65d3d875280d96a07592c1ddd))
+* remove ts ignore ([bc669b0](https://github.com/masb0ymas/express-mongoose-typescript/commit/bc669b01b471621c4ff3d076e07c6474794062e8))
+* return auth service ([a555731](https://github.com/masb0ymas/express-mongoose-typescript/commit/a555731d153a347bfadcd49322c2b764960d4daf))
+
 ## [3.3.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.2.0...v3.3.0) (2021-01-02)
 
 
