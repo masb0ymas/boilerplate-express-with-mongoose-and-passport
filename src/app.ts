@@ -12,6 +12,7 @@ import ExpressErrorResponse from 'middlewares/ExpressErrorResponse'
 import ExpressErrorMongoose from 'middlewares/ExpressErrorMongoose'
 import cookieParser from 'cookie-parser'
 import winstonLogger, { winstonStream } from 'config/winston'
+import initialJobs from 'jobs'
 
 const GenerateDoc = require('utils/GenerateDocs')
 
@@ -39,6 +40,9 @@ GenerateDoc(app)
 
 // Initial Route
 app.use(indexRouter)
+
+// Initial Jobs
+initialJobs()
 
 app.use(ExpressErrorYup)
 app.use(ExpressErrorMongoose)
