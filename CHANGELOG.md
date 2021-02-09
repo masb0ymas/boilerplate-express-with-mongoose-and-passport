@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.4.0...v3.5.0) (2021-02-09)
+
+
+### Features
+
+* **jobs:** add jobs ([265bc76](https://github.com/masb0ymas/express-mongoose-typescript/commit/265bc761e91d03427de120d4a40321c2b361f3a2))
+* **modules:** add config multer ([2746db3](https://github.com/masb0ymas/express-mongoose-typescript/commit/2746db312d1b87eda5ea7a0d4b7482ce1a4000c9))
+* **modules:** add mongo query ([3c2fdd8](https://github.com/masb0ymas/express-mongoose-typescript/commit/3c2fdd8ba6c7003b3f672c316da7dec4e679425a))
+* add lib slugify & node-cron ([065e12a](https://github.com/masb0ymas/express-mongoose-typescript/commit/065e12acd91d9960af9856c5facd3a0e73f78329))
+
+
+### Bug Fixes
+
+* add folder resolver ([accc34c](https://github.com/masb0ymas/express-mongoose-typescript/commit/accc34c1ecbb42743c082b49bce4d4acf37486a8))
+* change root routes ([3296e50](https://github.com/masb0ymas/express-mongoose-typescript/commit/3296e506bb08666528b628490fc78aafb800f946))
+* config fetcher ([42a826d](https://github.com/masb0ymas/express-mongoose-typescript/commit/42a826d9613fdb8e07e7c0bb59aa806ba5cf2f7d))
+* handle error multer ([dba21fe](https://github.com/masb0ymas/express-mongoose-typescript/commit/dba21fe0130a11c85f3a6ec7f9f26ab755eb9779))
+* helper common ([8463fd9](https://github.com/masb0ymas/express-mongoose-typescript/commit/8463fd9cf0a1d9e2588d60917d4948a186385d9b))
+* init jobs ([b241dca](https://github.com/masb0ymas/express-mongoose-typescript/commit/b241dcacf4cfc018c3fdf11884d642c577b76a6c))
+* service role ([498486c](https://github.com/masb0ymas/express-mongoose-typescript/commit/498486c0143a75473b9b86642e54645888f5b17d))
+* service user ([36fad95](https://github.com/masb0ymas/express-mongoose-typescript/commit/36fad9573dae4ccc08d958d1de2f81d1176f3402))
+* typo routes message ([fb94e09](https://github.com/masb0ymas/express-mongoose-typescript/commit/fb94e099be412669c850719c1175f65a0fa9640c))
+* **helper:** add multi array field multer ([d1fb38d](https://github.com/masb0ymas/express-mongoose-typescript/commit/d1fb38d28170dd80a8aff01ce40237bb41ca342c))
+* **helper:** multer multi field ([e721638](https://github.com/masb0ymas/express-mongoose-typescript/commit/e721638252512842993c1806070924d2b506eab8))
+
 ## [3.4.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.3.0...v3.4.0) (2021-01-22)
 
 

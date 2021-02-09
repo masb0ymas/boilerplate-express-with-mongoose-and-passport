@@ -1,6 +1,6 @@
 {
   "name": "express-mongoose-typescript",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "Just Boilerplate Express, Mongoose, and TypeScript ( 🦡 ) ",
   "private": true,
   "scripts": {
