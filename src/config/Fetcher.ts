@@ -4,7 +4,7 @@ import ResponseError from 'modules/Response/ResponseError'
 
 const AXIOS_TIMEOUT = process.env.AXIOS_TIMEOUT || 5000
 
-function createDefaultAxios(baseURL: string): AxiosInstance {
+function createAxios(baseURL: string): AxiosInstance {
   const instanceAxios = axios.create({
     baseURL,
     timeout: Number(AXIOS_TIMEOUT),
@@ -77,7 +77,7 @@ class FetchApi {
    */
   get api(): AxiosInstance {
     if (!this.axiosDefault) {
-      this.axiosDefault = createDefaultAxios(this.baseUri)
+      this.axiosDefault = createAxios(this.baseUri)
       return this.axiosDefault
     }
 
