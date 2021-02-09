@@ -8,7 +8,7 @@ const router = express.Router()
 /* Home Page. */
 router.get('/', function (req: Request, res: Response, next: NextFunction) {
   const buildResponse = BuildResponse.get({
-    message: 'Express Sequelize TS, Support by Nusantech',
+    message: 'Express Mongoose TS, Support by Nusantech',
     github: 'https://github.com/masb0ymas/express-mongoose-typescript',
   })
   return res.json(buildResponse)
