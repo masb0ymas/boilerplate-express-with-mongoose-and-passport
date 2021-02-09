@@ -1,7 +1,16 @@
 import { isEmpty } from 'lodash'
-import { FilterAttributes } from 'models'
 
-const invalidValues = [null, undefined, '', false, 0]
+const invalidValues = [
+  null,
+  undefined,
+  '',
+  false,
+  0,
+  'false',
+  '0',
+  'null',
+  'undefined',
+]
 
 /**
  *
@@ -16,29 +25,6 @@ function getUniqueCodev2(length = 32) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
   return result
-}
-
-/**
- *
- * @param filtered - Filter Query Object
- */
-function filterQueryObject(filtered: FilterAttributes[]) {
-  const resultObject = {}
-  if (typeof filtered !== 'object') {
-    throw new Error(`Filtered must be an object, expected ${typeof filtered}`)
-  }
-
-  for (let i = 0; i < filtered.length; i += 1) {
-    // eslint-disable-next-line prefer-const
-    let { id, value } = filtered[i]
-    if (id.split('.').length > 1) {
-      id = `$${id}$`
-    }
-    // @ts-ignore
-    resultObject[id] = { $regex: `.*${value}.*` }
-  }
-
-  return resultObject
 }
 
 /**
@@ -63,9 +49,9 @@ function arrayFormatter(arrayData: string | string[]) {
  * @param value
  */
 function validateEmpty(value: any) {
-  const emptyValues = [undefined, 'undefined', null, 'null', '']
+  const emptyValues = [null, undefined, '', 'null', 'undefined']
 
-  if (isEmpty(value) || emptyValues.includes(value)) {
+  if (emptyValues.includes(value)) {
     return null
   }
 
@@ -76,21 +62,16 @@ function validateEmpty(value: any) {
  *
  * @param value
  */
-function validateBoolean(value: string | boolean | Number) {
-  if (value === 'true' || value === 1 || value === '1' || value === true) {
-    return true
-  }
-
-  if (value === 'false' || value === 0 || value === '0' || value === false) {
+function validateBoolean(value: string | boolean | Number | any) {
+  if (invalidValues.includes(value)) {
     return false
   }
 
-  return null
+  return true
 }
 
 export {
   getUniqueCodev2,
-  filterQueryObject,
   invalidValues,
   arrayFormatter,
   validateBoolean,
