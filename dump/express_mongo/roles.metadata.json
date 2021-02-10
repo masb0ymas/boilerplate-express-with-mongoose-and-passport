@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"express_mongo.roles"}],"uuid":"4965612420db4689aaf9b43c87964edb"}
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"161378b0c8af4c5da600e8c0cf503f78","collectionName":"roles"}
