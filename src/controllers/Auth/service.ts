@@ -99,7 +99,7 @@ class AuthService {
         // modif payload token
         const payloadToken = {
           _id: userData._id,
-          nama: userData.fullName,
+          name: userData.fullName,
           email: userData.email,
           active: userData.active,
         }

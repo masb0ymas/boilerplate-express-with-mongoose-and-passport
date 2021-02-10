@@ -68,7 +68,7 @@ class RefreshTokenService {
 
       const payloadToken = {
         _id: decodeToken?._id,
-        nama: decodeToken?.nama,
+        name: decodeToken?.name,
         email: decodeToken?.email,
         active: decodeToken?.active,
       }

@@ -9,7 +9,7 @@ export interface RefreshTokenAttributes {
 
 export interface verifyRefreshTokenAttributes {
   _id?: string
-  nama: string
+  name: string
   email: string
   active: boolean
 }
