@@ -17,7 +17,7 @@ const { User } = models
 
 const { JWT_SECRET_ACCESS_TOKEN, JWT_SECRET_REFRESH_TOKEN }: any = process.env
 
-const JWT_ACCESS_TOKEN_EXPIRED = process.env.JWT_ACCESS_TOKEN_EXPIRED || '1d' // 7 Days
+const JWT_ACCESS_TOKEN_EXPIRED = process.env.JWT_ACCESS_TOKEN_EXPIRED || '1d' // 1 Days
 const JWT_REFRESH_TOKEN_EXPIRED = process.env.JWT_REFRESH_TOKEN_EXPIRED || '30d' // 30 Days
 
 const expiresIn = ms(JWT_ACCESS_TOKEN_EXPIRED) / 1000
@@ -58,7 +58,7 @@ class AuthService {
     const password = setUserPassword(formData)
     const newFormData = {
       ...formData,
-      tokenRegister,
+      tokenVerify: tokenRegister,
       password,
     }
 
