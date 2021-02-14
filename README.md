@@ -144,6 +144,12 @@ OAUTH_REFRESH_TOKEN=your_refresh_token
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/masb0ymas/express-mongoose-typescript/issues). You can also take a look at the [contributing guide](https://github.com/masb0ymas/express-mongoose-typescript/blob/master/CONTRIBUTING.md).
 
+## Support Me
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I03MVAI)
+
+[<img height="40" src="https://trakteer.id/images/mix/navbar-logo-lite.png">](https://trakteer.id/masb0ymas)
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
