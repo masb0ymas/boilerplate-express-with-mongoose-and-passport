@@ -8,7 +8,7 @@ describe('Get Index Routes', () => {
     request(app)
       .get('/')
       .set('Accept', 'application/json')
-      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(200, done)
   })
 
@@ -16,7 +16,7 @@ describe('Get Index Routes', () => {
     request(app)
       .get('/v1')
       .set('Accept', 'application/json')
-      .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect(200, done)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(403, done)
   })
 })
