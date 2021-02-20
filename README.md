@@ -37,6 +37,17 @@
 - Using [Babel Resolver](https://github.com/tleunen/babel-plugin-module-resolver) for simplify the require/import paths
 - Documentation with [Swagger](https://github.com/swagger-api/swagger-ui)
 - Generate Log File with [Winston](https://github.com/winstonjs/winston)
+- [Convensional Commit](https://www.conventionalcommits.org/en/v1.0.0/) with [Husky](https://github.com/typicode/husky) `v5` & [Commitlint](https://github.com/conventional-changelog/commitlint)
+
+## How to use
+
+clone this repo with `https` / `ssh` / `github cli`
+
+```sh
+git clone https://github.com/masb0ymas/express-mongoose-typescript
+```
+
+After cloning this repo, make sure you have `duplicated` the `.env.example` file to `.env`, don't let the .env.example file be deleted or renamed.
 
 ## Install
 
@@ -48,34 +59,69 @@ or
 yarn
 ```
 
-## Usage
+## Enabled Husky
 
 ```sh
-npm start
+npx husky install
 
 or
 
-yarn start
+yarn husky install
 ```
 
-## Run tests
+## Usage Development
 
 ```sh
-npm test
+npm run dev
 
 or
 
-yarn test
+yarn dev
 ```
 
-## Run build
+## Type Checking
 
 ```sh
-npm run build
+npm run type-check
 
 or
 
-yarn build
+yarn type-check
+```
+
+## Type Checking Watching
+
+```sh
+npm run type-check:watch
+
+or
+
+yarn type-check:watch
+```
+
+## Build
+
+Recommended using build with `Babel`, build with `TS` is still unstable
+
+```sh
+npm run build:babel
+
+or
+
+yarn build:babel
+```
+
+## Using Mongoose
+
+Using mongoose with development mode, you can set the database configuration in `.env`, like this :
+
+```sh
+MONGODB_HOST=127.0.0.1
+MONGODB_PORT=27017
+MONGODB_AUTH=admin
+MONGODB_USERNAME=
+MONGODB_PASSWORD=
+MONGODB_DATABASE=express_mongo
 ```
 
 ## Usage Production
@@ -88,6 +134,16 @@ or
 yarn serve:production
 ```
 
+## Run tests
+
+```sh
+npm run test
+
+or
+
+yarn test
+```
+
 ## Dump Database Mongo
 
 ```sh
@@ -98,6 +154,18 @@ db=your_database yarn run mongo:dump
 
 ```sh
 yarn run mongo:restore
+```
+
+## Release your version app
+
+if you want to release the app version, you can use the following command :
+
+```sh
+npm run release
+
+or
+
+yarn release
 ```
 
 ## SMTP Basic
