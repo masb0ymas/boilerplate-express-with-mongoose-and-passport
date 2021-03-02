@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import request from 'supertest'
 // @ts-ignore
 import app from '../../app'
