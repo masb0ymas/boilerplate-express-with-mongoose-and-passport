@@ -1,3 +1,4 @@
+import { BASE_URL_SERVER } from 'config/baseURL'
 import express, { Request, Response, NextFunction } from 'express'
 import BuildResponse from 'modules/Response/BuildResponse'
 import ResponseError from 'modules/Response/ResponseError'
@@ -8,8 +9,10 @@ const router = express.Router()
 /* Home Page. */
 router.get('/', function (req: Request, res: Response, next: NextFunction) {
   const buildResponse = BuildResponse.get({
-    message: 'Express Mongoose TS, Support by Nusantech',
-    github: 'https://github.com/masb0ymas/express-mongoose-typescript',
+    message: 'Express Mongoose TypeScript',
+    maintaner: 'masb0ymas, <n.fajri@outlook.com>',
+    source: 'https://github.com/masb0ymas/express-mongoose-typescript',
+    docs: `${BASE_URL_SERVER}/v1/api-docs`,
   })
   return res.json(buildResponse)
 })
