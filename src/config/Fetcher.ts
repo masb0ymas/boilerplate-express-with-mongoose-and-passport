@@ -1,6 +1,9 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
-import { get } from 'lodash'
+import RedisProvider from 'helpers/Redis'
+import { get, isEmpty } from 'lodash'
 import ResponseError from 'modules/Response/ResponseError'
+
+const Redis = new RedisProvider()
 
 const AXIOS_TIMEOUT = process.env.AXIOS_TIMEOUT || 5000
 
@@ -18,11 +21,16 @@ function createAxios(baseURL: string): AxiosInstance {
     const curConfig = { ...config }
 
     // ALWAYS READ UPDATED TOKEN
-    try {
-      curConfig.headers.Authorization = localStorage.getItem('token')
-    } catch (e) {
-      console.log(e)
+    const cacheToken = Redis.get('token')
+
+    if (!isEmpty(cacheToken)) {
+      try {
+        curConfig.headers.Authorization = cacheToken
+      } catch (e) {
+        console.log(e)
+      }
     }
+
     return curConfig
   })
 
