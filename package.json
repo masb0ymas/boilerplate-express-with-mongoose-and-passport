@@ -63,7 +63,7 @@
     "node-cron": "^2.0.3",
     "nodemailer": "^6.5.0",
     "nodemailer-mailgun-transport": "^2.0.2",
-    "pug": "^3.0.1",
+    "pug": "^3.0.2",
     "rate-limiter-flexible": "^2.2.1",
     "redis": "^3.0.2",
     "request-ip": "^2.1.3",
