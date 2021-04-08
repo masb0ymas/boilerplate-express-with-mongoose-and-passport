@@ -2,7 +2,7 @@ import fs from 'fs'
 import * as ExcelJS from 'exceljs'
 import excelToJson from 'convert-excel-to-json'
 
-interface OptionConvert {
+type OptionConvert = {
   header?: any
   columnToKey?: any
 }
