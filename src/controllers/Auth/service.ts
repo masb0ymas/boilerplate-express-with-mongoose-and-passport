@@ -43,6 +43,8 @@ class AuthService {
    * @param formData
    */
   public static async signUp(formData: UserAttributes) {
+    await UserService.validateUserByEmail(formData.email)
+
     const generateToken = {
       code: getUniqueCodev2(),
     }

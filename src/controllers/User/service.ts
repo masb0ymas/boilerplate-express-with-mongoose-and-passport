@@ -61,6 +61,20 @@ class UserService {
 
   /**
    *
+   * @param email
+   */
+  public static async validateUserByEmail(email: string) {
+    const data = await User.findOne({ email }).select('-password -tokenVerify')
+
+    if (data) {
+      throw new ResponseError.NotFound('email address already in use')
+    }
+
+    return null
+  }
+
+  /**
+   *
    * @param formData
    */
   public static async create(formData: UserAttributes) {
