@@ -11,8 +11,8 @@ const COLLECTION = process.env.MONGODB_DATABASE
 
 const setUri = `mongodb://${HOST}:${PORT}/${COLLECTION}`
 const setOptions = {
-  user: USERNAME,
-  pass: PASSWORD,
+  user: USERNAME || undefined,
+  pass: PASSWORD || undefined,
   authSource: AUTH_SOURCE,
   useCreateIndex: true,
   useNewUrlParser: true,
