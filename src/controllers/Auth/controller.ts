@@ -53,7 +53,7 @@ routes.get(
   '/profile',
   Authorization,
   asyncHandler(async function getProfile(req: Request, res: Response) {
-    const userData = req.getState('user')
+    const userData = req.getState('userLogin')
 
     const data = await AuthService.profile(userData._id)
     const buildResponse = BuildResponse.get({ data })
