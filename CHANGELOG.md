@@ -2,6 +2,63 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.5.0...v3.6.0) (2021-04-13)
+
+
+### Features
+
+* **helper:** add hash OTP ([a1963d0](https://github.com/masb0ymas/express-mongoose-typescript/commit/a1963d0b5c3aac9cbf822c4418bb0f75a554951b))
+* **utils:** add generate OTP ([2b78e92](https://github.com/masb0ymas/express-mongoose-typescript/commit/2b78e92efd1d9e77a895df6295ff720740cd52b6))
+* add middleware rate limit ([eb7d852](https://github.com/masb0ymas/express-mongoose-typescript/commit/eb7d8527881bb4d8003afb4761012742808af372))
+* add versionrc json ([12c062f](https://github.com/masb0ymas/express-mongoose-typescript/commit/12c062f1644a53465fb44c92febcd5074a199513))
+* **config:** add redis client ([daaa3a5](https://github.com/masb0ymas/express-mongoose-typescript/commit/daaa3a5c5ab832d6f7b90f9215492ba61a2c8ac5))
+* **helper:** add excel ([29e03b7](https://github.com/masb0ymas/express-mongoose-typescript/commit/29e03b728287ae8ca8427f15cd410d58a2d20b44))
+* **helper:** add redis helper ([f3e07c5](https://github.com/masb0ymas/express-mongoose-typescript/commit/f3e07c5be88c11dc43a1a65d65935b89998a79ff))
+* **lib:** add express user agent ([551c6fe](https://github.com/masb0ymas/express-mongoose-typescript/commit/551c6fe351296617009689c3f325ceee5ac3faa9))
+* **lib:** add hpp & request ip ([3e58b3c](https://github.com/masb0ymas/express-mongoose-typescript/commit/3e58b3cd361c519fd351a45103aa61e686d53432))
+* **lib:** add ioredis ([cf648c6](https://github.com/masb0ymas/express-mongoose-typescript/commit/cf648c68f60eb7453fee53565e3684b8a1b344cb))
+* add config husky ([6bb6b77](https://github.com/masb0ymas/express-mongoose-typescript/commit/6bb6b77f666f9d9eb63c88ef4e094fd2291451af))
+* add example generate excel ([a76f9a1](https://github.com/masb0ymas/express-mongoose-typescript/commit/a76f9a19fa1a22d2c9b91600c29ecfe8c729830a))
+* add lib convert excel to json ([715be66](https://github.com/masb0ymas/express-mongoose-typescript/commit/715be66885f2b7d5ced9e2e2537fed3cf0e6ff8d))
+* add lib exceljs ([d2647ae](https://github.com/masb0ymas/express-mongoose-typescript/commit/d2647ae119c721cd8086f38f18b6e4bfedd79136))
+* convert excel to json ([ac8c92e](https://github.com/masb0ymas/express-mongoose-typescript/commit/ac8c92e417fa51fa0eed853463da7d2df21938d7))
+
+
+### Bug Fixes
+
+* add run script generate secret key OTP ([8fb3735](https://github.com/masb0ymas/express-mongoose-typescript/commit/8fb3735f5ddda1c03e352032fe6b1f5b118c22ab))
+* app name .env ([9047314](https://github.com/masb0ymas/express-mongoose-typescript/commit/9047314c5e2d7c68ca08b6d57151f0e6888b8c85))
+* auth test ([e2ea100](https://github.com/masb0ymas/express-mongoose-typescript/commit/e2ea1002f251da3c4183729c071b159d110c9209))
+* change base client to base url ([fc1daec](https://github.com/masb0ymas/express-mongoose-typescript/commit/fc1daecc9f375597fcafea72a82626eb0f46bd13))
+* change dump mongo ([7df90db](https://github.com/masb0ymas/express-mongoose-typescript/commit/7df90dbdb58806c7969db3edce1db3e61043fcb9))
+* change email config to email provider ([c171658](https://github.com/masb0ymas/express-mongoose-typescript/commit/c1716588081d240daa9d184daf61ceb79d24999f))
+* change to husky v5 ([0df0d31](https://github.com/masb0ymas/express-mongoose-typescript/commit/0df0d31160d714b0214180203ebbb44a0c32323f))
+* change typing excel helper ([a05ba65](https://github.com/masb0ymas/express-mongoose-typescript/commit/a05ba6578dd8cdb10af8057d826625513dfb88eb))
+* check auth user pass ([f9e2a22](https://github.com/masb0ymas/express-mongoose-typescript/commit/f9e2a2239385b7450e634a153f6249b292f42718))
+* config fetcher ([7179f02](https://github.com/masb0ymas/express-mongoose-typescript/commit/7179f0260b4f484c850c1f55222995d85e1cc2be))
+* docker config ([c6259f2](https://github.com/masb0ymas/express-mongoose-typescript/commit/c6259f27ff274a7c938a2bd6eaf30216f3089eb2))
+* env url production ([1779fda](https://github.com/masb0ymas/express-mongoose-typescript/commit/1779fda335dbf1c6a83458982a3eed7583d7aa29))
+* express use hpp ([e35c2c7](https://github.com/masb0ymas/express-mongoose-typescript/commit/e35c2c75589ba33cda10187c364cd1571d79c395))
+* get state user login ([a69fc42](https://github.com/masb0ymas/express-mongoose-typescript/commit/a69fc426ec21a7735d9d4b2c9d171f41c0e3d6a5))
+* helper date ([391b620](https://github.com/masb0ymas/express-mongoose-typescript/commit/391b6208cc5aa8c0d67097ce18acca6f071fbc6c))
+* implementation req query polluted ([b9b933f](https://github.com/masb0ymas/express-mongoose-typescript/commit/b9b933f3f7a17e12a54c6635807bd3c9f7d76f3a))
+* import send mail ([06a364b](https://github.com/masb0ymas/express-mongoose-typescript/commit/06a364b4a68973780040d09460bc3a60118ba134))
+* increase body parser ([e98eff0](https://github.com/masb0ymas/express-mongoose-typescript/commit/e98eff01c68273209382cfefc30ddd3963514777))
+* index routes test ([f68e97c](https://github.com/masb0ymas/express-mongoose-typescript/commit/f68e97c0ea065893949e4533d8928655bb46491e))
+* job role ([6141a7f](https://github.com/masb0ymas/express-mongoose-typescript/commit/6141a7f5da1e5e52bc9efd073d1fc3985f6ecb90))
+* message index routes ([595d940](https://github.com/masb0ymas/express-mongoose-typescript/commit/595d940d306fe372be23ccf33a3ffe7d1a878454))
+* model user ([7c0e6ea](https://github.com/masb0ymas/express-mongoose-typescript/commit/7c0e6eaa6f859e3ebfb4f9e4fb05cd04638cadf7))
+* rename field role name ([184cfeb](https://github.com/masb0ymas/express-mongoose-typescript/commit/184cfeba18ae8b4abc2525ba681a47b18d15593a))
+* role test ([485a46f](https://github.com/masb0ymas/express-mongoose-typescript/commit/485a46fbe1fc82877b2a190282eaa8cd69da7600))
+* service auth ([0cc64f2](https://github.com/masb0ymas/express-mongoose-typescript/commit/0cc64f2b003ee9bd7dcbd7105afa8c7fd8921e7c))
+* support me readme ([aee4bf4](https://github.com/masb0ymas/express-mongoose-typescript/commit/aee4bf4bb4c601557e9576dcbde4d5da146333e5))
+* test case ([b80ef66](https://github.com/masb0ymas/express-mongoose-typescript/commit/b80ef661b47708f69bb391562478011f0fd9d5d3))
+* typing build response ([8bf48fb](https://github.com/masb0ymas/express-mongoose-typescript/commit/8bf48fbf012a70af93d0df7fcdc1216e0c3870ce))
+* typo fetcher config ([89a135a](https://github.com/masb0ymas/express-mongoose-typescript/commit/89a135a822294354705e3b4a1ae66c6e805225c2))
+* update readme ([3fa2645](https://github.com/masb0ymas/express-mongoose-typescript/commit/3fa2645e76bef30465d28bf4d961fd29d1a73d88))
+* validate email for registration ([3e912a4](https://github.com/masb0ymas/express-mongoose-typescript/commit/3e912a485025e4a6b9101da18ee0e406e090dc34))
+* wording send mail ([213dae4](https://github.com/masb0ymas/express-mongoose-typescript/commit/213dae4ccb2eb494e2f821e6bf0d024abe887062))
+
 ## [3.5.0](https://github.com/masb0ymas/express-mongoose-typescript/compare/v3.4.0...v3.5.0) (2021-02-09)
 
 
