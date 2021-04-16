@@ -22,6 +22,7 @@ routes.post(
   '/auth/sign-in',
   asyncHandler(async function signIn(req: Request, res: Response) {
     const formData = req.getBody()
+
     const data = await AuthService.signIn(formData)
     const buildResponse = BuildResponse.get(data)
 

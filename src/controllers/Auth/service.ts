@@ -4,12 +4,12 @@ import jwt from 'jsonwebtoken'
 import { getUniqueCodev2 } from 'helpers/Common'
 import { setUserPassword, LoginAttributes, UserAttributes } from 'models/User'
 import useValidation from 'helpers/useValidation'
-import schema from 'controllers/User/schema'
 import createDirNotExist from 'utils/Directory'
 import ResponseError from 'modules/Response/ResponseError'
 import SendMail from 'helpers/SendEmail'
 import UserService from 'controllers/User/service'
 import RefreshTokenService from 'controllers/RefreshToken/service'
+import authSchema from './schema'
 
 require('dotenv').config()
 
@@ -64,7 +64,7 @@ class AuthService {
       password,
     }
 
-    const value = useValidation(schema.create, newFormData)
+    const value = useValidation(authSchema.register, newFormData)
     const data = await User.create(value)
 
     // Initial Send an e-mail
@@ -81,13 +81,15 @@ class AuthService {
    * @param formData
    */
   public static async signIn(formData: LoginAttributes) {
-    const { email, password } = useValidation(schema.login, formData)
+    const { email, password } = useValidation(authSchema.login, formData)
 
     const userData = await User.findOne({ email }).select('-tokenVerify')
 
     if (!userData) {
-      throw new ResponseError.NotFound('data not found or has been deleted')
+      throw new ResponseError.NotFound('account not found')
     }
+
+    const { _id: UserId } = userData
 
     /* User active proses login */
     if (userData.active) {
@@ -99,12 +101,7 @@ class AuthService {
 
       if (comparePassword) {
         // modif payload token
-        const payloadToken = {
-          _id: userData._id,
-          name: userData.fullName,
-          email: userData.email,
-          active: userData.active,
-        }
+        const payloadToken = { _id: UserId }
 
         // Access Token
         const accessToken = jwt.sign(
@@ -125,14 +122,14 @@ class AuthService {
         )
 
         const formDataRefreshToken = {
-          UserId: userData._id,
+          UserId,
           token: refreshToken,
         }
 
         await RefreshTokenService.create(formDataRefreshToken)
 
         // create directory
-        await createDirectory(userData._id)
+        await createDirectory(UserId)
 
         return {
           message: 'Login successfully',
