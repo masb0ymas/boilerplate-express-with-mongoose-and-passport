@@ -1,10 +1,9 @@
 import path from 'path'
 import handlebars from 'handlebars'
-import { readHTMLFile } from 'helpers/File'
-import EmailProvider from 'config/EmailProvider'
-import ResponseError from 'modules/Response/ResponseError'
+import { readHTMLFile } from '@expresso/helpers/File'
+import EmailProvider from '@expresso/providers/Email'
+import ResponseError from '@expresso/modules/Response/ResponseError'
 import { BASE_URL_CLIENT } from 'config/baseURL'
-import { EmailAttributes, UserAttributes } from 'models/User'
 
 const { APP_NAME } = process.env
 
@@ -14,12 +13,13 @@ class SendMail {
    * @param formData
    * @param token
    */
-  public static AccountRegister(formData: UserAttributes, token: string) {
-    const { email, fullName }: EmailAttributes = formData
+  public static AccountRegister(formData: any, token: string) {
+    const { email, fullName }: any = formData
     const pathTemplate = path.resolve(
       __dirname,
-      `../../public/templates/emails/register.html`
+      `../../../public/templates/emails/register.html`
     )
+
     const subject = 'Email Verification'
     const urlToken = `${BASE_URL_CLIENT}/email/verify?token=${token}`
     const dataTemplate = { APP_NAME, fullName, urlToken }
@@ -32,6 +32,7 @@ class SendMail {
 
       const template = handlebars.compile(html)
       const htmlToSend = template(dataTemplate)
+
       Email.send(email, subject, htmlToSend)
     })
   }

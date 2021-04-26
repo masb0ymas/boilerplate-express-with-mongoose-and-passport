@@ -65,9 +65,11 @@ const login = yup
   })
   .required()
 
-export default {
+const userSchema = {
   create,
   createPassword,
   update,
   login,
 }
+
+export default userSchema

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Request, Express } from 'express'
 import { set, get } from 'lodash'
 import getterObject from './getterObject'
@@ -22,6 +23,7 @@ class withState {
     this.req.pickSingleFieldMulter = this.pickSingleFieldMulter.bind(this)
     this.req.getMultiArrayFile = this.getMultiArrayFile.bind(this)
     this.req.pickMultiFieldMulter = this.pickMultiFieldMulter.bind(this)
+    this.req._transaction = {}
   }
 
   setState(val: object) {

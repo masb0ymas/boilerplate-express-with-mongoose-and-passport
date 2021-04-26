@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import asyncHandler from 'helpers/asyncHandler'
+import asyncHandler from '@expresso/helpers/asyncHandler'
 import routes from 'routes/public'
 import Authorization from 'middlewares/Authorization'
-import BuildResponse from 'modules/Response/BuildResponse'
+import BuildResponse from '@expresso/modules/Response/BuildResponse'
 import RoleService from 'controllers/Role/service'
-import { formatDateGenerateFile } from 'helpers/Date'
+import { formatDateGenerateFile } from '@expresso/helpers/Date'
 
 routes.get(
   '/role',

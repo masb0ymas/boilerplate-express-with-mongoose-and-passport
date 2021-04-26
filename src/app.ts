@@ -9,7 +9,7 @@ import requestIp from 'request-ip'
 import bodyParser from 'body-parser'
 import userAgent from 'express-useragent'
 import indexRouter from 'routes'
-import withState from 'helpers/withState'
+import withState from '@expresso/helpers/withState'
 import ExpressErrorYup from 'middlewares/ExpressErrorYup'
 import ExpressErrorResponse from 'middlewares/ExpressErrorResponse'
 import ExpressErrorMongoose from 'middlewares/ExpressErrorMongoose'
@@ -20,6 +20,7 @@ import ExpressRateLimit from 'middlewares/ExpressRateLimit'
 
 const GenerateDoc = require('utils/GenerateDocs')
 
+const { NODE_ENV } = process.env
 const app = express()
 
 // view engine setup
@@ -44,8 +45,11 @@ app.use((req: Request, res, next) => {
   next()
 })
 
-// Initial Docs Swagger
-GenerateDoc(app)
+// disable for production mode
+if (NODE_ENV !== 'production') {
+  // Initial Docs Swagger
+  GenerateDoc(app)
+}
 
 // Initial Route
 app.use(indexRouter)

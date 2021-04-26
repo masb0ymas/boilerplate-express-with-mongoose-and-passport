@@ -1,10 +1,10 @@
 import cron from 'node-cron'
 
-class RoleJob {
+class ExampleJob {
   /**
-   * Get Role Task
+   * Get Example Task
    */
-  public static getRole() {
+  public static getTask() {
     // Run this job every 30 minutes
     const task = cron.schedule('30 * * * *', async () => {
       console.log('Running task every 30 minutes')
@@ -14,4 +14,4 @@ class RoleJob {
   }
 }
 
-export default RoleJob
+export default ExampleJob

@@ -2,8 +2,20 @@ import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUI from 'swagger-ui-express'
 import fs from 'fs'
 import _path from 'path'
+import { BASE_URL_SERVER } from 'config/baseURL'
+import _ from 'lodash'
 
-const { APP_NAME, PORT, NODE_ENV } = process.env
+const {
+  APP_NAME,
+  NODE_ENV,
+  URL_SERVER_STAGING,
+  URL_SERVER_PRODUCTION,
+} = process.env
+
+const ENV = NODE_ENV || 'development'
+
+const urlServerStaging = URL_SERVER_STAGING || 'http://api-staging.example.com'
+const urlServerProduction = URL_SERVER_PRODUCTION || 'http://api.example.com'
 
 const baseRoutes = _path.resolve('./docs/swagger/routes')
 // const baseSchemas = _path.resolve('./docs/swagger/schemas')
@@ -29,33 +41,26 @@ const docsSources = getDocs(baseRoutes, getPathRoutes)
 
 let baseURLServer = []
 
-if (NODE_ENV === 'production') {
+if (ENV === 'development') {
   baseURLServer = [
     {
-      url: 'https://api.example.com/v1',
-      description: 'Production server',
+      url: `${BASE_URL_SERVER}/v1`,
+      description: `${_.capitalize(ENV)} Server`,
     },
-  ]
-} else if (NODE_ENV === 'staging') {
-  baseURLServer = [
     {
-      url: 'https://api-staging.example.com/v1',
-      description: 'Staging server',
+      url: `${urlServerStaging}/v1`,
+      description: 'Staging Server',
+    },
+    {
+      url: `${urlServerProduction}/v1`,
+      description: 'Production Server',
     },
   ]
 } else {
   baseURLServer = [
     {
-      url: `http://localhost:${PORT || 8000}/v1`,
-      description: 'Development server',
-    },
-    {
-      url: 'https://api-staging.example.com/v1',
-      description: 'Staging server',
-    },
-    {
-      url: 'https://api.example.com/v1',
-      description: 'Production server',
+      url: `${BASE_URL_SERVER}/v1`,
+      description: `${_.capitalize(ENV)} Server`,
     },
   ]
 }
@@ -86,7 +91,7 @@ module.exports = function generateDocs(app) {
             in: 'query',
             name: 'page',
             required: false,
-            default: 0,
+            default: 1,
           },
           pageSize: {
             in: 'query',
@@ -99,7 +104,7 @@ module.exports = function generateDocs(app) {
             name: 'filtered',
             required: false,
             default: [],
-            description: 'Example: [{"id": "nama", "value": "test"}]',
+            description: 'Example: [{"id": "email", "value": "anyValue"}]',
           },
           sorted: {
             in: 'query',
@@ -121,33 +126,26 @@ module.exports = function generateDocs(app) {
 
   let swaggerOptURL = []
 
-  if (NODE_ENV === 'production') {
+  if (ENV === 'development') {
     swaggerOptURL = [
       {
-        url: 'http://api.example.com/v1/api-docs.json',
-        name: 'Production Server',
+        url: `${BASE_URL_SERVER}/v1/api-docs.json`,
+        name: `${_.capitalize(ENV)} Server`,
       },
-    ]
-  } else if (NODE_ENV === 'staging') {
-    swaggerOptURL = [
       {
-        url: 'http://api-staging.example.com/v1/api-docs.json',
+        url: `${urlServerStaging}/v1/api-docs.json`,
         name: 'Staging Server',
+      },
+      {
+        url: `${urlServerProduction}/v1/api-docs.json`,
+        name: 'Production Server',
       },
     ]
   } else {
     swaggerOptURL = [
       {
-        url: `http://localhost:${PORT || 8000}/v1/api-docs.json`,
-        name: 'Development Server',
-      },
-      {
-        url: 'http://api-staging.example.com/v1/api-docs.json',
-        name: 'Staging Server',
-      },
-      {
-        url: 'http://api.example.com/v1/api-docs.json',
-        name: 'Production Server',
+        url: `${BASE_URL_SERVER}/v1/api-docs.json`,
+        name: `${_.capitalize(ENV)} Server`,
       },
     ]
   }

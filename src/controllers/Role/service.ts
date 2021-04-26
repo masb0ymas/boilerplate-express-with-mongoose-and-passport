@@ -2,12 +2,12 @@
 /* eslint-disable prefer-const */
 import { Request } from 'express'
 import models, { FilterQueryAttributes } from 'models'
-import { filterQueryObject } from 'modules/MongoQuery/queryObject'
-import ResponseError from 'modules/Response/ResponseError'
-import useValidation from 'helpers/useValidation'
+import { filterQueryObject } from '@expresso/modules/MongoQuery/queryObject'
+import ResponseError from '@expresso/modules/Response/ResponseError'
+import useValidation from '@expresso/hooks/useValidation'
 import { RoleAttributes } from 'models/Role'
-import schema from 'controllers/Role/schema'
-import ExcelHelper from 'helpers/Excel'
+import ExcelHelper from '@expresso/helpers/Excel'
+import roleSchema from './schema'
 
 const { Role } = models
 
@@ -59,7 +59,7 @@ class RoleService {
    * @param formData
    */
   public static async create(formData: RoleAttributes) {
-    const value = useValidation(schema.create, formData)
+    const value = useValidation(roleSchema.create, formData)
     const data = await Role.create(value)
 
     return data
@@ -73,7 +73,7 @@ class RoleService {
   public static async update(id: string, formData: RoleAttributes) {
     const data = await this.getOne(id)
 
-    const value = useValidation(schema.create, {
+    const value = useValidation(roleSchema.create, {
       ...data.toJSON(),
       ...formData,
     })

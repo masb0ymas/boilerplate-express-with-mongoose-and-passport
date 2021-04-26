@@ -2,11 +2,11 @@
 /* eslint-disable prefer-const */
 import { Request } from 'express'
 import models, { FilterQueryAttributes } from 'models'
-import { filterQueryObject } from 'modules/MongoQuery/queryObject'
-import ResponseError from 'modules/Response/ResponseError'
-import useValidation from 'helpers/useValidation'
+import { filterQueryObject } from '@expresso/modules/MongoQuery/queryObject'
+import ResponseError from '@expresso/modules/Response/ResponseError'
+import useValidation from '@expresso/hooks/useValidation'
 import { setUserPassword, UserAttributes } from 'models/User'
-import schema from 'controllers/User/schema'
+import userSchema from './schema'
 
 const { User } = models
 const populates = [{ path: 'Role' }]
@@ -83,7 +83,7 @@ class UserService {
       ...formData,
       password,
     }
-    const value = useValidation(schema.create, newFormData)
+    const value = useValidation(userSchema.create, newFormData)
     const data = await User.create(value)
 
     return data
@@ -97,7 +97,7 @@ class UserService {
   public static async update(id: string, formData: UserAttributes) {
     const data = await this.getOne(id)
 
-    const value = useValidation(schema.create, {
+    const value = useValidation(userSchema.create, {
       ...data.toJSON(),
       ...formData,
     })

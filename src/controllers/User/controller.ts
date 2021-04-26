@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import asyncHandler from 'helpers/asyncHandler'
+import asyncHandler from '@expresso/helpers/asyncHandler'
 import routes from 'routes/public'
 import Authorization from 'middlewares/Authorization'
-import BuildResponse from 'modules/Response/BuildResponse'
+import BuildResponse from '@expresso/modules/Response/BuildResponse'
 import UserService from 'controllers/User/service'
 
 routes.get(

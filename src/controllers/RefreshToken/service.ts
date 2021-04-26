@@ -1,16 +1,16 @@
 import ms from 'ms'
 import models from 'models'
 import jwt from 'jsonwebtoken'
-import ResponseError from 'modules/Response/ResponseError'
-import useValidation from 'helpers/useValidation'
+import ResponseError from '@expresso/modules/Response/ResponseError'
+import useValidation from '@expresso/hooks/useValidation'
 import {
   RefreshTokenAttributes,
   verifyRefreshTokenAttributes,
 } from 'models/RefreshToken'
 import UserService from 'controllers/User/service'
-import { verifyRefreshToken } from 'helpers/Token'
+import { verifyRefreshToken } from '@expresso/helpers/Token'
 import { isObject } from 'lodash'
-import schema from 'controllers/RefreshToken/schema'
+import refreshTokenSchema from './schema'
 
 const { RefreshToken } = models
 
@@ -39,7 +39,7 @@ class RefreshTokenService {
    * @param formData
    */
   public static async create(formData: RefreshTokenAttributes) {
-    const value = useValidation(schema.create, formData)
+    const value = useValidation(refreshTokenSchema.create, formData)
     const user = await UserService.getOne(formData.UserId)
 
     if (user) {

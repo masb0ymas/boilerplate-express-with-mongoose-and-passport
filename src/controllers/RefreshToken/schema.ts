@@ -8,6 +8,8 @@ const create = yup
   })
   .required()
 
-export default {
+const refreshTokenSchema = {
   create,
 }
+
+export default refreshTokenSchema

@@ -34,11 +34,18 @@ function getUniqueCodev2(length = 32) {
 function arrayFormatter(arrayData: string | string[]) {
   // check if data not empty
   if (!isEmpty(arrayData)) {
-    // check if data is array
+    // check if data is array, format: ['1', '2']
     if (Array.isArray(arrayData)) {
       return arrayData
     }
-    return JSON.parse(arrayData)
+
+    // format: "['1', '2']"
+    const parseJsonArray = JSON.parse(arrayData)
+    if (Array.isArray(parseJsonArray)) {
+      return parseJsonArray
+    }
+
+    return []
   }
 
   return []
@@ -62,7 +69,7 @@ function validateEmpty(value: any) {
  *
  * @param value
  */
-function validateBoolean(value: string | boolean | Number | any) {
+function validateBoolean(value: string | boolean | number | any) {
   if (invalidValues.includes(value)) {
     return false
   }
@@ -74,6 +81,6 @@ export {
   getUniqueCodev2,
   invalidValues,
   arrayFormatter,
-  validateBoolean,
   validateEmpty,
+  validateBoolean,
 }

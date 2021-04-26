@@ -7,6 +7,8 @@ const create = yup
   })
   .required()
 
-export default {
+const roleSchema = {
   create,
 }
+
+export default roleSchema
