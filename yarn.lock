@@ -1716,10 +1716,10 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose@^5.10.5":
-  version "5.11.57"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.11.57.tgz#a485efbc28468f3972eb1a6efd8e325e28a50af6"
-  integrity sha512-N/C2QiJA2+BF5QhDTc015LdyPe5EWixXXYP3ygqSqZStMyElYgYSN30qSsOVmgYcnqixy9d4j39dzfZjPYhVBw==
+"@types/mongoose@^5.11.97":
+  version "5.11.97"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.11.97.tgz#80b0357f3de6807eb597262f52e49c3e13ee14d8"
+  integrity sha512-cqwOVYT3qXyLiGw7ueU2kX9noE8DPGRY6z8eUxudhXY8NZ7DMKYAxyZkLSevGfhCX3dO/AoX5/SO9lAzfjon0Q==
   dependencies:
     mongoose "*"
 
