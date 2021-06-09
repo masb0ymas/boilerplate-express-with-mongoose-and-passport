@@ -17,12 +17,8 @@ class RoleService {
    * @param req - Request
    */
   public static async getAll(req: Request) {
-    let {
-      page,
-      pageSize,
-      filtered,
-      sorted,
-    }: FilterQueryAttributes = req.getQuery()
+    let { page, pageSize, filtered, sorted }: FilterQueryAttributes =
+      req.getQuery()
 
     if (!page) page = 0
     if (!pageSize) pageSize = 10
