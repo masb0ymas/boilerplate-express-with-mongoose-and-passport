@@ -39,6 +39,7 @@ export function setUserPassword(instance: UserAttributes) {
     fdPassword
   )
   const saltRounds = 10
+  // @ts-ignore
   const hash = bcrypt.hashSync(validPassword, saltRounds)
   const password = hash
   return password
