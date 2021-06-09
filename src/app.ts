@@ -17,18 +17,23 @@ import ExpressErrorResponse from 'middlewares/ExpressErrorResponse'
 import ExpressErrorMongoose from 'middlewares/ExpressErrorMongoose'
 import ExpressRateLimit from 'middlewares/ExpressRateLimit'
 import winstonLogger, { winstonStream } from 'config/winston'
+import allowedOrigins from '@expresso/constants/ConstAllowedOrigins'
 
 const GenerateDoc = require('utils/GenerateDocs')
 
 const { NODE_ENV } = process.env
 const app = express()
 
+const options: cors.CorsOptions = {
+  origin: allowedOrigins,
+}
+
 // view engine setup
 app.set('views', path.join(`${__dirname}/../`, 'views'))
 app.set('view engine', 'pug')
 
 app.use(helmet())
-app.use(cors())
+app.use(cors(options))
 app.use(logger('combined', { stream: winstonStream }))
 app.use(bodyParser.json({ limit: '100mb', type: 'application/json' }))
 app.use(bodyParser.urlencoded({ extended: false }))
