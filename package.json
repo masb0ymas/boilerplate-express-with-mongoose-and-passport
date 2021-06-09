@@ -1,5 +1,5 @@
 {
-  "name": "matcha-expresso",
+  "name": "expresso-mongose",
   "version": "3.6.0",
   "description": "Just Boilerplate Express, Mongoose, and TypeScript ( 🦡 ) ",
   "private": true,

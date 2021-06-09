@@ -18,7 +18,7 @@ if (!fs.existsSync(pathEnv)) {
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('@babel/register')({ extensions: ['.js', '.ts'] })
 const http = require('http')
-const debug = require('debug')('matcha-expresso:server')
+const debug = require('debug')('expresso-mongose:server')
 const app = require('../app')
 
 /**

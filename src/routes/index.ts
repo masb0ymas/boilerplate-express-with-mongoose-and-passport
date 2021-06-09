@@ -12,7 +12,7 @@ router.get('/', function (req: Request, res: Response, next: NextFunction) {
   let responseData: any = {
     message: 'matcha expresso ( Express TS Mongoose )',
     maintaner: 'masb0ymas, <n.fajri@outlook.com>',
-    source: 'https://github.com/masb0ymas/matcha-expresso',
+    source: 'https://github.com/masb0ymas/expresso-mongose',
   }
 
   if (NODE_ENV !== 'production') {

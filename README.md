@@ -1,18 +1,18 @@
-<h1 align="center">matcha expresso</h1>
+<h1 align="center">expresso mongoose</h1>
 <h3 align="center">( Express TS Mongoose )</h3>
 <br/>
 
-[![version](https://img.shields.io/badge/version-3.6.0-blue.svg?cacheSeconds=2592000)](https://github.com/masb0ymas/matcha-expresso/releases/tag/v3.6.0)
+[![version](https://img.shields.io/badge/version-3.6.0-blue.svg?cacheSeconds=2592000)](https://github.com/masb0ymas/expresso-mongose/releases/tag/v3.6.0)
 [![Node](https://img.shields.io/badge/Node-12.14.0-informational?logo=node.js&color=43853D)](https://nodejs.org/docs/latest-v12.x/api/index.html)
 [![TypeScript](https://img.shields.io/badge/Typescript-4.2.4-informational?logo=typescript&color=2F74C0)](https://www.typescriptlang.org/)
 [![Express](https://img.shields.io/badge/Express-4.17.1-informational?logo=express&color=B1B1B1)](https://expressjs.com/)
-[![documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/masb0ymas/matcha-expresso#readme)
-[![maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/masb0ymas/matcha-expresso/graphs/commit-activity)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/masb0ymas/matcha-expresso/blob/master/LICENSE.md)
+[![documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/masb0ymas/expresso-mongose#readme)
+[![maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/masb0ymas/expresso-mongose/graphs/commit-activity)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/masb0ymas/expresso-mongose/blob/master/LICENSE.md)
 
 > Just boilerplate Express with Mongoose
 
-### 🏠 [Homepage](https://github.com/masb0ymas/matcha-expresso)
+### 🏠 [Homepage](https://github.com/masb0ymas/expresso-mongose)
 
 ## Prerequisites
 
@@ -40,7 +40,7 @@
 clone this repo with `https` / `ssh` / `github cli`
 
 ```sh
-git clone https://github.com/masb0ymas/matcha-expresso
+git clone https://github.com/masb0ymas/expresso-mongose
 ```
 
 After cloning this repo, make sure you have `duplicated` the `.env.example` file to `.env`, don't let the .env.example file be deleted or renamed.
@@ -206,7 +206,7 @@ OAUTH_REFRESH_TOKEN=your_refresh_token
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/masb0ymas/matcha-expresso/issues). You can also take a look at the [contributing guide](https://github.com/masb0ymas/matcha-expresso/blob/master/CONTRIBUTING.md).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/masb0ymas/expresso-mongose/issues). You can also take a look at the [contributing guide](https://github.com/masb0ymas/expresso-mongose/blob/master/CONTRIBUTING.md).
 
 ## Support Me
 
@@ -221,7 +221,7 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2021 [masb0ymas](https://github.com/masb0ymas).<br />
-This project is [MIT](https://github.com/masb0ymas/matcha-expresso/blob/master/LICENSE.md) licensed.
+This project is [MIT](https://github.com/masb0ymas/expresso-mongose/blob/master/LICENSE.md) licensed.
 
 ---
 
